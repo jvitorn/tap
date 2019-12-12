@@ -1,4 +1,4 @@
-const subpasta = '';
+const subpasta = 'tap/Sistema/';
 const DIR_PAGE 	= "http://"+location.hostname+"/"+subpasta;
 
 const HOME 	= DIR_PAGE + 'Home/';

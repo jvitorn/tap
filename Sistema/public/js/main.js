@@ -19,13 +19,13 @@ function sucesso(data){
 }
 
 function erro(){
-	alert("algo de errado nao esta certo");
+	console.log("algo de errado nao esta certo");
 }
 
-function teste(){
-	var url = "Home/testet";
+function exemplo(){
+	var url = "Home/teste";
 	var data = {'nome':'jdc'}
 	requisicaoAjax(url,data,sucesso,erro);
 }
 
-teste();
+exemplo();

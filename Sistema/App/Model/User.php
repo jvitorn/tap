@@ -4,72 +4,82 @@
 	use App\Model\Model;
 	use App\Model\Grupo;
 
-	use Src\Interfaces\InterfaceModel;
-
-	class User extends Model implements InterfaceModel{
+	/**
+	 * @var $id : int
+	 * @var $active : bool
+	 * 
+	 * @method getId()
+	 * @method setId()
+	 * @method getActive()
+	 * @method setActive()
+	 */
+	class User extends Model {
 
 		//chaves estrangeiras
-		private $grupo;
-
-		private $nome;
+		private $name;
 		private $email;
-		private $login;
-		private $senha;
-		private $status;
-		private $dtLogin;
-		private $hash;
-		private $updated_at;
+		private $password;
+		private $type;
+		private $auth;
+		private $cd_recovery_pw;
+		private $dthr_recovery_pw_request;
 		private $created_at;
+		private $updated_at;
+		private $height;
+		private $weight;
+		private $gender;
+		private $dt_birth;
+		private $menu_config;
 
-		public function __construct($data = null){
-			if(is_array($data)){
-				isset($data['id'])? $this->setId($data['id']): false;
-				isset($data['grupo'])? $this->setGrupo($data['grupo']): false;
-				isset($data['status'])? $this->setStatus($data['status']): false;
-				isset($data['nome'])? $this->setNome($data['nome']): false;
-				isset($data['email'])? $this->setEmail($data['email']): false;
-				isset($data['login'])? $this->setLogin($data['login']): false;
-				isset($data['senha'])? $this->setSenha($data['senha']): false;
-				isset($data['dtLogin'])? $this->setDtLogin($data['dtLogin']): false;
-				isset($data['hash'])? $this->setHash($data['hash']): false;
-			}
+		use \Src\Traits\TraitGetAttributesAsArray;
+
+		public function __construct($data = []){
+			foreach($data as $name => $val) $this->set(ucfirst($name), $val);
 		}
 
-		public function getGrupo(){ return $this->grupo; }
-		public function setGrupo(Grupo $grupo){ $this->grupo = $grupo; }
+		public function set($name, $val){ $this->{'set'.$name}($val); }
 
-		public function getNome(){ return $this->nome; }
-		public function setNome($nome){ $this->nome = $nome; }
+		public function getName(){ return $this->name; }
+		public function setName($name){ $this->name = $name; }
 
 		public function getEmail(){ return $this->email; }
 		public function setEmail($email){ $this->email = $email; }
 
-		public function getLogin(){ return $this->login; }
-		public function setLogin($login){ $this->login = $login; }
+		public function getPassword(){ return $this->password; }
+		public function setPassword($pw){ if(!empty($pw)) $this->password = md5($pw); }
 
-		public function getSenha(){ return $this->senha; }
-		public function setSenha($senha){ if(!empty($senha)) $this->senha = md5($senha); }
+		public function getType(){ return $this->type; }
+		public function setType($type){ $this->type = $type; }
 
-		public function getStatus(){ return $this->status; }
-		public function setStatus($status){ $this->status = $status; }
+		public function getAuth(){ return $this->auth; }
+		public function setAuth($auth){ $this->auth = $auth; }
 
-		public function getDtLogin(){ return $this->dtLogin; }
-		public function setDtLogin($dt){ $this->dtLogin = $dt; }
+		public function getCd_recovery_pw(){ return $this->cd_recovery_pw; }
+		public function setCd_recovery_pw($rpw){ $this->cd_recovery_pw = $rpw; }
 
-		public function getHash(){ return $this->hash; }
-		public function setHash($hash){ $this->hash = $hash; }
-
-		public function getIP(){ return $this->ip; }
-		public function setIP($ip){ $this->ip = $ip; }
-
-		//controle de criacao e atualizacao da conta
-		public function getUpdatedAt(){ return $this->updated_at; }
-		public function setUpdatedAt($date){ $this->updated_at = $date; }
-
-		public function getCreatedAt(){ return $this->created_at; }
-		public function setCreatedAt($date){ $this->created_at = $date; }
-
-		public function getVars(){
-			return get_object_vars($this);
+		public function getDthr_recovery_pw_request(){ return $this->dthr_recovery_pw_request; }
+		public function setDthr_recovery_pw_request($dthr){
+			$this->dthr_recovery_pw_request = $dthr;
 		}
+
+		public function getCreated_at(){ return $this->created_at; }
+		public function setCreated_at($date){ $this->created_at = $date; }
+
+		public function getUpdated_at(){ return $this->updated_at; }
+		public function setUpdated_at($date){ $this->updated_at = $date; }
+
+		public function getHeight(){ return $this->height; }
+		public function setHeight($h){ $this->height = $h; }
+
+		public function getWeight(){ return $this->weight; }
+		public function setWeight($w){ $this->weight = $w; }
+
+		public function getGender(){ return $this->gender; }
+		public function setGender($g){ $this->gender = $g; }
+
+		public function getDt_birth(){ return $this->dt_birth; }
+		public function setDt_birth($birth){ $this->dt_birth = $dt; }
+
+		public function getMenu_config(){ return $this->menu_config; }
+		public function setMenu_config($config){ $this->menu_config = $config; }
 	}

@@ -7,7 +7,7 @@
     error_reporting(E_ALL);
     
     //caso nao esteja no root, coloacar o nome da subpasta exemplo: "sub/"
-        $subpasta = "tap/Sistema/";
+        $subpasta = "";
         
     /**
      * ROTAS BASE
@@ -48,7 +48,7 @@
     /**
      * DADOS DE ACESSO AO BANCO DE DADOS
      */
-        define('DB_NAME','modelo_mvc');
+        define('DB_NAME','tap');
         define('DB_HOST','localhost');
         define('DB_USER','root');
         define('DB_PW','');

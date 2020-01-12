@@ -1,7 +1,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8">
-    <title>MVC | <?= $this->get('title'); ?></title>
+    <title>TAP | <?= $this->get('title'); ?></title>
     <meta name="description" content="<?= $this->get('description'); ?>">
     <meta name="keywords" content="<?= $this->get('keywords'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">

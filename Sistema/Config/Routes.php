@@ -12,7 +12,10 @@
 	/**
 	 * chama o metodo apontado na url, caso nao existe chama o index do Controller
 	 */
-	ClassRoutes::route('','ControllerHome');
+	// ClassRoutes::route('','ControllerHome');
+
+	ClassRoutes::route('','ControllerUser','new');
+
 	ClassRoutes::route('Home','ControllerHome');
 	ClassRoutes::route('Painel','ControllerPainel');
 

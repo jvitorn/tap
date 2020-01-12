@@ -21,13 +21,13 @@
 			$this->render->view('user/list', $data);
 		}
 
-		public function new($param){
+		public function new($param = []){
 			
-			$post = $param['post'];
 			$action = isset($post['action']) ? $post['action']:null;
 
 			if(count($param) > 0 && $action == 'new' ){
 
+				$post = $param['post'];
 				$json = ['status' => 0, 'msg' => 'Erro: não foi possivel cadastrar o usuario!'];			
 				$data['post']['senha'] = '123';
 				$user = new User($data['post']);
@@ -42,12 +42,23 @@
 				echo json_encode($json);
 			}else{
 
-				$user =  new User;
+				$arr = [
+					'id'		=> '10',
+					'name' 		=> 'jdc',
+					'active'	=> true,
+					'type'		=> 'user'
+				];
+
+				$user =  new User($arr);
+
+				$res = UserDAO::remove($user);
+				echo "<pre>";
+				print_r($res);
+				echo "</pre>";
 
 	            $data['title'] = 'Novo usuário';
-	            $data['user'] = $user->getVars();
+	            $data['user'] = $user->getAttributesAsArray();
 	            $this->render->view('user/detail',$data);
-
 			}
 
 		}
@@ -67,7 +78,6 @@
 				echo json_encode($json);
 
 			}else{
-
 				//se for o usuário com id 1 (admin) nao é possivel editar
 				if($param['url'][0] == 1) header('Location:'.PAINEL);
 				
@@ -75,7 +85,7 @@
 				$user->setId($param['url'][0]);
 
 	            $data['title'] 	= 'Editar usuário';
-	            $data['user']	= UserDAO::find($user)[0];
+	            // $data['user']	= UserDAO::find($user)[0];
 	            $this->render->view('user/detail', $data);
 
 			}	

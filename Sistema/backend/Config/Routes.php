@@ -20,10 +20,9 @@
 	ClassRoutes::GET('','ControllerHome@index');
 
 	ClassRoutes::GET('user','ControllerHome@user');
-	ClassRoutes::POST('user','ControllerHome@add',['id' => null,'nome']);
+	ClassRoutes::POST('user','ControllerHome@add',['id','nome']);
 	ClassRoutes::PUT('user','ControllerHome@add',['id','nome']);
 	ClassRoutes::DELETE('user','ControllerHome@add',['id','nome']);
-
 
 	// ClassRoutes::route('Home','ControllerHome');
 	// ClassRoutes::route('Painel','ControllerPainel');

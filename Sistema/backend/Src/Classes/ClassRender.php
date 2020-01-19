@@ -21,6 +21,15 @@
             if(is_array($dataArray)) $this->data = $dataArray;
             $this->renderizar();
         }
+
+        /**
+         * @method json
+         * Este método é responsavel por retornar uma mensagem em JSON pro client
+         */
+        public function json($data){
+            header('Content-Type: application/json');
+            echo json_encode($data);
+        }
         
         /**
          * @method renderizar

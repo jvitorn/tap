@@ -12,6 +12,7 @@
 
         private $param = [];
         private $startParams = 2;
+        private $actionParams;
 
         protected function getMethod(){ return $this->method; }
         protected function getParam(){ return $this->param; }
@@ -29,9 +30,12 @@
         
         public function AddController(){
             
-            if( is_array( $this->getRoute() ) ){
-                $routeController = $this->getRoute()['Controller'];
-                $action = $this->getRoute()['Action'];
+            $route = $this->getRoute();
+
+            if( is_array($route) ){
+                $routeController = $route['Controller'];
+                $action = $route['Action'];
+                $this->actionParams = $route['Params'];
             }else{
                 $routeController = "Controller";
                 $action = "Error";
@@ -72,11 +76,21 @@
             $arrayCount = count($this->parseUrl());
             
             if($arrayCount > $this->startParams){
-                
-                foreach($this->parseUrl() as $key => $value){
-                    if($key >= $this->startParams) $this->setParam($this->param += [$key => $value]);
-                }
 
+                $countIndice = 0;
+                
+                foreach($this->parseUrl() as $key => $value){    
+
+                    if($key >= $this->startParams && isset($this->actionParams[$countIndice]) ){
+
+                        if()
+                        $nmIndice = $this->actionParams[$countIndice];
+
+                        $this->setParam($this->param += [$nmIndice => $value]);
+
+                        $countIndice++;
+                    }
+                }
             }
         }
     }

@@ -6,19 +6,33 @@
     ini_set('display_startup_erros',1);
     error_reporting(E_ALL);
     
-    //caso nao esteja no root, coloacar o nome da subpasta exemplo: "sub/"
-        $subpasta = "";
+    //caso nao esteja no root, colocar o nome da subpasta exemplo: "sub/"
+    
+    $dirIgnore = "public";
+
+    function getDocumentRoot($dirIgnore){
+        $root = getcwd();
+        return substr($root, 0, -strlen($dirIgnore) );
+    }
+
+    function getSubPasta($root){
+        $cRoot = strlen($root);
+        $cDocRoot =  strlen($_SERVER['DOCUMENT_ROOT']);
+        $limit = $cRoot - $cDocRoot;
+        return substr($root, $cDocRoot, $limit);
+    }
         
     /**
      * ROTAS BASE
      */
-        define("DIR_PAGE","http://". $_SERVER['HTTP_HOST'].'/'.$subpasta);
+        define("DIR_PAGE","http://". $_SERVER['HTTP_HOST'].getSubPasta(getDocumentRoot($dirIgnore)));
 
         if(substr($_SERVER['DOCUMENT_ROOT'],-1) == '/'){
             define('DIR_REQ',$_SERVER['DOCUMENT_ROOT'].$subpasta);
         }else{
-            define('DIR_REQ',$_SERVER['DOCUMENT_ROOT'].'/'.$subpasta);
+            define('DIR_REQ', getDocumentRoot($dirIgnore) );
         }
+        
     /**
      * URL: DIRETORIOS BASE PUBLICOS (public)
      */

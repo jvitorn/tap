@@ -112,9 +112,15 @@
                         $arr['cols'] .= ",";
                         $arr['vals'] .= ",";
                     }
-
+                    
                     $arr['cols'] .= $col;
-                    $arr['vals'] .= "'".$val."'";
+
+                    if(is_array($val)){
+                        $arr['vals'] .= "'".$val['id']."'";
+                    }else{
+                        $arr['vals'] .= "'".$val."'";
+                    }
+
                     $virgula = true;
                 }
                 
@@ -132,7 +138,13 @@
             foreach($data as $col => $val){
                 if(!empty($val)){
                     if($virgula) $update .= ",";
-                    $update .= $col." = '".$val."' ";
+
+                    if(is_array($val)){
+                        $update .= $col." = '".$val['id']."' ";
+                    }else{
+                        $update .= $col." = '".$val."' ";    
+                    }
+                    
                     $virgula = true;
                 }
             }
@@ -150,7 +162,12 @@
                 
                 if(!empty($val)){
                     if($and) $where .= " AND  ";
-                    $where .= $tbl.".".$col ." = '".$val."' ";
+
+                    if(is_array($val)){
+                        $where .= $tbl.".".$col ." = '".$val['id']."' ";
+                    }else{
+                        $where .= $tbl.".".$col ." = '".$val."' ";
+                    }
                 }                
                 $and = true;
             }

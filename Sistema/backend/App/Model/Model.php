@@ -11,7 +11,11 @@
 		protected function __construct($data = []){
 			if(isset($data['id'])) $this->setId($data['id']);
 			if(isset($data['active'])) $this->setActive($data['active']);
-		} 
+		}
+
+		protected function set($name, $val){ 
+			$this->{'set'.ucfirst($name)}($val);
+		}
 
 		public function getId(){ return $this->id; }
 		public function setId(int $id){ $this->id = $id; }

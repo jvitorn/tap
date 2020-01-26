@@ -4,7 +4,20 @@
 	trait TraitGetAttributesAsArray {
 
 		public function getAttributesAsArray(){
-			return get_object_vars($this);
+			
+			$attr = get_object_vars($this);
+			$ret;
+			
+			foreach($attr as $name => $value){
+
+				if(is_object($value)){
+					$ret[$name] = $value->getAttributesAsArray();
+				}else{
+					$ret[$name] = $value;
+				}
+			}
+
+			return $ret;
 		}
 		
 	}

@@ -3,14 +3,20 @@
     
     use App\Controller\Controller;
     use Src\Classes\ClassEmail;
+
+    use App\DAO\FinancialDAO;
+    use App\Model\Financial;
+    use App\Model\User;
         
     class ControllerHome extends Controller {
 
         public function index(){
-            $data['title'] = "INDEX";
-            $data['descricao'] = "bla, blabla, bla bla bla";
             
-            $this->render->json($data);
+            $u = new User(['id' => 2]);
+            $f =new Financial(['id' => 1,'user' => $u,'name'=>'jdc']);
+            
+            FinancialDAO::create($f);
+            // $this->render->json($data);
             // $this->render->view('home', $data);
         }
        

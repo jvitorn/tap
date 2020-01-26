@@ -2,7 +2,6 @@
 	namespace App\Model;
 
 	use App\Model\Model;
-	use App\Model\Grupo;
 
 	/**
 	 * @var $id : int
@@ -12,10 +11,10 @@
 	 * @method setId()
 	 * @method getActive()
 	 * @method setActive()
+	 * 
 	 */
 	class User extends Model {
 
-		//chaves estrangeiras
 		private $name;
 		private $email;
 		private $password;
@@ -34,10 +33,8 @@
 		use \Src\Traits\TraitGetAttributesAsArray;
 
 		public function __construct($data = []){
-			foreach($data as $name => $val) $this->set(ucfirst($name), $val);
+			foreach($data as $name => $val) $this->set($name, $val);
 		}
-
-		public function set($name, $val){ $this->{'set'.$name}($val); }
 
 		public function getName(){ return $this->name; }
 		public function setName($name){ $this->name = $name; }

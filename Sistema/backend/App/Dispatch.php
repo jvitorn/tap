@@ -83,7 +83,6 @@
 
                     if($key >= $this->startParams && isset($this->actionParams[$countIndice]) ){
 
-                        if()
                         $nmIndice = $this->actionParams[$countIndice];
 
                         $this->setParam($this->param += [$nmIndice => $value]);

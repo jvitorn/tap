@@ -1,11 +1,10 @@
 body {
     font-family: 'Muli', sans-serif;
+    height: 100vh;
 }
 
 #bar {
     height: 70px;
-    position: fixed;
-    z-index: 1;
     background-color: rgb(189, 26, 26);
 }
 

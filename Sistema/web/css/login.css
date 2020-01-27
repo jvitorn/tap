@@ -3,9 +3,16 @@ body {
 }
 
 #logo-area{
-    height: 180px;
-    margin-top: 7%;
-    border: 1px solid #000;
+    margin-top: 2%;
+    /* border: 1px solid #000; */
+}
+
+#logotype {
+    font-size: 109px;
+    font-weight: 900;
+    margin-left: -10px;
+    font-family: 'Nunito', sans-serif;
+    color: rgb(189, 26, 26);
 }
 
 .button-style {

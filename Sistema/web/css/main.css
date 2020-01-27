@@ -4,8 +4,9 @@ body {
 
 #bar {
     height: 70px;
-    position: relative;
-    background-color: rgb(189, 26, 26);;
+    position: fixed;
+    z-index: 1;
+    background-color: rgb(189, 26, 26);
 }
 
 #menu {
@@ -49,4 +50,29 @@ body {
     margin-top: 15px;
     margin-bottom: 10px;
     font-weight: 600;
+}
+
+
+
+
+
+
+
+/* Floating Button */
+#floatingButton {
+    width: 60px;
+    height: 60px;
+    margin-left: 75%;
+    top: 85%;
+    position: absolute;
+    z-index: 1;
+    border-radius: 60px;
+    background-color: rgb(189, 26, 26);
+}
+
+#floatingButton i {
+    font-size: 22px;
+    margin-left: 20%;
+    margin-top: 65%;
+    color: #FFF;
 }

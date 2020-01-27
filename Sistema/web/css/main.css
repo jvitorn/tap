@@ -1,0 +1,43 @@
+body {
+    font-family: 'Muli', sans-serif;
+}
+
+#bar {
+    height: 70px;
+    position: relative;
+    background-color: rgb(189, 26, 26);;
+}
+
+#taskArea {
+    border: 1px solid #000;
+}
+
+#taskAreaTitle {
+    font-size: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+}
+
+#task {
+    height: 50px;
+    margin-top: 10px;
+    margin-left: 18px;
+    margin-bottom: 2px;
+    border-radius: 20px;
+    /* border: 1px solid #000000; */
+    box-shadow: -1px 0px 7px -1px rgba(0,0,0,0.36);
+}
+
+
+#taskValue {
+    font-size: 22px;
+    padding: 8px 10px 0px 20px;
+}
+
+#allTasksArea {
+    font-size: 20px;
+    margin-left: 12px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}

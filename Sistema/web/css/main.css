@@ -8,8 +8,17 @@ body {
     background-color: rgb(189, 26, 26);;
 }
 
+#menu {
+    height: 15px;
+    margin-left: 25px;
+    margin-top: 25px;
+    background-color: #fff;
+}
+
 #taskArea {
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
+    border-top: 2px solid rgba(204, 204, 204, 0.472);
+    border-bottom: 2px solid rgba(204, 204, 204, 0.472);
 }
 
 #taskAreaTitle {

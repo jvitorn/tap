@@ -11,7 +11,6 @@
 	 * @method setId()
 	 * @method getActive()
 	 * @method setActive()
-	 * 
 	 */
 	class User extends Model {
 
@@ -43,7 +42,11 @@
 		public function setEmail($email){ $this->email = $email; }
 
 		public function getPassword(){ return $this->password; }
-		public function setPassword($pw){ if(!empty($pw)) $this->password = md5($pw); }
+		public function setPassword($pw){ 
+			if(!empty($pw)){
+				$this->password = md5("6yr".$pw."(8ng#21");
+			}
+		}
 
 		public function getType(){ return $this->type; }
 		public function setType($type){ $this->type = $type; }

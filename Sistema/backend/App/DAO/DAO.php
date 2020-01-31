@@ -19,7 +19,7 @@
                 $where = self::array_to_sql_where($tbl, self::$colArray);
 
                 /* pega o id do registro inserido */
-                self::$arr_retorno['data'] = self::Select($tbl,'id',$where)[0]['id'];
+                self::$arr_retorno['res'] = self::Select($tbl,'id',$where)[0]['id'];
             }
 
             self::unsetArray();
@@ -43,13 +43,15 @@
             /* ponto de debug */
             // echo $sql;
             self::unsetArray();
-            return self::query($sql);;
+            self::$arr_retorno['res'] = self::query($sql);
+            return self::$arr_retorno;
         }
         
         static protected function Update($tabela, $set, $where = 0){
             $sql = "UPDATE $tabela SET $set WHERE $where";
             self::unsetArray();
-            return self::query($sql);
+            self::$arr_retorno['res'] = self::query($sql);
+            return self::$arr_retorno;
         }
         
         static protected function Delete($tabela, $where = 0){
@@ -67,8 +69,6 @@
                 self::$DB = self::connectDB()->prepare($sql);
                 if(self::$DB->execute()){
                     
-                    // $arr = self::$DB->fetchAll();
-
                     $rows = self::$DB->fetchAll(\PDO::FETCH_ASSOC);
                     
                     $arr = null;
@@ -78,6 +78,7 @@
                     if(is_array($arr)){
                         return $arr;
                     }else{
+                        echo "nao encontrou";
                         return true;
                     }
 
@@ -161,6 +162,7 @@
             foreach($data as $col => $val){
                 
                 if(!empty($val)){
+
                     if($and) $where .= " AND  ";
 
                     if(is_array($val)){
@@ -168,8 +170,10 @@
                     }else{
                         $where .= $tbl.".".$col ." = '".$val."' ";
                     }
-                }                
-                $and = true;
+
+                    $and = true;
+                } 
+                
             }
 
             return $where;

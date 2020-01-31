@@ -21,9 +21,29 @@
 			return parent::Insert('user', $sql['cols'], $sql['vals']);
 		}
 
-		static public function find(User $user, $order = '', $limit = ''){
+		static public function find(User $user, $sql = '', $cols = 'id', $order = '', $limit = ''){
+
 			$where = parent::array_to_sql_where('user',$user->getAttributesAsArray());
-			return parent::Select('user','*',$where,$order,$limit);
+			
+			if(!empty($where) && !empty($sql)){
+				$where .= " AND ".$sql;
+			}else{
+				$where = $sql;
+			}
+
+			$data = parent::Select('user',$cols,$where,$order,$limit);
+			
+			if(is_array($data['res'])){
+				
+				$users = [];
+
+				foreach($data['res'] as $key => $user){
+					$users[] = new User($user);
+				}
+				$data['res'] = $users;
+			}
+
+			return $data;
 		}
 
 		static public function edit(User $user){

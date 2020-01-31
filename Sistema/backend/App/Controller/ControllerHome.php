@@ -18,10 +18,12 @@
         public function index(){
 
             $user = new User();
+            $like = 'email LIKE "jdc%"';
+            $cols = 'id, name, email';
+            $users = UserDAO::find($user,$like,$cols);
 
-            print_r($user->getAttributesAsArray());
+            $res = $this->transform_obj_in_array($users, 'users');
 
-            $data['exemplo'] = 'isso vira um json!';
-            // $this->render->json($data);
+            $this->render->json($res);
         }
     }

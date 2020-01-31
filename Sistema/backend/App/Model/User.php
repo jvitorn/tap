@@ -20,7 +20,7 @@
 		private $type;
 		private $auth;
 		private $cd_recovery_pw;
-		private $dthr_recovery_pw_request;
+		private $dthr_request_recovery_pw;
 		private $created_at;
 		private $updated_at;
 		private $height;
@@ -57,9 +57,9 @@
 		public function getCd_recovery_pw(){ return $this->cd_recovery_pw; }
 		public function setCd_recovery_pw($rpw){ $this->cd_recovery_pw = $rpw; }
 
-		public function getDthr_recovery_pw_request(){ return $this->dthr_recovery_pw_request; }
-		public function setDthr_recovery_pw_request($dthr){
-			$this->dthr_recovery_pw_request = $dthr;
+		public function getDthr_request_recovery_pw(){ return $this->dthr_request_recovery_pw; }
+		public function setDthr_request_recovery_pw($dthr){
+			$this->dthr_request_recovery_pw = $dthr;
 		}
 
 		public function getCreated_at(){ return $this->created_at; }
@@ -78,7 +78,7 @@
 		public function setGender($g){ $this->gender = $g; }
 
 		public function getDt_birth(){ return $this->dt_birth; }
-		public function setDt_birth($birth){ $this->dt_birth = $dt; }
+		public function setDt_birth($birth){ $this->dt_birth = $birth; }
 
 		public function getMenu_config(){ return $this->menu_config; }
 		public function setMenu_config($config){ $this->menu_config = $config; }

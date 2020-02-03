@@ -7,101 +7,53 @@
 	
 	use App\DAO\UserDAO;
 
+	/**
+	 * @method $this->transform_obj_in_array($ObjArray, "$name");
+	 */
 	class ControllerUser extends Controller {
 
-		public function list($params = null){
-			
-			$param = isset($params['post'])? $params['post']: null;
-			$user = new User($param);
+		public function list($data = []){
+			$data['cols']  = 'id, name, email, created_at, updated_at, type';
+			$data['cols'] .= ',height, weight, gender, active, dt_birth';
 
-			$userList = UserDAO::find($user);
-			
-			$data['user'] = $userList;
-
-			$this->render->view('user/list', $data);
+			$user = new User($data);
+			$users = UserDAO::find($user,$data);
+			$users = $this->transform_obj_in_array($users,'users');
+			$this->render->json($users);
 		}
 
-		public function new($param = []){
-			
-			$action = isset($post['action']) ? $post['action']:null;
+		public function add($data = []){
 
-			if(count($param) > 0 && $action == 'new' ){
+			$data['type'] = 'user';
+			$data['height'] = str_replace(',','.', $data['height']);
+			$data['weight'] = str_replace(',','.', $data['weight']);
+			$data['active'] = 1;
+			$data['created_at'] = date('Y-m-d h:i:s');
 
-				$post = $param['post'];
-				$json = ['status' => 0, 'msg' => 'Erro: não foi possivel cadastrar o usuario!'];			
-				$data['post']['senha'] = '123';
-				$user = new User($data['post']);
-				$user->setUpdatedAt(date('Y-m-d h:i:s'));
-				$user->setCreatedAt(date('Y-m-d h:i:s'));
-								
-				if( is_array( UserDAO::create($user) ) ){
-					$json['status'] = 1;
-					$json['msg'] = 'Usuario cadastrado com sucesso!';
-				}
+			$user = new User($data);
+			$data = UserDAO::create($user);
 
-				echo json_encode($json);
+			if($data['error'] == '' && isset($data['res']['id'])){
+				$res['status'] 	= 'success';
+				$res['msg']		= 'Usuário cadastrado com sucesso!';
+				$res['id']		= $data['res']['id'];
 			}else{
-
-				$arr = [
-					'id'		=> '10',
-					'name' 		=> 'jdc',
-					'active'	=> true,
-					'type'		=> 'user'
-				];
-
-				$user =  new User($arr);
-
-				$res = UserDAO::remove($user);
-				echo "<pre>";
-				print_r($res);
-				echo "</pre>";
-
-	            $data['title'] = 'Novo usuário';
-	            $data['user'] = $user->getAttributesAsArray();
-	            $this->render->view('user/detail',$data);
+				$res['status'] = 'error';
+				if(strstr($data['error'],'nm_email_UNIQUE')){
+					$res['error'] = 'Erro: email já cadastrado.';	
+				}else{
+					$res['error'] = 'Erro: não foi possivel cadastrar o usuário.';
+				}
 			}
 
+			$this->render->json($res);
 		}
 
-		public function edit($param){
-
-			if( isset($param['post']['edit']) ){
-
-				$json = ['status' => 0, 'msg' => 'Ops, nao foi possivel editar este usuário'];
-				$user = new User($param['post']);
-
-				if(UserDAO::edit($user)){
-					$json['status'] = 1;
-					$json['msg'] = 'Usuário atualizado com sucesso!';
-				}
-
-				echo json_encode($json);
-
-			}else{
-				//se for o usuário com id 1 (admin) nao é possivel editar
-				if($param['url'][0] == 1) header('Location:'.PAINEL);
-				
-				$user = new User();
-				$user->setId($param['url'][0]);
-
-	            $data['title'] 	= 'Editar usuário';
-	            // $data['user']	= UserDAO::find($user)[0];
-	            $this->render->view('user/detail', $data);
-
-			}	
+		public function edit($data = []){
+			$this->render->json($data);
 		}
 
-		public function remove($param){
-
-			$json = ['status' => 0, 'msg' => 'Ops, nao foi possivel excluir este usuário'];
-			$user = new User($param['post']);
-
-			if(UserDAO::remove($user)){
-				$json['status'] = 1;
-				$json['msg'] = "Usuário deletado com sucesso";
-			}
-			
-			echo json_encode($json);
-
+		public function remove($data = []){
+			$this->render->json($data);
 		}
 	}

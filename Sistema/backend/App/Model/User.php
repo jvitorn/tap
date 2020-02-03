@@ -32,7 +32,16 @@
 		use \Src\Traits\TraitGetAttributesAsArray;
 
 		public function __construct($data = []){
-			foreach($data as $name => $val) $this->set($name, $val);
+			
+			foreach($data as $name => $val){
+				
+				$setter = 'set'.ucfirst($name);
+
+				if(method_exists($this,$setter)){
+					$this->set($setter, $val);	
+				}
+			}
+
 		}
 
 		public function getName(){ return $this->name; }

@@ -3,56 +3,27 @@
     
     use App\Controller\Controller;
     use Src\Classes\ClassEmail;
-
-    use App\DAO\FinancialDAO;
-    use App\Model\Financial;
-    use App\Model\User;
         
+    use App\Model\User;
+    use App\Model\Financial;
+    
+    use App\DAO\UserDAO;
+    use App\DAO\FinancialDAO;
+
+    /**
+     * @method $this->render->json($data[])
+     */
     class ControllerHome extends Controller {
 
         public function index(){
-            
-            $u = new User(['id' => 2]);
-            $f =new Financial(['id' => 1,'user' => $u,'name'=>'jdc']);
-            
-            FinancialDAO::create($f);
-            // $this->render->json($data);
-            // $this->render->view('home', $data);
-        }
-       
-        public function get(){
-            $data['title'] = "GET";
-            $data['descricao'] = "bla, blabla, bla bla bla";
-            
-            $this->render->json($data);
-            // $this->render->view('home', $data);
-        }
 
-        public function add($id, $nome){
-            $data['title'] = "POST";
-            $data['descricao'] = "bla, blabla, bla bla bla";
-            $data['nome'] = $nome;
-            $data['id'] = $id;
-            
-            $this->render->json($data);
-            // $this->render->view('home', $data);
-        }
+            $user = new User();
+            $like = 'email LIKE "jdc%"';
+            $cols = 'id, name, email';
+            $users = UserDAO::find($user,$like,$cols);
 
-        public function method1($p1 = null,$p2 = null){
-            echo "method 1 parametro 1: $p1, parametro 2: $p2";
-        }
+            $res = $this->transform_obj_in_array($users, 'users');
 
-        public function method2(){
-            echo "method 2";
+            $this->render->json($res);
         }
-
-        public function method3(){
-            echo "method 3";
-        }
-
-        public function teste(){
-            $arr['nome'] = $_POST['nome'].'-retornado';
-            echo json_encode($arr);
-        }
-
     }

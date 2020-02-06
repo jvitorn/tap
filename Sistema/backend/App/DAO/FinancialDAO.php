@@ -18,9 +18,8 @@
 	class FinancialDAO extends DAO {
 
 		static public function create(Financial $f){
-			$sql = parent::array_to_sql_where('user',$f->getAttributesAsArray());
-			print_r($sql);
-			// return parent::Insert('user', $sql['cols'], $sql['vals']);
+			$sql = parent::array_to_sql_create($f->getAttributesAsArray());
+			return parent::Insert('financial', $sql['cols'], $sql['vals']);
 		}
 
 	}

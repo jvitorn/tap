@@ -12,20 +12,16 @@
 	/**
 	 * chama o metodo apontado na url, caso nao existe chama o index do Controller
 	 * exemplos:
-	 * 	ClassRoutes::GET('','ControllerHome','index');
-	 *	ClassRoutes::GET('user/listar','ControllerHUser','index');
-	 *	ClassRoutes::POST('user','ControllerHome','add');
+	 * 	ClassRoutes::GET('home','ControllerHome@list');
+	 *	ClassRoutes::POST('user/new','ControllerHome@add');
 	 */
+	
+	ClassRoutes::GET('user','ControllerUser@list');
+	ClassRoutes::POST('user','ControllerUser@add');
+	ClassRoutes::PUT('user','ControllerUser@edit');
+	ClassRoutes::DELETE('user','ControllerUser@remove');
 
-	ClassRoutes::GET('','ControllerHome@index');
-
-	ClassRoutes::GET('user','ControllerHome@user');
-	ClassRoutes::POST('user','ControllerHome@add',['id','nome']);
-	ClassRoutes::PUT('user','ControllerHome@add',['id','nome']);
-	ClassRoutes::DELETE('user','ControllerHome@add',['id','nome']);
-
-	// ClassRoutes::route('Home','ControllerHome');
-	// ClassRoutes::route('Painel','ControllerPainel');
+	ClassRoutes::GET('user2','ControllerUser@index');
 
 	/**
 	 *	chama o metodo metho1 do controller

@@ -14,7 +14,7 @@
 		}
 
 		protected function set($name, $val){ 
-			$this->{'set'.ucfirst($name)}($val);
+			$this->{$name}($val);
 		}
 
 		public function getId(){ return $this->id; }

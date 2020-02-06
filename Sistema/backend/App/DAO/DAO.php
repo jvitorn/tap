@@ -7,49 +7,60 @@
         
         static private $DB;
         static private $arr_retorno = ["error" => ""];
-        static private $colArray;
+
+        static private $where     = 'id > 0 ';
+        static private $cols      = 'id';
+        static private $vals      = '';
+        static private $orderBy   = '';
+        static private $limit     = '';
                 
         //metodo para insert, todo insert do sistema passa por este metodo
-        static protected function Insert($tbl, $cols, $vals){
+        static protected function Insert($tbl){
             
-            $sql = "INSERT INTO $tbl ($cols) VALUES ($vals)";
+            $sql = "INSERT INTO $tbl (".self::$cols.") VALUES (".self::$vals.")";
             // echo $sql."\r\n";
 
             if(self::query($sql)){
-                $where = self::array_to_sql_where($tbl, self::$colArray);
+                self::$cols     = 'id';
+                self::$orderBy  = "id DESC";
+                self::$limit    = 'LIMIT 1';
 
                 /* pega o id do registro inserido */
-                self::$arr_retorno['data'] = self::Select($tbl,'id',$where)[0]['id'];
+                self::Select($tbl);
             }
-
-            self::unsetArray();
+            if(isset(self::$arr_retorno['res'][0]['id'])){
+                $id = self::$arr_retorno['res'][0]['id'];
+                self::$arr_retorno['res'] = ['id' => $id];
+            }
             return self::$arr_retorno;
         }
 
-        static protected function Select($tbl,$cols,$where = false, $order = false, $limit = false){
+        static protected function Select($table){
 
             /* monta a query apenas com as colunas e o nome da tabela.  */
-            $sql = "SELECT $cols FROM $tbl ";
+            $sql = "SELECT ".self::$cols." FROM ". $table;
             
             /* se houver condição para o select, adiciona a condição.   */
-            if($where) $sql .= " WHERE $where ";
+            if(!empty(self::$where)) $sql .= " WHERE ".self::$where;
             
             /* se houver uma ordenação no select, a adiciona na query.  */
-            if($order) $sql .= " ORDER BY $order ";
+            if(!empty(self::$orderBy)) $sql .= " ORDER BY ". self::$orderBy;
             
             /* se houver um limite, a adiciona na query.                */
-            if($limit) $sql .= " LIMIT $alcance ";
+            if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
             // echo $sql;
-            self::unsetArray();
-            return self::query($sql);;
+
+            self::$arr_retorno['res'] = self::query($sql);
+            return self::$arr_retorno;
         }
         
         static protected function Update($tabela, $set, $where = 0){
             $sql = "UPDATE $tabela SET $set WHERE $where";
             self::unsetArray();
-            return self::query($sql);
+            self::$arr_retorno['res'] = self::query($sql);
+            return self::$arr_retorno;
         }
         
         static protected function Delete($tabela, $where = 0){
@@ -67,8 +78,6 @@
                 self::$DB = self::connectDB()->prepare($sql);
                 if(self::$DB->execute()){
                     
-                    // $arr = self::$DB->fetchAll();
-
                     $rows = self::$DB->fetchAll(\PDO::FETCH_ASSOC);
                     
                     $arr = null;
@@ -90,16 +99,7 @@
             }                
         }
 
-        static private function saveArray($data){
-            self::$colArray = $data;
-        }
-
-        static private function unsetArray(){
-            self::$colArray = null;
-        }
-
         static protected function array_to_sql_create($data){
-            self::saveArray($data);
 
             $arr['cols'] = "";
             $arr['vals'] = "";
@@ -126,11 +126,11 @@
                 
             }
 
-            return $arr;
+            self::$cols = $arr['cols'];
+            self::$vals = $arr['vals'];
         }
 
         static protected function array_to_sql_update($data){
-            self::saveArray($data);
 
             $update = "";
             $virgula = false;
@@ -153,25 +153,27 @@
         }
 
         static protected function array_to_sql_where($tbl, $data){
-            self::saveArray($data);
 
-            $where = "";
-            $and = false;
-            
             foreach($data as $col => $val){
-                
+            
                 if(!empty($val)){
-                    if($and) $where .= " AND  ";
+                    self::$where .= " AND  ";
 
                     if(is_array($val)){
-                        $where .= $tbl.".".$col ." = '".$val['id']."' ";
+                        self::$where .= $tbl.".".$col ." = '".$val['id']."' ";
                     }else{
-                        $where .= $tbl.".".$col ." = '".$val."' ";
+                        self::$where .= $tbl.".".$col ." = '".$val."' ";
                     }
-                }                
-                $and = true;
-            }
+                } 
+            } 
+        }
 
-            return $where;
+        static protected function queryParams($data){ 
+            if(isset($data['join'])){ self::$join = $data['join']; }
+            if(isset($data['where'])){ self::$where .= " AND ". $data['where']; }
+            if(isset($data['cols'])){ self::$cols = $data['cols']; }
+            if(isset($data['vals'])){ self::$vals = $data['vals']; }
+            if(isset($data['orderBy'])){ self::$orderBy = $data['orderBy']; }
+            if(isset($data['limit'])){ self::$limit = $data['limit']; }
         }
     }

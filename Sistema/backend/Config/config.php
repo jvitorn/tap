@@ -62,10 +62,10 @@
     /**
      * DADOS DE ACESSO AO BANCO DE DADOS
      */
-        define('DB_NAME','tap');
-        define('DB_HOST','localhost');
-        define('DB_USER','root');
-        define('DB_PW','');
+        define('DB_NAME','jdc_tap');
+        define('DB_HOST','162.241.3.25');
+        define('DB_USER','jdc_tap_user');
+        define('DB_PW','r=Q#)%{6j!%T');
     
     /**
      * DADOS DE ENVIO DE MAIL

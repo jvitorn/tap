@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>teste</title>
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<form>
+				<input type="text" name="name" class="form-control"><br>
+				<input type="text" name="email" class="form-control"><br>
+				<input type="text" name="obs" class="form-control"><br>
+				<button type="submit">Enviar</button>			
+			</form>		
+		</div>
+	</div>
+	
+	
+	<pre id="res"></pre>
+	<script type="text/javascript">
+
+		var form = {
+			  "name": "Jhonatan",
+			  "email": "jdc_santos2@outlook.com",
+			  "password": "123456",
+			  "height": "1,65",
+			  "weight": "54",
+			  "gender": "m",
+			  "dt_birth": "1993-02-14"
+			}
+
+		$.ajax({
+			url:'http://localhost/tap/Sistema/backend/user',
+			type: 'DELETE',
+			dataType:'json',
+			data: form,
+			success: function(res){
+				$('#res').append('<br>/USER');
+				if(res.responseText){
+					$('#res').append(res.responseText);
+				}else{
+					$('#res').append(res);
+				}
+				console.log(res);
+			},
+			error: function(res){
+				if(res.responseText){
+					$('#res').append(res.responseText);
+				}else{
+					$('#res').append(res);
+				}
+				
+				console.log(res);
+			}
+		});
+		
+	</script>
+</body>
+</html>

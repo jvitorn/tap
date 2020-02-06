@@ -5,10 +5,10 @@
 	use App\Model\User;
 
 	/**
-	 * @method Insert($tbl, $cols, $vals)
-	 * @method Select($tbl, $cols, $where, $order, $limit)
-	 * @method Update($tbl, $cols,$where)
-	 * @method Delete($tbl, $where)
+	 * @method Insert()
+	 * @method Select()
+	 * @method Update()
+	 * @method Delete()
 	 * @method query($sql)
 	 * @method array_to_sql_create($data)
 	 * @method array_to_sql_update($data)
@@ -17,13 +17,23 @@
 	class UserDAO extends DAO {
 
 		static public function create(User $user){
-			$sql = parent::array_to_sql_create($user->getAttributesAsArray());
-			return parent::Insert('user', $sql['cols'], $sql['vals']);
+			parent::array_to_sql_create($user->getAttributesAsArray());
+			return parent::Insert('user');
 		}
 
-		static public function find(User $user, $order = '', $limit = ''){
-			$where = parent::array_to_sql_where('user',$user->getAttributesAsArray());
-			return parent::Select('user','*',$where,$order,$limit);
+		static public function find(User $user, $data = []){
+
+			parent::array_to_sql_where('user',$user->getAttributesAsArray());
+			parent::QueryParams($data);
+			$data = parent::Select('user');
+			
+			if(is_array($data['res'])){
+				$users = [];
+				foreach($data['res'] as $key => $user){ $users[] = new User($user); }
+				$data['res'] = $users;
+			}
+
+			return $data;
 		}
 
 		static public function edit(User $user){

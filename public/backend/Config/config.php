@@ -28,7 +28,7 @@
         define("DIR_PAGE","http://". $_SERVER['HTTP_HOST'].getSubPasta(getDocumentRoot($dirIgnore)));
 
         if(substr($_SERVER['DOCUMENT_ROOT'],-1) == '/'){
-            define('DIR_REQ',$_SERVER['DOCUMENT_ROOT'].$subpasta);
+            define('DIR_REQ',$_SERVER['DOCUMENT_ROOT'].getSubPasta(getDocumentRoot($dirIgnore)));
         }else{
             define('DIR_REQ', getDocumentRoot($dirIgnore) );
         }

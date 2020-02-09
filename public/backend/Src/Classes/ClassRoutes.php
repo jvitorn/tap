@@ -124,8 +124,10 @@
                     $url = self::get_url();
                 }
             }
-                       
-            if( array_key_exists($url, self::{'routes'.$method}() )){
+
+            if(empty($url)) $url = "";
+            
+            if(array_key_exists($url, self::{'routes'.$method}() )){
               
                 if(file_exists(DIR_CONTROLLER.self::{'routes'.$method}()[$url]['Controller'].".php")){ 
                     return self::{'routes'.$method}()[$url];

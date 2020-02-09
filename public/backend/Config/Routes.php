@@ -15,7 +15,8 @@
 	 * 	ClassRoutes::GET('home','ControllerHome@list');
 	 *	ClassRoutes::POST('user/new','ControllerHome@add');
 	 */
-	
+    
+    ClassRoutes::GET('','ControllerHome@index');
 	ClassRoutes::GET('user','ControllerUser@list');
 	ClassRoutes::POST('user','ControllerUser@add');
 	ClassRoutes::PUT('user','ControllerUser@edit');

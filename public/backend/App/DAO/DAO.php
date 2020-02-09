@@ -10,9 +10,11 @@
 
         static private $where     = 'id > 0 ';
         static private $cols      = 'id';
-        static private $vals      = '';
-        static private $orderBy   = '';
-        static private $limit     = '';
+        static private $vals      = "";
+        static private $orderBy   = "";
+        static private $limit     = "";
+        static private $join      = "";
+        static private $set       = "";
                 
         //metodo para insert, todo insert do sistema passa por este metodo
         static protected function Insert($tbl){
@@ -56,19 +58,17 @@
             return self::$arr_retorno;
         }
         
-        static protected function Update($tabela, $set, $where = 0){
-            $sql = "UPDATE $tabela SET $set WHERE $where";
-            self::unsetArray();
+        static protected function Update($tabela){
+            $sql = "UPDATE $tabela SET ". self::$set." WHERE ".self::$where." ";
             self::$arr_retorno['res'] = self::query($sql);
             return self::$arr_retorno;
         }
         
-        static protected function Delete($tabela, $where = 0){
+        static protected function Delete($tabela){
             $res = false;
-            $sql = "DELETE FROM $tabela WHERE $where";
+            $sql = "DELETE FROM $tabela WHERE ".self::$where;
             self::$DB = self::connectDB()->prepare($sql);
-            if(self::$DB->execute()) $res = true;
-            self::unsetArray();
+            if(self::$DB->execute()){ $res = true; }
             return $res;
         }
 
@@ -94,7 +94,7 @@
                     self::$arr_retorno['error'] = self::$DB->errorInfo()[2];
                 }
                 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 self::$arr_retorno['error'] = $e->getMessage();
             }                
         }
@@ -149,7 +149,7 @@
                 }
             }
 
-            return $update;
+            self::$set = $update;
         }
 
         static protected function array_to_sql_where($tbl, $data){

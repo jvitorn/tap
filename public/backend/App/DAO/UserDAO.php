@@ -37,15 +37,17 @@
 		}
 
 		static public function edit(User $user){
-			$update = parent::array_to_sql_update('user',$user->getAttributesAsArray());
-			$where 	= " id = {$user->getId()} ";
-			return parent::Update('user',$update,$where);
+            if(is_numeric($user->getId())){
+                parent::array_to_sql_update($user->getAttributesAsArray());
+                parent::array_to_sql_where('user',['id' => $user->getId() ]);
+			    return parent::Update('user');
+            }
 		}
 
 		static public function remove(User $user){
 			if(!empty($user->getId())){
-				$where = "id = '".$user->getId()."' ";
-				return parent::Delete('user',$where);	
+                parent::array_to_sql_where('user',['id' => $user->getId()]);
+				return parent::Delete('user');
 			}
 		}
 

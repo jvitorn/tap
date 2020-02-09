@@ -50,10 +50,50 @@
 		}
 
 		public function edit($data = []){
-			$this->render->json($data);
+            
+            if(isset($data['height'])){
+                $data['height'] = str_replace(',','.', $data['height']);
+            }
+
+            if(isset($data['weight'])){
+                $data['weight'] = str_replace(',','.', $data['weight']);
+            }
+            
+            $data['updated_at'] = date('Y-m-d h:i:s');
+            
+            unset($data['auth']);
+            unset($data['type']);
+            unset($data['created_at']);
+            unset($data['updated_at']);
+            unset($data['cd_recovery_pw']);
+            unset($data['dthr_request_recovery_pw']);
+
+            $user = new User($data);
+            
+			if(UserDAO::edit($user)){
+				$res['status'] 	= 'success';
+				$res['msg']		= 'Usuário atualizado com sucesso!';
+			}else{
+				$res['status'] = 'error';
+				$res['error'] = 'Erro: não foi possivel atualizar o usuário.';
+			}
+
+            $this->render->json($res);
 		}
 
 		public function remove($data = []){
+            
+            $user = new User();
+            $user->setId($data['id']);
+            
+			if(UserDAO::remove($user)){
+				$res['status'] 	= 'success';
+				$res['msg']		= 'Usuário deletado com sucesso!';
+			}else{
+				$res['status'] = 'error';
+				$res['error'] = 'Erro: não foi possivel deletar o usuário.';
+            }
+            
 			$this->render->json($data);
 		}
 	}

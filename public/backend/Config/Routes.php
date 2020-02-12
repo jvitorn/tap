@@ -22,7 +22,9 @@
 	ClassRoutes::PUT('user','ControllerUser@edit');
 	ClassRoutes::DELETE('user','ControllerUser@remove');
 
-	ClassRoutes::GET('user2','ControllerUser@index');
+    ClassRoutes::GET('auth/login','ControllerAuth@login');
+    ClassRoutes::GET('auth/validate-token','ControllerAuth@validate_token');
+    ClassRoutes::GET('auth/token2','ControllerAuth@token2');
 
 	/**
 	 *	chama o metodo metho1 do controller

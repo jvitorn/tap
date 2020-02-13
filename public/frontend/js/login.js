@@ -3,11 +3,24 @@ let password = document.querySelector('#password');
 
 let sendData = document.querySelector('#send-button');
 
-function getData(){
-	let dataForm = {
-		"name": email.value,
-		"password": password.value
-	}
-}
+	sendData.onclick = function() {
+		var dataForm = [
+			'email:' + document.querySelector('#email').value,
+			'password:'+ document.querySelector('#password').value
+		];
 
-sendData.onclick = getData;
+		$.ajax({
+			type: "post",
+			url: "https://8001-fe82cc67-4f79-43c3-8b6d-652f6e8ce32d.ws-us02.gitpod.io/backend/user",
+			data: dataForm,
+			success: function(data) {
+				alert("doi");
+			},
+			error: function(data) {
+				alert("Error in send data for database");
+				console.log(data);
+			}
+		});
+	}
+	
+

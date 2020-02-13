@@ -6,7 +6,6 @@
 		public function getAttributesAsArray(){
 			
 			$attr = get_object_vars($this);
-			$ret;
 			
 			foreach($attr as $name => $value){
 

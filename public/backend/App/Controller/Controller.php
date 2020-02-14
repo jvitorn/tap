@@ -49,4 +49,22 @@
 
             return $arr;
         }
+
+        protected function validate_access($permissao){
+            
+            $auth = new ControllerAuth();
+
+            if($auth->validate() ){
+                if($auth->get_token_data()->type != $permissao) $this->no_permission_allowed();
+            }else{
+                $this->no_permission_allowed();
+            }
+        }
+
+        private function no_permission_allowed(){
+            $data['status'] = 'error';
+            $data['error'] = 'Permissão negada';
+            $this->render->json($data);
+            die;
+        }
     }

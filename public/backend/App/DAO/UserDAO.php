@@ -53,23 +53,16 @@
 
 		static public function Login(User $user){
 			if(!empty($user->getEmail()) && !empty($user->getPassword())){
-				$u = self::find($user);
+                $user->setActive(1);
 
-				if(is_array($u)){
-					$u = $u[0];
-					$user->setAuth(md5($u['email'].date('Yidmhsi')));
-					$user->setId($u['id']);
-					$update = "auth = '{$user->getAuth()}'";
-					$where 	= "user.id = ".$user->getid(); 
-					if(parent::Update('user',$update,$where)) return $user;
+                $data = ['cols' => 'id,name,email,gender, type, height, weight, menu_config'];
+                $u = self::find($user,$data);
+
+				if(is_array($u) && empty($u['error'])){
+                    $user = $u['res'][0];
+                    $user->setAuth(md5($user->getEmail().date('Yidmhsi')));
+                    if(self::edit($user)){ return $user; }
 				}
-			}
-		}
-
-		/* verifica se a hash da session existe no DB */
-		static public function verifyAuth(User $user){
-			if(!empty($user->getAuth()) && !empty($user->getId())){
-				if(is_array(self::find($user))) return true;
 			}
 		}
 	}

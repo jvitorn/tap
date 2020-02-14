@@ -31,7 +31,7 @@
                 	$this->mail->addAddress($usuario->getEmail(), $usuario->getNome() );
                 }
             }catch(Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                echo "Message could not be sent. Mailer Error: {$e->ErrorInfo}";
             }
     	}
 
@@ -56,7 +56,7 @@
     			$this->mail->send();
                 echo 'Message has been sent';
             } catch (Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                echo "Message could not be sent. Mailer Error: {$e->ErrorInfo}";
             }
     	}
     }

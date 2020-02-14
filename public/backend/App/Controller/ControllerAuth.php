@@ -3,58 +3,75 @@
 
     use App\Controller\Controller;
     use App\Model\User;
+    use App\DAO\UserDAO;
+
+    use Src\Classes\Token;
 
     /**
      * This class is responsible for business rules involving access validation. 
      */
     
     class ControllerAuth extends Controller{
-        
-        
-        public function login(){
-            echo $this->token();
+
+        public function getAuthorizationHeader(){
+            $headers = null;
+            
+            if (isset($_SERVER['Authorization'])) {
+                $headers = trim($_SERVER["Authorization"]);
+            }else if(isset($_SERVER['HTTP_AUTHORIZATION'])){
+                $headers = trim($_SERVER["HTTP_AUTHORIZATION"]);
+            }else if(function_exists('apache_request_headers')) {
+                $requestHeaders = apache_request_headers();
+                $requestHeaders = array_combine(array_map('ucwords', array_keys($requestHeaders)), array_values($requestHeaders));
+                // print_r($requestHeaders);
+                if (isset($requestHeaders['Authorization'])) {
+                    $headers = trim($requestHeaders['Authorization']);
+                }
+            }
+            return $headers;
         }
 
-        public function validate_token($data){
-            $token   = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.";
-            $token .= "eyJpc3MiOiJ0YXAiLCJpZCI6IjEiLCJuYW1lIj";
-            $token .= "oiamRjIiwiZW1haWwiOiJqZGNAZXhlbXBsby5jb";
-            $token .= "20iLCJoZWlnaHQiOiIxLjY1Iiwid2VpZ2h0IjoiNTUuNTAwIiwiMCI6IiJ9.";
-            $token .= "zELyWRuz8phIkRZQg7+eim9RQvxUkCD7NS27uhWjLEM=";
-            
-            if($token == $this->token()){
-                echo "Ok";
-            }else{
-                echo "deu ruim";
+        private function getBearerToken() {
+            $headers = $this->getAuthorizationHeader();
+            // HEADER: Get the access token from the header
+            if (!empty($headers)) {
+                if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
+                    return $matches[1];
+                }
             }
+            return null;
+        }
+        
+        public function login($data){
+
+            if(isset($data['email']) && isset($data['password'])){
+                $data = ['email' => $data['email'], 'password' => $data['password']];
+                $user = UserDAO::Login(new User($data));
+
+                if(\is_object($user)){
+                    $user = array_filter($user->getAttributesAsArray());
+                    $token = (new Token())->generate($user);
+                    $data = ['token' => $token];
+                    $this->render->json($data);
+                    
+                }else{
+                    $data['error'] = "Login inválido";
+                    $this->render->json($data);
+                }
+            }
+        }
+
+        public function validate(){
+            $token = $this->getBearerToken();
+            return (new Token())->validate($token);
+        }
+
+        public function get_token_data(){
+            $token = $this->getBearerToken();
+            return (new Token())->get_token_data($token);
         }
 
         public function logout(User $user){
            
-        }       
-
-        public function token(){
-            $key = "1234567890";
-
-            $header = ['typ' => 'JWT', 'alg' => 'HS256'];
-            $header = json_encode($header);
-            $header = base64_encode($header);
-
-            $payload = [
-                'iss'       => 'tap',
-                'id'        => '1',
-                'name'      => 'jdc',
-                'email'     => 'jdc@exemplo.com',
-                'height'    => '1.65',
-                'weight'    => '55.500',
-                ''
-            ];
-            $payload = json_encode($payload);
-            $payload = base64_encode($payload);
-
-            $signature = hash_hmac('sha256',"$header.$payload",$key,true);
-            $signature = base64_encode($signature);
-            $token = "$header.$payload.$signature";
-            return $token;
         }
     }

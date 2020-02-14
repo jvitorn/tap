@@ -14,7 +14,7 @@
     <button>enviar</button>
     </form>
 
-    <button id="btnListaUsuarios">lista usuarios<button>
+    <button id="btnListaUsuarios">lista usuarios</button>
     <script>
     token = '';
     $(document).on('submit','#formLogin',function(e){
@@ -43,7 +43,7 @@
     $(document).on('click','#btnListaUsuarios',function(){
         $.ajax({
             url: '/backend/user',
-            dataType: 'json',
+            dataType: 'html',
             type :'GET',
             headers: {
                 "Authorization":"Bearer "+ token

@@ -39,7 +39,8 @@
                 $gerado = base64_encode($gerado);
                 
                 if($exp[2] == $gerado){
-                    return true;
+                    $data = $this->get_token_data($token);                    
+                    if($data->exp > date("U")){ return true; }
                 }
             }
         }
@@ -48,10 +49,20 @@
             
             $data['jti'] = $data['auth'];
             $data['iat'] = date('U');
+            $data['exp'] = (date('U') + $this->expiration_time());
             $data['iss'] = 'tap.com.br';
 
             unset($data['auth']);
 
             return $data;
+        }
+
+        private function expiration_time(){
+            $sec  = 60;
+            $min  = 60;
+            $hour = 24;
+            $days = 7;
+
+            return ($sec * $min * $hour * $days);
         }
     }

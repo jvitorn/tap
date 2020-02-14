@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <form id="formLogin">
+    <input type="email" name="email"><br>
+    <input type="password" name="password"><br>
+    <button>enviar</button>
+    </form>
+
+    <button id="btnListaUsuarios">lista usuarios<button>
+    <script>
+    token = '';
+    $(document).on('submit','#formLogin',function(e){
+        e.preventDefault();
+
+        var form = $('#formLogin').serialize();
+
+        $.ajax({
+            url: '/backend/auth/login',
+            dataType: 'json',
+            type :'POST',
+            data: form,
+            success: function(data){
+                if(data.token){
+                    token = data.token;
+                }
+                console.log(data);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+        
+    });
+
+    $(document).on('click','#btnListaUsuarios',function(){
+        $.ajax({
+            url: '/backend/user',
+            dataType: 'json',
+            type :'GET',
+            headers: {
+                "Authorization":"Bearer "+ token
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+    </script>
+</body>
+</html>

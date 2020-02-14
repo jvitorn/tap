@@ -10,7 +10,7 @@
             $this->header = base64_encode(json_encode($this->header));
         }
 
-        public function getTokenData($token){
+        public function get_token_data($token){
             $exp = explode('.',$token);
             $data = base64_decode($exp[1]);
             return json_decode($data);

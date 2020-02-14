@@ -1,7 +1,8 @@
 <?php 
 	namespace App\Controller;
 
-	use App\Controller\Controller;
+    use App\Controller\Controller;
+    use App\Controller\ControllerAuth;
 
 	use App\Model\User;
 	
@@ -13,20 +14,20 @@
 	class ControllerUser extends Controller {
 
 		public function list($data = []){
+            $this->validate_access('adm');
+
 			$data['cols']  = 'id, name, email, created_at, updated_at, type';
 			$data['cols'] .= ',height, weight, gender, active, dt_birth';
 
 			$user = new User($data);
-			$users = UserDAO::find($user,$data);
+			$users = UserDAO::find($user, $data);
 			$users = $this->transform_obj_in_array($users,'users');
 			$this->render->json($users);
 		}
 
 		public function add($data = []){
 
-			$data['type'] = 'user';
-			$data['height'] = str_replace(',','.', $data['height']);
-			$data['weight'] = str_replace(',','.', $data['weight']);
+            $data['type'] = 'user';
 			$data['active'] = 1;
 			$data['created_at'] = date('Y-m-d h:i:s');
 

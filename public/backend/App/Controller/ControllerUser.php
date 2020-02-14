@@ -19,16 +19,16 @@
 			$data['cols']  = 'id, name, email, created_at, updated_at, type';
 			$data['cols'] .= ',height, weight, gender, active, dt_birth';
 
-			$user = new User($data);
-			$users = UserDAO::find($user, $data);
-			$users = $this->transform_obj_in_array($users,'users');
+			$user   = new User($data);
+			$users  = UserDAO::find($user, $data);
+			$users  = $this->transform_obj_in_array($users,'users');
 			$this->render->json($users);
 		}
 
 		public function add($data = []){
 
-            $data['type'] = 'user';
-			$data['active'] = 1;
+            $data['type']       = 'user';
+			$data['active']     = 1;
 			$data['created_at'] = date('Y-m-d h:i:s');
 
 			$user = new User($data);

@@ -82,10 +82,10 @@
 		public function setUpdated_at($date){ $this->updated_at = $date; }
 
 		public function getHeight(){ return $this->height; }
-		public function setHeight($h){ $this->height = $h; }
+		public function setHeight($h){  $this->height = str_replace(',','.', $h); }
 
 		public function getWeight(){ return $this->weight; }
-		public function setWeight($w){ $this->weight = $w; }
+		public function setWeight($w){ $this->weight = str_replace(',','.', $w); }
 
 		public function getGender(){ return $this->gender; }
 		public function setGender($g){ $this->gender = $g; }
@@ -94,5 +94,56 @@
 		public function setDt_birth($birth){ $this->dt_birth = $birth; }
 
 		public function getMenu_config(){ return $this->menu_config; }
-		public function setMenu_config($config){ $this->menu_config = $config; }
+        public function setMenu_config($config){ $this->menu_config = $config; }
+        
+        public function getPublicColumns(){
+            return ('id, name, email, type,height, weight, gender, active, dt_birth');
+        }
+
+        public function getPublicColumnsAsArray(){
+            $data = $this->getAttributesAsArray();
+
+            unset($data['password']);
+            unset($data['created_at']);
+            unset($data['updated_at']);
+            unset($data['cd_recovery_pw']);
+            unset($data['dthr_request_recovery_pw']);
+
+            return $data;
+        }
+
+        public function editPublicColumns($data){
+            if(isset($data['name'])) $this->setName($data['name']);
+            if(isset($data['password'])) $this->setPassword($data['password']);
+            if(isset($data['gender'])) $this->setGender($data['gender']);
+            if(isset($data['height'])) $this->setHeight($data['height']);
+            if(isset($data['weight'])) $this->setWeight($data['weight']);
+            
+            $this->setUpdated_at(date('Y-m-d h:i:s'));
+        }
+
+        private function verify_required_fields($data = []){
+            $error = "";
+            if(!isset($data['name'])) $error     .= 'O campo name deve ser informado';
+            if(!isset($data['email'])) $error    .= 'O campo email deve ser informado';
+            if(!isset($data['password'])) $error .= 'O campo password deve ser informado';
+
+            return $error;
+        }
+
+        public function fill_required_fields($data = []){
+            
+            $res = $this->verify_required_fields($data);
+            
+            if($res == ''){
+                $this->setName($data['name']);
+                $this->setEmail($data['email']);
+                $this->setPassword($data['password']);
+                $this->setType('user');
+                $this->setActive(1);
+                $this->setCreated_at(date('Y-m-d h:i:s'));
+            }
+            
+            return $res;
+        }
 	}

@@ -39,8 +39,8 @@
                 $gerado = base64_encode($gerado);
                 
                 if($exp[2] == $gerado){
-                    $data = $this->get_token_data($token);                    
-                    if($data->exp > date("U")){ return true; }
+                    $data = $this->get_token_data($token);
+                    if($data->exp > date("U")) return true;
                 }
             }
         }
@@ -61,7 +61,7 @@
             $sec  = 60;
             $min  = 60;
             $hour = 24;
-            $days = 7;
+            $days = 30;
 
             return ($sec * $min * $hour * $days);
         }

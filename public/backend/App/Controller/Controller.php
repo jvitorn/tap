@@ -3,6 +3,10 @@
 
     use Src\Classes\ClassRender;
 
+    use App\Model\User;
+	
+	use App\DAO\UserDAO;
+
     /**
      * Classe base para todos os Controllers
      * Contem um método index e um metodo Error padrao,
@@ -12,6 +16,7 @@
     class Controller {
 
         protected $render;
+        protected $user;
         
         use \Src\Traits\TraitCrypt;
 
@@ -28,34 +33,18 @@
             $data['msg']    = "O método chamado nao existe";
             $this->render->view('Error',$data);
         }
-
-        protected function transform_obj_in_array($data, $name ){
-            $arr = [];
-
-            if(is_array($data)){
-                if(empty($data['error'])){
-
-                    foreach($data['res'] as $key => $obj){
-                        $arr[$name][] = $obj->getAttributesAsArray();
-                    }
-
-                    $arr['total'] = count($arr['users']);
-                    $arr['status'] = 'success';
-                }else{
-                    $arr['status'] = 'error';
-                    $arr['error'] = $data['error'];
-                }
-            }
-
-            return $arr;
-        }
-
+        
         protected function validate_access($permissao){
             
             $auth = new ControllerAuth();
 
-            if($auth->validate() ){
-                if($auth->get_token_data()->type != $permissao) $this->no_permission_allowed();
+            if( $auth->validate() ){
+                
+                if(!$this->has_permission($auth->get_token_data()->type, $permissao) ){
+                    $this->no_permission_allowed();
+                }else{
+                    $this->user = new User($auth->get_token_data());
+                }
             }else{
                 $this->no_permission_allowed();
             }
@@ -66,5 +55,14 @@
             $data['error'] = 'Permissão negada';
             $this->render->json($data);
             die;
+        }
+
+        private function has_permission($user_type, $permissao){
+            if(is_array($permissao)){
+                
+                if(\in_array($user_type, $permissao)) return true;
+            }else{
+                if($user_type == $permissao) return true;
+            }
         }
     }

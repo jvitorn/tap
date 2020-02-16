@@ -13,88 +13,76 @@
 	 */
 	class ControllerUser extends Controller {
 
-		public function list($data = []){
+        public function list($data = []){
             $this->validate_access('adm');
 
-			$data['cols']  = 'id, name, email, created_at, updated_at, type';
-			$data['cols'] .= ',height, weight, gender, active, dt_birth';
-
 			$user   = new User($data);
-			$users  = UserDAO::find($user, $data);
-			$users  = $this->transform_obj_in_array($users,'users');
+			$users  = UserDAO::find($user);
 			$this->render->json($users);
 		}
 
-		public function add($data = []){
+        public function add($data = []){
 
-            $data['type']       = 'user';
-			$data['active']     = 1;
-			$data['created_at'] = date('Y-m-d h:i:s');
+            $user = new User();
+            $data = $user->fill_required_fields($data);
 
-			$user = new User($data);
-			$data = UserDAO::create($user);
+            if($data == ''){
+                
+                $data = UserDAO::create($user);
 
-			if($data['error'] == '' && isset($data['res']['id'])){
-				$res['status'] 	= 'success';
-				$res['msg']		= 'Usuário cadastrado com sucesso!';
-				$res['id']		= $data['res']['id'];
-			}else{
-				$res['status'] = 'error';
-				if(strstr($data['error'],'nm_email_UNIQUE')){
-					$res['error'] = 'Erro: email já cadastrado.';	
-				}else{
-					$res['error'] = 'Erro: não foi possivel cadastrar o usuário.';
-				}
-			}
-
+                if(is_numeric($data)){
+                    $res['status'] 	= 'success';
+                    $res['msg']		= 'Usuário cadastrado com sucesso!';
+                    $res['id']		= $data;
+                }else{
+                    $res['status'] = 'error';
+                    if($data){
+                        $res['msg'] = $data;
+                    }else{
+                        $res['msg'] = 'Erro: não foi possivel cadastrar o usuário.';
+                    }
+                }
+            }else{
+                $res['status'] = 'error';
+                $res['msg'] = $data;
+            }
 			$this->render->json($res);
 		}
 
-		public function edit($data = []){
+        public function edit($data = []){
+            $this->validate_access(['user','adm']);
             
-            if(isset($data['height'])){
-                $data['height'] = str_replace(',','.', $data['height']);
-            }
-
-            if(isset($data['weight'])){
-                $data['weight'] = str_replace(',','.', $data['weight']);
-            }
-            
-            $data['updated_at'] = date('Y-m-d h:i:s');
-            
-            unset($data['auth']);
-            unset($data['type']);
-            unset($data['created_at']);
-            unset($data['updated_at']);
-            unset($data['cd_recovery_pw']);
-            unset($data['dthr_request_recovery_pw']);
-
-            $user = new User($data);
-            
-			if(UserDAO::edit($user)){
+            $this->user->editPublicColumns($data);
+			if(UserDAO::edit($this->user)){
 				$res['status'] 	= 'success';
 				$res['msg']		= 'Usuário atualizado com sucesso!';
 			}else{
 				$res['status'] = 'error';
-				$res['error'] = 'Erro: não foi possivel atualizar o usuário.';
+				$res['msg'] = 'Erro: não foi possivel atualizar o usuário.';
 			}
 
             $this->render->json($res);
 		}
 
-		public function remove($data = []){
-            
-            $user = new User();
-            $user->setId($data['id']);
-            
-			if(UserDAO::remove($user)){
-				$res['status'] 	= 'success';
-				$res['msg']		= 'Usuário deletado com sucesso!';
-			}else{
-				$res['status'] = 'error';
-				$res['error'] = 'Erro: não foi possivel deletar o usuário.';
+        public function remove($data = []){
+
+            $this->validate_access(['user','adm']);
+
+            if($this->user->getId() == $data['id']){
+                $data = UserDAO::remove($this->user);
+                if(is_bool($data)){
+                    $res['status'] 	= 'success';
+                    $res['msg']		= 'Usuário deletado com sucesso!';
+                }else{
+                    $res['status'] = 'error';
+                    if($data != ''){
+                        $res['msg'] = $data;
+                    }else{
+                        $res['msg'] = 'Erro: não foi possivel deletar o usuário.';
+                    }
+                    
+                }
             }
-            
-			$this->render->json($data);
+			$this->render->json($res);
 		}
 	}

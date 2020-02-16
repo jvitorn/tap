@@ -33,6 +33,7 @@
 
         private function getBearerToken() {
             $headers = $this->getAuthorizationHeader();
+
             // HEADER: Get the access token from the header
             if (!empty($headers)) {
                 if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
@@ -45,17 +46,19 @@
         public function login($data){
 
             if(isset($data['email']) && isset($data['password'])){
-                $data = ['email' => $data['email'], 'password' => $data['password']];
+                
                 $user = UserDAO::Login(new User($data));
 
-                if(\is_object($user)){
-                    $user = array_filter($user->getAttributesAsArray());
+                if(is_array($user)){
                     $token = (new Token())->generate($user);
                     $data = ['token' => $token];
                     $this->render->json($data);
-                    
                 }else{
-                    $data['error'] = "Login inválido";
+                    $data = [
+                        'status' => 'error',
+                        'msg' =>"Email ou senha inválidos"
+                    ];
+                    
                     $this->render->json($data);
                 }
             }

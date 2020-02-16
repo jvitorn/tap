@@ -17,23 +17,21 @@
 	class UserDAO extends DAO {
 
 		static public function create(User $user){
-			parent::array_to_sql_create($user->getAttributesAsArray());
-			return parent::Insert('user');
+            /* verifica se o email ja está cadastrado */
+            $res = self::find(new User(['email' => $user->getEmail()]));
+
+            if(is_array($res) && count($res) > 0){
+                return 'Este Email ja está cadastrado.';
+            }else{
+                parent::array_to_sql_create($user->getAttributesAsArray());
+			    return parent::Insert('user');
+            }
 		}
 
-		static public function find(User $user, $data = []){
-
-			parent::array_to_sql_where('user',$user->getAttributesAsArray());
-			parent::QueryParams($data);
-			$data = parent::Select('user');
-			
-			if(is_array($data['res'])){
-				$users = [];
-				foreach($data['res'] as $key => $user){ $users[] = new User($user); }
-				$data['res'] = $users;
-			}
-
-			return $data;
+		static public function find(User $user){
+            parent::array_to_sql_where('user',$user->getAttributesAsArray());
+            self::columns($user->getPublicColumns());
+			return parent::Select('user');
 		}
 
 		static public function edit(User $user){
@@ -45,9 +43,18 @@
 		}
 
 		static public function remove(User $user){
-			if(!empty($user->getId())){
-                parent::array_to_sql_where('user',['id' => $user->getId()]);
-				return parent::Delete('user');
+            
+            if(!empty($user->getId())){
+                
+                $data = self::find($user);
+
+                if(is_array($data) && count($data) > 0){
+                    parent::array_to_sql_where('user',['id' => $user->getId()]);
+				    return parent::Delete('user');
+                }else{
+                    return 'Este usuário não existe';
+                }
+                
 			}
 		}
 
@@ -55,13 +62,14 @@
 			if(!empty($user->getEmail()) && !empty($user->getPassword())){
                 $user->setActive(1);
 
-                $data = ['cols' => 'id,name,email,gender, type, height, weight, menu_config'];
-                $u = self::find($user,$data);
+                $res = self::find($user);
 
-				if(is_array($u) && empty($u['error'])){
-                    $user = $u['res'][0];
-                    $user->setAuth(md5($user->getEmail().date('Yidmhsi')));
-                    if(self::edit($user)){ return $user; }
+				if(is_array($res) && count($res) > 0){
+                    $user = new User($res[0]);
+                    $user->setAuth(md5($res[0]['id'].date('hIymsid')));
+                    
+                    $data = $user->getPublicColumnsAsArray();
+                    return $data;
 				}
 			}
 		}

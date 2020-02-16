@@ -6,10 +6,8 @@
     class DAO extends DB{
         
         static private $DB;
-        static private $arr_retorno = ["error" => ""];
-
         static private $where     = 'id > 0 ';
-        static private $cols      = 'id';
+        static private $cols      = '';
         static private $vals      = "";
         static private $orderBy   = "";
         static private $limit     = "";
@@ -17,24 +15,23 @@
         static private $set       = "";
                 
         //metodo para insert, todo insert do sistema passa por este metodo
-        static protected function Insert($tbl){
+        static protected function Insert($table){
             
-            $sql = "INSERT INTO $tbl (".self::$cols.") VALUES (".self::$vals.")";
+            $sql = "INSERT INTO $table (".self::$cols.") VALUES (".self::$vals.")";
             // echo $sql."\r\n";
 
             if(self::query($sql)){
+
                 self::$cols     = 'id';
                 self::$orderBy  = "id DESC";
                 self::$limit    = 'LIMIT 1';
 
-                /* pega o id do registro inserido */
-                self::Select($tbl);
+                /* pega o item registrado */
+                $row = self::Select($table);
+
+                /* retorna id do item*/
+                if(is_array($row)) return $row[0]['id'];
             }
-            if(isset(self::$arr_retorno['res'][0]['id'])){
-                $id = self::$arr_retorno['res'][0]['id'];
-                self::$arr_retorno['res'] = ['id' => $id];
-            }
-            return self::$arr_retorno;
         }
 
         static protected function Select($table){
@@ -54,22 +51,18 @@
             /* ponto de debug */
             // echo $sql;
 
-            self::$arr_retorno['res'] = self::query($sql);
-            return self::$arr_retorno;
+            return self::query($sql);
         }
         
         static protected function Update($tabela){
             $sql = "UPDATE $tabela SET ". self::$set." WHERE ".self::$where." ";
-            self::$arr_retorno['res'] = self::query($sql);
-            return self::$arr_retorno;
+            return self::query($sql);
         }
         
         static protected function Delete($tabela){
-            $res = false;
             $sql = "DELETE FROM $tabela WHERE ".self::$where;
-            self::$DB = self::connectDB()->prepare($sql);
-            if(self::$DB->execute()){ $res = true; }
-            return $res;
+            // echo $sql;
+            return self::query($sql);
         }
 
         static protected function query($sql){
@@ -80,22 +73,17 @@
                     
                     $rows = self::$DB->fetchAll(\PDO::FETCH_ASSOC);
                     
-                    $arr = null;
+                    $res = true;
+                    if(is_array($rows) && count($rows) > 0){  return $rows; }
 
-                    foreach($rows as $row) $arr[] = $row;
-
-                    if(is_array($arr)){
-                        return $arr;
-                    }else{
-                        return true;
-                    }
+                    return $res;
 
                 }else{
-                    self::$arr_retorno['error'] = self::$DB->errorInfo()[2];
+                   return self::$DB->errorInfo()[2];
                 }
                 
             } catch (\Exception $e) {
-                self::$arr_retorno['error'] = $e->getMessage();
+                return $e->getMessage();
             }                
         }
 
@@ -168,12 +156,27 @@
             } 
         }
 
-        static protected function queryParams($data){ 
-            if(isset($data['join'])){ self::$join = $data['join']; }
-            if(isset($data['where'])){ self::$where .= " AND ". $data['where']; }
-            if(isset($data['cols'])){ self::$cols = $data['cols']; }
-            if(isset($data['vals'])){ self::$vals = $data['vals']; }
-            if(isset($data['orderBy'])){ self::$orderBy = $data['orderBy']; }
-            if(isset($data['limit'])){ self::$limit = $data['limit']; }
+        static protected function columns($cols){
+            self::$cols .= $cols;
+        }
+
+        static protected function values($vals){
+            self::$vals = $vals;
+        }
+
+        static protected function join($tbl){
+            self::$join .= " $tbl ";
+        }
+
+        static protected function where($where){
+            self::$where .= " AND $where ";
+        }
+
+        static protected function orderBy($order){
+            self::$orderBy = $order;
+        }
+
+        static protected function limit($limit){
+            self::$limit = $limit;
         }
     }

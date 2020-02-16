@@ -13,10 +13,13 @@
     <input type="password" name="password"><br>
     <button>enviar</button>
     </form>
-
-    <button id="btnListaUsuarios">lista usuarios</button>
+    <br>
+    <button id="btnListaUsuarios">lista usuarios</button><br>
+    <button id="btnEditarUsuario">editar usuario</button><br>
+    <button id="btnExcluirUsuario">excluir usuario usuario</button><br>
+    
     <script>
-    token = '';
+    token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiSmhvbmF0YW4iLCJlbWFpbCI6ImVtYWlsMkBleGVtcGxvLmNvbSIsInR5cGUiOiJ1c2VyIiwiaGVpZ2h0IjoiMS4wMCIsIndlaWdodCI6IjU1LjAwMCIsImdlbmRlciI6Im0iLCJkdF9iaXJ0aCI6IjE5OTMtMDItMTQiLCJtZW51X2NvbmZpZyI6bnVsbCwiaWQiOjE0LCJhY3RpdmUiOiIxIiwianRpIjoiMGMxMTViNmM5NDRlYTBhMGQzMWI3MTQzZTI3MmMyNTkiLCJpYXQiOiIxNTgxODc0MDgzIiwiZXhwIjoxNTg0NDY2MDgzLCJpc3MiOiJ0YXAuY29tLmJyIn0=.TFDvSu9pByYL2uFZxxTtQ2j\/sncGkNzRa7M3BYUYJIc=';
     $(document).on('submit','#formLogin',function(e){
         e.preventDefault();
 
@@ -45,6 +48,40 @@
             url: '/backend/user',
             dataType: 'html',
             type :'GET',
+            headers: {
+                "Authorization":"Bearer "+ token
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+
+    $(document).on('click','#btnEditarUsuario',function(){
+        $.ajax({
+            url: '/backend/user',
+            dataType: 'html',
+            type :'PUT',
+            headers: {
+                "Authorization":"Bearer "+ token
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+
+    $(document).on('click','#btnExcluirUsuario',function(){
+        $.ajax({
+            url: '/backend/user/'+14,
+            dataType: 'html',
+            type :'DELETE',
             headers: {
                 "Authorization":"Bearer "+ token
             },

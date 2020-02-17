@@ -14,18 +14,17 @@
         ClassRoutes::GET('','ControllerHome@index');
 
 	/**
-	 *	Rotas Dashboard
+	 *	Rotas Admin
 	 */
-
+        ClassRoutes::GET('admin/user','ControllerAdmin@list');
+        ClassRoutes::DELETE('admin/user','ControllerAdmin@remove');
     /**
 	 *	Rotas Usuário
 	 */
         ClassRoutes::POST('user','ControllerUser@add');
-        ClassRoutes::GET('user','ControllerUser@list');
-        ClassRoutes::PUT('user','ControllerUser@edit');
-        ClassRoutes::DELETE('user','ControllerUser@remove');
-
+        ClassRoutes::PUT('user','ControllerUser@edit');        
     /**
 	 *	Rotas Auth
 	 */
-	    ClassRoutes::POST('auth/login','ControllerAuth@login');
+        ClassRoutes::POST('auth/login','ControllerAuth@login');
+        ClassRoutes::POST('auth/logout','ControllerAuth@logout');

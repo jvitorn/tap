@@ -56,7 +56,7 @@
                 }
                 
 			}
-		}
+        }
 
 		static public function Login(User $user){
 			if(!empty($user->getEmail()) && !empty($user->getPassword())){
@@ -66,11 +66,29 @@
 
 				if(is_array($res) && count($res) > 0){
                     $user = new User($res[0]);
-                    $user->setAuth(md5($res[0]['id'].date('hIymsid')));
+
+                    parent::array_to_sql_update(['is_logged' => 1]);
+                    parent::array_to_sql_where('user',['id' => $user->getId() ]);
+                    parent::update('user');
                     
                     $data = $user->getPublicColumnsAsArray();
+                    $data['jti'] = md5($res[0]['id'].date('hIymsid'));
                     return $data;
 				}
 			}
-		}
+        }
+
+        static public function is_logged(User $user){
+            $where = ['id' => $user->getId(),'is_logged' => 1];
+            self::columns($user->getPublicColumns());
+            parent::array_to_sql_where('user',$where);
+            $res = parent::Select('user');
+            if(is_array($res) && count($res) > 0) return true;
+        }
+        
+        static public function logout(User $user){
+            parent::array_to_sql_update(['is_logged' => "/0/"]);
+            parent::array_to_sql_where('user',['id' => $user->getId() ]);
+            return parent::update('user');
+        }
 	}

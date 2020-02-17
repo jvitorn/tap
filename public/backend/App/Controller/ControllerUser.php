@@ -2,7 +2,6 @@
 	namespace App\Controller;
 
     use App\Controller\Controller;
-    use App\Controller\ControllerAuth;
 
 	use App\Model\User;
 	
@@ -12,14 +11,6 @@
 	 * @method $this->transform_obj_in_array($ObjArray, "$name");
 	 */
 	class ControllerUser extends Controller {
-
-        public function list($data = []){
-            $this->validate_access('adm');
-
-			$user   = new User($data);
-			$users  = UserDAO::find($user);
-			$this->render->json($users);
-		}
 
         public function add($data = []){
 
@@ -66,7 +57,7 @@
 
         public function remove($data = []){
 
-            $this->validate_access(['user','adm']);
+            $this->validate_access('user');
 
             if($this->user->getId() == $data['id']){
                 $data = UserDAO::remove($this->user);
@@ -84,5 +75,5 @@
                 }
             }
 			$this->render->json($res);
-		}
+        }
 	}

@@ -64,17 +64,31 @@
             }
         }
 
+        public function logout(){
+            
+            $this->validate_access(['user','adm']);
+            
+            $data['status'] = 'error';
+            $data['msg']    = 'Não foi possivel efetuar o logout no servidor';
+            
+            if(UserDAO::logout($this->user)){
+                $data['status'] = 'success';
+                $data['msg']    = 'deslogado com sucesso';
+            }
+
+            $this->render->json($data);
+        }
+
         public function validate(){
             $token = $this->getBearerToken();
-            return (new Token())->validate($token);
+            
+            if(UserDAO::is_logged(new User( (new Token())->get_token_data($token)))){
+                return (new Token())->validate($token);
+            }
         }
 
         public function get_token_data(){
             $token = $this->getBearerToken();
             return (new Token())->get_token_data($token);
-        }
-
-        public function logout(User $user){
-           
         }
     }

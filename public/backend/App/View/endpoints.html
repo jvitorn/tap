@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Endpoints</title>
+</head>
+<body>
+    <div style="text-align:center">
+    <h1>Lista de endpoints disponiveis</h1>
+    </div>
+    <hr>
+
+    <ol>
+        <h2>Administrador [necessário estar logado como admin para acessar estas funções]</h2>
+        <li>
+            <span>Listar usuários [GET]</span><br>
+            /backend/admin/user
+            <p>
+            parâmetros obrigatórios:<br>
+            parâmetros opcionais: [id, name, email, type("user","adm"), gender("f","m") ]<br>
+            os parâmetros atuarão como filtros para selecionar os usuarios.
+            </p>
+
+        </li>
+        <li>
+            <span>Deletar usuário [DELETE]</span><br>
+            /backend/admin/user/{id} <br>
+            <p>parâmetros obrigatórios: [id]<br>
+            parâmetros opcionais: <br>
+            esta função irá deletar um usuário selecionado.
+            </p>
+        </li>
+    </ol>
+
+    <hr>
+    
+    <ol>
+        <h2>Usuários</h2>
+        <li>
+            <span>Cadastrar usuário [POST]</span>
+            /backend/user <br>
+            <p>parâmetros obrigatórios: [name, email, password]<br>
+            parâmetros opcionais:</p>
+        </li>
+        <li>
+            <span>Atualizar usuário [PUT] [NECESSÁRIO ESTAR LOGADO]</span><br>
+            /backend/user <br>
+            <p>parâmetros obrigatórios: [id]<br>
+            parâmetros opcionais: [name, email, password, gender("f","m"), height, weight, dt_birth]</p>
+        </li>
+        <li>
+            <span>Deletar usuário [DELETE] [NECESSÁRIO ESTAR LOGADO]</span>
+            /backend/user/{id} <br>
+            <p>parâmetros obrigatórios: [id]<br>
+            parâmetros opcionais: <br>
+            esta função irá deletar a conta do usuário.
+            </p>
+        </li>
+    </ol>
+
+    <hr>
+    
+    <ol>
+        <h2>Autenticações</h2>
+        <li>
+            <span>Logar [POST]</span><br>
+            /backend/auth/login <br>
+            <p>parâmetros obrigatórios: [email, password]<br>
+            parâmetros opcionais:</p>
+        </li>
+        <li>
+            <span>Logout [POST] [NECESSÁRIO ESTAR LOGADO]</span><br>
+            /backend/auth/logout <br>
+            <p>parâmetros obrigatórios: <br>
+            parâmetros opcionais: </p>
+        </li>
+    </ol>
+</body>
+<style>
+    span{
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+</html>

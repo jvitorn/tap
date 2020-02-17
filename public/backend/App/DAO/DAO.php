@@ -34,6 +34,16 @@
             }
         }
 
+        static public function clearParams(){
+            self::$where     = 'id > 0 ';
+            self::$cols      = '';
+            self::$vals      = "";
+            self::$orderBy   = "";
+            self::$limit     = "";
+            self::$join      = "";
+            self::$set       = "";
+        }
+
         static protected function Select($table){
 
             /* monta a query apenas com as colunas e o nome da tabela.  */
@@ -56,6 +66,7 @@
         
         static protected function Update($tabela){
             $sql = "UPDATE $tabela SET ". self::$set." WHERE ".self::$where." ";
+            // echo $sql;
             return self::query($sql);
         }
         
@@ -66,6 +77,7 @@
         }
 
         static protected function query($sql){
+            $result = false;
             try {
                 
                 self::$DB = self::connectDB()->prepare($sql);
@@ -73,18 +85,19 @@
                     
                     $rows = self::$DB->fetchAll(\PDO::FETCH_ASSOC);
                     
-                    $res = true;
-                    if(is_array($rows) && count($rows) > 0){  return $rows; }
-
-                    return $res;
-
+                    $result = true;
+                    if(is_array($rows) && count($rows) > 0) $result = $rows;
+                    
                 }else{
-                   return self::$DB->errorInfo()[2];
+                   $result = self::$DB->errorInfo()[2];
                 }
                 
             } catch (\Exception $e) {
-                return $e->getMessage();
-            }                
+                $result = $e->getMessage();
+            }
+
+            self::clearParams();
+            return $result;
         }
 
         static protected function array_to_sql_create($data){

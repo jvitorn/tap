@@ -11,9 +11,12 @@
         }
 
         public function get_token_data($token){
-            $exp = explode('.',$token);
-            $data = base64_decode($exp[1]);
-            return json_decode($data);
+            if(count(explode('.',$token)) == 3){
+                $exp = explode('.',$token);
+                $data = base64_decode($exp[1]);
+                return json_decode($data);
+            }
+            return array();   
         }
 
         public function generate($userData = []){
@@ -47,7 +50,6 @@
 
         private function generatePayload($data){
             
-            $data['jti'] = $data['auth'];
             $data['iat'] = date('U');
             $data['exp'] = (date('U') + $this->expiration_time());
             $data['iss'] = 'tap.com.br';

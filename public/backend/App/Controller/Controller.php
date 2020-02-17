@@ -1,5 +1,7 @@
 <?php
     namespace App\Controller;
+    
+    use App\Controller\ControllerAuth;
 
     use Src\Classes\ClassRender;
 

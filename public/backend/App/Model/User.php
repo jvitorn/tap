@@ -18,7 +18,7 @@
 		private $email;
 		private $password;
 		private $type;
-		private $auth;
+		private $is_logged;
 		private $cd_recovery_pw;
 		private $dthr_request_recovery_pw;
 		private $created_at;
@@ -64,8 +64,8 @@
 		public function getType(){ return $this->type; }
 		public function setType($type){ $this->type = $type; }
 
-		public function getAuth(){ return $this->auth; }
-		public function setAuth($auth){ $this->auth = $auth; }
+		public function getIs_logged(){ return $this->is_logged; }
+		public function setIs_logged($logged){ $this->is_logged = $logged; }
 
 		public function getCd_recovery_pw(){ return $this->cd_recovery_pw; }
 		public function setCd_recovery_pw($rpw){ $this->cd_recovery_pw = $rpw; }

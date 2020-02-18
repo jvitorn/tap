@@ -22,7 +22,8 @@
 	 *	Rotas Usuário
 	 */
         ClassRoutes::POST('user','ControllerUser@add');
-        ClassRoutes::PUT('user','ControllerUser@edit');        
+        ClassRoutes::PUT('user','ControllerUser@edit');
+        ClassRoutes::GET('user/reset-password','ControllerUser@reset_password');        
     /**
 	 *	Rotas Auth
 	 */

@@ -5,12 +5,20 @@
 
 	use App\Model\User;
 	
-	use App\DAO\UserDAO;
+    use App\DAO\UserDAO;
+    
+    use Src\Classes\SimpleEmail;
 
 	/**
 	 * @method $this->transform_obj_in_array($ObjArray, "$name");
 	 */
 	class ControllerUser extends Controller {
+
+        public function reset_password(){
+
+            $email = new SimpleEmail('jdc_santos@outlook.com');
+            $email->send_reset_password_request();
+        }
 
         public function add($data = []){
 

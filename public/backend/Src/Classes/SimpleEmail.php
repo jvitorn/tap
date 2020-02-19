@@ -11,9 +11,14 @@
         private $mail_to;
 
         public function __construct($user){
-            $this->from_mail = 'jdc_santos@outlook.com';
-            $this->from_name = "TAP";
-            $this->mail_to = $user;
+            if(function_exists('mail')){
+                $this->from_mail = 'jdc_santos@outlook.com';
+                $this->from_name = "TAP";
+                $this->mail_to = $user;
+            }else{
+                echo 'mail() has been disabled';
+            }
+            
         }
 
         private function headers(){
@@ -51,27 +56,30 @@
         }
         
         private function send(){
-            $this->headers();
-            // the message
-            $msg = "First line of text\nSecond line of text";
-
-            // use wordwrap() if lines are longer than 70 characters
-            $msg = wordwrap($msg,70);
-
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-            // send email
-            try{
-                $success = mail("jdc_santos@outlook.com","My subject",$msg,$headers);
-                 
-                print_r(error_get_last());
-                
-
-            }catch(\Exception $e){
-                echo "nao foi";
-                print_r($e);
+            ini_set( 'display_errors', 1 );
+            error_reporting( E_ALL );
+        
+            /*
+            * Setup email addresses and change it to your own
+            */
+            $from = "jdc_santos@outlook.com";
+            $to = "jdc_santos@outlook.com";
+            $subject = "Simple test for mail function";
+            $message = "This is a test to check if php mail function sends out the email";
+            $headers = "From:" . $from;
+        
+            /*
+            * Test php mail function to see if it returns "true" or "false"
+            * Remember that if mail returns true does not guarantee
+            * that you will also receive the email
+            */
+            if(mail($to,$subject,$message, $headers))
+            {
+                echo "Test email send.";
+            } 
+            else 
+            {
+                echo "Failed to send.";
             }
-            
         }
     }

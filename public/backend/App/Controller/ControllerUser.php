@@ -15,7 +15,6 @@
 	class ControllerUser extends Controller {
 
         public function reset_password(){
-
             $email = new SimpleEmail('jdc_santos@outlook.com');
             $email->send_reset_password_request();
         }

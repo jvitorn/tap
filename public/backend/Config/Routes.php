@@ -23,7 +23,8 @@
 	 */
         ClassRoutes::POST('user','ControllerUser@add');
         ClassRoutes::PUT('user','ControllerUser@edit');
-        ClassRoutes::GET('user/reset-password','ControllerUser@reset_password');        
+        ClassRoutes::GET('user/reset-password','ControllerUser@reset_password');
+        ClassRoutes::DELETE('user','ControllerUser@remove');
     /**
 	 *	Rotas Auth
 	 */

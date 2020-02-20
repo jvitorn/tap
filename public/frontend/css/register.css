@@ -46,24 +46,7 @@ form {
     border-radius: 3px;
 }
 
-button {
-    margin-top: 5px;
-}
-
-
-
-.olho {
-    cursor: pointer;
-    left: 160px;
-    position: absolute;
-    width: 20px;
-  }
-
-
-
-
-
-
+button { margin-top: 5px; }
 
 
 @media screen and (min-width: 768px) {

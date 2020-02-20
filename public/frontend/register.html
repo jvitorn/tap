@@ -2,8 +2,10 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/spectre-css/spectre.css">
-        <link rel="stylesheet" href="css/register.css">
+		<link rel="stylesheet" href="css/spectre-css/spectre.css">
+		<link rel="stylesheet" href="css/spectre-css/spectre-icons.css">
+		<link rel="stylesheet" href="css/register.css">
+		<link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container">
@@ -12,12 +14,18 @@
 					<div class="columns">
 						<div class="col-xs-11 col-mx-auto" id="form-area">
 							<div class="columns">
-								<div class="col-xs-11 col-mx-auto" id="back-link">
-									<span>Voltar para a página de login</span>
+								<div class="col-xs-10 col-lg-10 col-lg-10 col-xl-10 col-10 col-mx-auto" id="back-link">
+									<a href="login.html"><span id="back-text"><i class="icon icon-back"></i>Voltar para a página de login</span></a>
 								</div>
 							</div>
 							<div class="columns">
-								<div class="col-xs-10 col-mx-auto">
+								<div class="col-xs-10 col-lg-10 col-xl-10 col-10 col-mx-auto" id="back-link">
+									<h5>Registre-se</h5>
+									<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta amet nemo officia porro quam.</p>
+								</div>
+							</div>
+							<div class="columns">
+								<div class="col-xs-10 col-lg-10 col-xl-10 col-10 col-mx-auto">
 									<form>
 										<div class="form-group">
 											<label class="form-label" for="name">Nome:</label>
@@ -29,9 +37,17 @@
 										</div>
 										<div class="form-group">
 											<label class="form-label" for="password">Senha:</label>
-											<input class="form-input" type="password" id="password" placeholder="Insira uma senha segura">
+											<div class="input-group">
+												<input class="form-input" type="password" id="password" placeholder="Insira uma senha segura">
+												<span class="input-group-addon">mostrar senha</span>
+											</div>
 										</div>
-												<button class="btn btn-success" id="register-button">Entrar</button>
+										<div class="form-group">
+											<label class="form-checkbox form-inline">
+												<input type="checkbox"><i class="form-icon"></i> Concordo com os termos de <a href="#">uso</a> e <a href="">privacidade</a>.
+											</label>																							  
+										</div>
+										<button class="btn btn-success" id="register-button">Me registre!</button>
 									</form>
 								</div>
 							</div>

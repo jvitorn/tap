@@ -1,3 +1,14 @@
+let revealPassword = document.querySelector('#reveal-password');
+let passwordInput = document.querySelector('#password');
+let showIcon = document.querySelector('#show-icon');
+
+revealPassword.onclick = function() {
+	showIcon.setAttribute("class", "far fa-eye-slash");
+	passwordInput.setAttribute("type", "text");
+	
+}
+
+
 let email = document.querySelector('#email');
 let password = document.querySelector('#password');
 

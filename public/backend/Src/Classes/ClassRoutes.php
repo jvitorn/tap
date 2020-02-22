@@ -94,7 +94,7 @@
         static public function get_DELETE_params($url){
             $url = self::parseUrl();
             $id = end($url);
-            return array('id' => $id);
+            return $id;
         }
 
         static protected function get_params($url){

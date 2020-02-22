@@ -51,13 +51,14 @@
     /**
      *  DIRETORIOS DA APLICAÇÃO VIA CAMINHO ABSOLUTO
      */
-        define('DIR_APP',        DIR_REQ .'App/');
-        define('DIR_CONTROLLER', DIR_APP .'Controller/');
-        define('DIR_MODEL',      DIR_APP .'Model/');
-        define('DIR_VIEW',       DIR_APP .'View/');
-        define('DIR_LAYOUTS',    DIR_VIEW.'Layouts/');
-        define('DIR_DAO',        DIR_APP .'DAO/');
-        define('DIR_SRC',        DIR_REQ .'Src/');        
+        define('DIR_APP',               DIR_REQ .'App/');
+        define('DIR_CONTROLLER',        DIR_APP .'Controller/');
+        define('DIR_MODEL',             DIR_APP .'Model/');
+        define('DIR_VIEW',              DIR_APP .'View/');
+        define('DIR_LAYOUTS',           DIR_VIEW.'Layouts/');
+        define('DIR_DAO',               DIR_APP .'DAO/');
+        define('DIR_SRC',               DIR_REQ .'Src/');
+        define('DIR_EMAIL_TEMPLATES',   DIR_REQ .'Src/Includes/Email/');        
     
     /**
      * DADOS DE ACESSO AO BANCO DE DADOS
@@ -70,10 +71,10 @@
     /**
      * DADOS DE ENVIO DE MAIL
      */
-        define("MAIL_HOST",'');
-        define('MAIL_ADDRESS','');
-        define('MAIL_OWNER','');
-        define('MAIL_PW','');
+        define("MAIL_HOST",'mail.jdc.profrodolfo.com.br');
+        define('MAIL_ADDRESS','tap@jdc.profrodolfo.com.br');
+        define('MAIL_OWNER','TAP');
+        define('MAIL_PW','apWPNpVU[GTS');
         define('MAIL_PORT','587'); 
         define('MAIL_TYPE','tls'); // ssl ou tls
         

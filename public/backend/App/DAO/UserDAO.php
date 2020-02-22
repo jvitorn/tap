@@ -91,4 +91,59 @@
             parent::array_to_sql_where('user',['id' => $user->getId() ]);
             return parent::update('user');
         }
+
+        static public function active(User $user){
+            $return;
+            $res = self::find($user);
+            
+            if(is_array($res) && count($res) > 0){
+                
+                $user->setActive(1);
+                $user->setAuth('');
+                $user->setId($res[0]['id']);
+                
+                if(self::edit($user)){
+                    $return = 'success';
+                }else{
+                    $return = 'não foi possivel ativar o usuário';
+                }
+
+            }else{
+                $return = 'Código ou id inválidos';
+            }
+
+            return $return;
+        }
+
+        static public function reset_password_request(User $user, $code){
+            
+            $return;
+            $user->setActive('1');
+            $res = self::find($user);
+   
+            if(is_array($res) && count($res) > 0){
+                $user->setAuth($code);
+                $user->setId($res[0]['id']);
+                if(self::edit($user)){ return $res[0]; }
+            }
+        }
+
+        static public function verify_reset_password_code(User $user){
+            $res = self::find($user);
+
+            if(is_array($res) && count($res) > 0){
+                return $res[0]['id'];
+            }
+        }
+
+        static public function reset_password(User $user, $pw){
+            $res = self::find($user);
+
+            if(is_array($res) && count($res) > 0){
+                $user->setAuth('');
+                $user->setPassword($pw);
+                $user->setId($res[0]['id']);
+                return self::edit($user);
+            }
+        }
 	}

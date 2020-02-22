@@ -18,9 +18,8 @@
         static protected function Insert($table){
             
             $sql = "INSERT INTO $table (".self::$cols.") VALUES (".self::$vals.")";
-            // echo $sql."\r\n";
 
-            if(self::query($sql)){
+            if(self::query($sql) ){
 
                 self::$cols     = 'id';
                 self::$orderBy  = "id DESC";
@@ -81,11 +80,12 @@
             try {
                 
                 self::$DB = self::connectDB()->prepare($sql);
+
                 if(self::$DB->execute()){
-                    
-                    $rows = self::$DB->fetchAll(\PDO::FETCH_ASSOC);
-                    
+                       
+                    $rows = self::$DB->fetchAll(\PDO::FETCH_ASSOC);                    
                     $result = true;
+                    
                     if(is_array($rows) && count($rows) > 0) $result = $rows;
                     
                 }else{
@@ -137,7 +137,7 @@
             $virgula = false;
 
             foreach($data as $col => $val){
-                if(!empty($val)){
+                if(!is_null($val)){
                     if($virgula) $update .= ",";
 
                     if(is_array($val)){
@@ -156,9 +156,9 @@
         static protected function array_to_sql_where($tbl, $data){
 
             foreach($data as $col => $val){
-            
-                if(!empty($val)){
-                    self::$where .= " AND  ";
+
+                if(!is_null($val)){
+                    self::$where .= " AND ";
 
                     if(is_array($val)){
                         self::$where .= $tbl.".".$col ." = '".$val['id']."' ";

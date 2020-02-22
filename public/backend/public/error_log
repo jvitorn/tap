@@ -1,0 +1,193 @@
+[19-Feb-2020 23:13:37 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 34
+[19-Feb-2020 23:13:37 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 60
+[19-Feb-2020 23:16:27 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 34
+[19-Feb-2020 23:16:27 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 60
+[19-Feb-2020 23:16:35 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 34
+[19-Feb-2020 23:16:35 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 60
+[19-Feb-2020 23:16:37 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 34
+[19-Feb-2020 23:16:37 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 60
+[19-Feb-2020 23:16:38 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 34
+[19-Feb-2020 23:16:38 America/Sao_Paulo] PHP Notice:  Undefined property: PHPMailer\PHPMailer\Exception::$ErrorInfo in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 60
+[19-Feb-2020 23:45:51 America/Sao_Paulo] PHP Warning:  Use of undefined constant MAIL_ADDRESSs - assumed 'MAIL_ADDRESSs' (this will throw an Error in a future version of PHP) in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 30
+[19-Feb-2020 23:45:51 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:30) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[19-Feb-2020 23:46:41 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/vendor/phpmailer/phpmailer/src/SMTP.php:277) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[19-Feb-2020 23:47:30 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/vendor/phpmailer/phpmailer/src/SMTP.php:277) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[19-Feb-2020 23:47:40 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/vendor/phpmailer/phpmailer/src/SMTP.php:277) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[19-Feb-2020 23:47:59 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/vendor/phpmailer/phpmailer/src/SMTP.php:277) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 11:27:01 America/Sao_Paulo] PHP Notice:  Undefined variable: user in /home1/jdc/public_html/public/backend/App/Model/User.php on line 145
+[21-Feb-2020 11:27:01 America/Sao_Paulo] PHP Fatal error:  Uncaught Error: Call to a member function setAuth() on null in /home1/jdc/public_html/public/backend/App/Model/User.php:145
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(38): App\Model\User->fill_user_required_fields(Array)
+#1 [internal function]: App\Controller\ControllerUser->add(Array)
+#2 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#3 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('add')
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#5 /home1/jdc/public_html/public/backend/public/index.php(24): App\Dispatch->__construct()
+#6 {main}
+  thrown in /home1/jdc/public_html/public/backend/App/Model/User.php on line 145
+[21-Feb-2020 11:27:19 America/Sao_Paulo] PHP Parse error:  syntax error, unexpected ',' in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 18
+[21-Feb-2020 11:30:14 America/Sao_Paulo] PHP Fatal error:  Uncaught Error: Call to a member function getAttributesAsArray() on array in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php:19
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(54): App\Controller\ControllerEmail->send_confirm_account_request(Array, Array)
+#1 [internal function]: App\Controller\ControllerUser->add('87')
+#2 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#3 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('add')
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#5 /home1/jdc/public_html/public/backend/public/index.php(24): App\Dispatch->__construct()
+#6 {main}
+  thrown in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 19
+[21-Feb-2020 11:31:33 America/Sao_Paulo] PHP Parse error:  syntax error, unexpected ';', expecting ',' or ')' in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 20
+[21-Feb-2020 11:31:57 America/Sao_Paulo] PHP Notice:  Undefined variable: content in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 20
+[21-Feb-2020 11:31:57 America/Sao_Paulo] PHP Notice:  Undefined variable: emailail in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 22
+[21-Feb-2020 11:31:57 America/Sao_Paulo] PHP Fatal error:  Uncaught Error: Call to a member function create_email() on null in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php:22
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(54): App\Controller\ControllerEmail->send_confirm_account_request(Array, Array)
+#1 [internal function]: App\Controller\ControllerUser->add('89')
+#2 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#3 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('add')
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#5 /home1/jdc/public_html/public/backend/public/index.php(24): App\Dispatch->__construct()
+#6 {main}
+  thrown in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 22
+[21-Feb-2020 11:33:29 America/Sao_Paulo] PHP Notice:  Undefined variable: emailail in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 22
+[21-Feb-2020 11:33:29 America/Sao_Paulo] PHP Fatal error:  Uncaught Error: Call to a member function create_email() on null in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php:22
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(54): App\Controller\ControllerEmail->send_confirm_account_request(Array, Array)
+#1 [internal function]: App\Controller\ControllerUser->add('90')
+#2 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#3 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('add')
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#5 /home1/jdc/public_html/public/backend/public/index.php(24): App\Dispatch->__construct()
+#6 {main}
+  thrown in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 22
+[21-Feb-2020 11:34:05 America/Sao_Paulo] PHP Warning:  Invalid argument supplied for foreach() in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 68
+[21-Feb-2020 11:34:05 America/Sao_Paulo] PHP Warning:  file_get_contents(/home1/jdc/public_html/public/backend/Src/Includes/Email/template.php): failed to open stream: No such file or directory in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 74
+[21-Feb-2020 11:34:05 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:68) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 11:35:04 America/Sao_Paulo] PHP Warning:  Invalid argument supplied for foreach() in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 69
+[21-Feb-2020 11:35:04 America/Sao_Paulo] PHP Warning:  file_get_contents(/home1/jdc/public_html/public/backend/Src/Includes/Email/template.php): failed to open stream: No such file or directory in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 75
+[21-Feb-2020 11:35:04 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:67) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 11:36:40 America/Sao_Paulo] PHP Warning:  Invalid argument supplied for foreach() in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 69
+[21-Feb-2020 11:36:40 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:67) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 11:39:44 America/Sao_Paulo] PHP Warning:  Invalid argument supplied for foreach() in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 69
+[21-Feb-2020 11:39:44 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:67) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 11:40:32 America/Sao_Paulo] PHP Warning:  Invalid argument supplied for foreach() in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 69
+[21-Feb-2020 11:40:32 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:68) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 11:41:10 America/Sao_Paulo] PHP Warning:  Invalid argument supplied for foreach() in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 69
+[21-Feb-2020 11:41:10 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:68) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 11:41:26 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:68) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 12:10:45 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:74) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 12:15:08 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php:22) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[21-Feb-2020 12:16:48 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php:22) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 00:53:39 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php:74) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 00:56:53 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:40) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 00:57:18 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:40) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 00:58:55 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:21) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 01:01:22 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:21) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 01:01:36 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:84) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 01:02:13 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:84) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 01:05:25 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:83) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 01:06:11 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:83) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 01:15:34 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php:41) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 11:48:47 America/Sao_Paulo] PHP Parse error:  syntax error, unexpected ';', expecting ',' or ')' in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 102
+[22-Feb-2020 11:54:57 America/Sao_Paulo] PHP Notice:  Undefined index: auth in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 102
+[22-Feb-2020 11:54:57 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:102) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 12:08:44 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:61) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 12:10:07 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:61) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 12:10:09 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:61) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 12:10:35 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:61) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 12:10:37 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:61) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 12:12:11 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:159) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 12:13:33 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:159) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 12:15:11 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/DAO.php:61) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 13:31:42 America/Sao_Paulo] PHP Parse error:  syntax error, unexpected '}', expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 150
+[22-Feb-2020 13:32:26 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:119) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 14:01:37 America/Sao_Paulo] PHP Fatal error:  Uncaught Error: Call to undefined function App\Controller\generateAuthCode() in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:142
+Stack trace:
+#0 [internal function]: App\Controller\ControllerUser->reset_password_request(Array)
+#1 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#2 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('reset_password_...')
+#3 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#4 /home1/jdc/public_html/public/backend/public/index.php(24): App\Dispatch->__construct()
+#5 {main}
+  thrown in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 142
+[22-Feb-2020 14:02:05 America/Sao_Paulo] PHP Fatal error:  Uncaught Error: Using $this when not in object context in /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:125
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(143): App\DAO\UserDAO::reset_password_request(Object(App\Model\User), 'f2e7bc')
+#1 [internal function]: App\Controller\ControllerUser->reset_password_request(Array)
+#2 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#3 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('reset_password_...')
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#5 /home1/jdc/public_html/public/backend/public/index.php(24): App\Dispatch->__construct()
+#6 {main}
+  thrown in /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php on line 125
+[22-Feb-2020 14:03:37 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:123) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 14:04:11 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:122) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 14:04:58 America/Sao_Paulo] PHP Notice:  Undefined variable: data in /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php on line 25
+[22-Feb-2020 14:04:58 America/Sao_Paulo] PHP Warning:  Invalid argument supplied for foreach() in /home1/jdc/public_html/public/backend/Src/Classes/ClassEmail.php on line 65
+[22-Feb-2020 14:04:58 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerEmail.php:25) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 14:57:21 America/Sao_Paulo] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW), expecting ',' or ')' in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 171
+[22-Feb-2020 14:57:21 America/Sao_Paulo] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW), expecting ',' or ')' in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 171
+[22-Feb-2020 15:16:11 America/Sao_Paulo] PHP Notice:  Undefined index: id in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 116
+[22-Feb-2020 15:16:11 America/Sao_Paulo] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to App\Model\Model::setId() must be of the type integer, null given, called in /home1/jdc/public_html/public/backend/App/Model/Model.php on line 17 and defined in /home1/jdc/public_html/public/backend/App/Model/Model.php:21
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Model/Model.php(17): App\Model\Model->setId(NULL)
+#1 /home1/jdc/public_html/public/backend/App/Model/User.php(41): App\Model\Model->set('setId', NULL)
+#2 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(116): App\Model\User->__construct(Array)
+#3 [internal function]: App\Controller\ControllerUser->confirm_account(Array)
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#5 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('confirm_account')
+#6 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#7 /home1/jdc/public_html/public/backend/public/index.php(24): in /home1/jdc/public_html/public/backend/App/Model/Model.php on line 21
+[22-Feb-2020 15:16:28 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:98) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 15:18:01 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:98) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 15:18:45 America/Sao_Paulo] PHP Notice:  Undefined index: id in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 116
+[22-Feb-2020 15:18:45 America/Sao_Paulo] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to App\Model\Model::setId() must be of the type integer, null given, called in /home1/jdc/public_html/public/backend/App/Model/Model.php on line 17 and defined in /home1/jdc/public_html/public/backend/App/Model/Model.php:21
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Model/Model.php(17): App\Model\Model->setId(NULL)
+#1 /home1/jdc/public_html/public/backend/App/Model/User.php(41): App\Model\Model->set('setId', NULL)
+#2 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(116): App\Model\User->__construct(Array)
+#3 [internal function]: App\Controller\ControllerUser->confirm_account(Array)
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#5 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('confirm_account')
+#6 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#7 /home1/jdc/public_html/public/backend/public/index.php(24): in /home1/jdc/public_html/public/backend/App/Model/Model.php on line 21
+[22-Feb-2020 15:19:31 America/Sao_Paulo] PHP Notice:  Undefined index: id in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 116
+[22-Feb-2020 15:19:31 America/Sao_Paulo] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to App\Model\Model::setId() must be of the type integer, null given, called in /home1/jdc/public_html/public/backend/App/Model/Model.php on line 17 and defined in /home1/jdc/public_html/public/backend/App/Model/Model.php:21
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Model/Model.php(17): App\Model\Model->setId(NULL)
+#1 /home1/jdc/public_html/public/backend/App/Model/User.php(41): App\Model\Model->set('setId', NULL)
+#2 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(116): App\Model\User->__construct(Array)
+#3 [internal function]: App\Controller\ControllerUser->confirm_account(Array)
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#5 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('confirm_account')
+#6 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#7 /home1/jdc/public_html/public/backend/public/index.php(24): in /home1/jdc/public_html/public/backend/App/Model/Model.php on line 21
+[22-Feb-2020 15:21:05 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:98) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 15:22:48 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:118) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 15:23:34 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:118) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 17:36:55 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:133) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 17:40:06 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:142) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 17:41:43 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:142) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30
+[22-Feb-2020 17:55:07 America/Sao_Paulo] PHP Notice:  Undefined variable: cEmail in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 228
+[22-Feb-2020 17:55:07 America/Sao_Paulo] PHP Fatal error:  Uncaught Error: Call to a member function send_reset_password_success() on null in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:228
+Stack trace:
+#0 [internal function]: App\Controller\ControllerUser->reset_password(Array)
+#1 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#2 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('reset_password')
+#3 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#4 /home1/jdc/public_html/public/backend/public/index.php(24): App\Dispatch->__construct()
+#5 {main}
+  thrown in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 228
+[22-Feb-2020 18:25:48 America/Sao_Paulo] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to App\DAO\UserDAO::edit() must be an instance of App\Model\User, null given, called in /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php on line 243 and defined in /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php:37
+Stack trace:
+#0 /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php(243): App\DAO\UserDAO::edit(NULL)
+#1 [internal function]: App\Controller\ControllerUser->delete_account_request(Array)
+#2 /home1/jdc/public_html/public/backend/App/Dispatch.php(48): call_user_func_array(Array, Array)
+#3 /home1/jdc/public_html/public/backend/App/Dispatch.php(43): App\Dispatch->addMethod('delete_account_...')
+#4 /home1/jdc/public_html/public/backend/App/Dispatch.php(24): App\Dispatch->AddController()
+#5 /home1/jdc/public_html/public/backend/public/index.php(24): App\Dispatch->__construct()
+#6 {main}
+  thrown in /home1/jdc/public_html/public/backend/App/DAO/UserDAO.php on line 37
+[22-Feb-2020 18:36:49 America/Sao_Paulo] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, second array member is not a valid method in /home1/jdc/public_html/public/backend/App/Dispatch.php on line 48
+[22-Feb-2020 18:36:56 America/Sao_Paulo] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, second array member is not a valid method in /home1/jdc/public_html/public/backend/App/Dispatch.php on line 48
+[22-Feb-2020 18:37:59 America/Sao_Paulo] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/jdc/public_html/public/backend/App/Controller/ControllerUser.php:242) in /home1/jdc/public_html/public/backend/Src/Classes/ClassRender.php on line 30

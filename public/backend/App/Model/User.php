@@ -19,7 +19,7 @@
 		private $password;
 		private $type;
 		private $is_logged;
-		private $cd_recovery_pw;
+		private $auth;
 		private $dthr_request_recovery_pw;
 		private $created_at;
 		private $updated_at;
@@ -67,8 +67,14 @@
 		public function getIs_logged(){ return $this->is_logged; }
 		public function setIs_logged($logged){ $this->is_logged = $logged; }
 
-		public function getCd_recovery_pw(){ return $this->cd_recovery_pw; }
-		public function setCd_recovery_pw($rpw){ $this->cd_recovery_pw = $rpw; }
+		public function getAuth(){ return $this->auth; }
+		public function setAuth($auth){  
+			if(!empty($auth)){
+				$this->auth = md5($auth);
+			}else{
+				$this->auth = '';
+			}
+		}
 
 		public function getDthr_request_recovery_pw(){ return $this->dthr_request_recovery_pw; }
 		public function setDthr_request_recovery_pw($dthr){
@@ -131,7 +137,7 @@
             return $error;
         }
 
-        public function fill_required_fields($data = []){
+        public function fill_user_required_fields($data = []){
             
             $res = $this->verify_required_fields($data);
             
@@ -140,8 +146,9 @@
                 $this->setEmail($data['email']);
                 $this->setPassword($data['password']);
                 $this->setType('user');
-                $this->setActive(1);
+                $this->setActive('0');
                 $this->setCreated_at(date('Y-m-d h:i:s'));
+                $this->setAuth($data['auth']);
             }
             
             return $res;

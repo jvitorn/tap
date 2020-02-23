@@ -39,21 +39,59 @@
     <ol>
         <h2>Usuários</h2>
         <li>
-            <span>Cadastrar usuário [POST]</span>
-            /backend/user <br>
+            <span>Cadastrar usuário [POST]</span><br>
+            /backend/user/register <br>
             <p>parâmetros obrigatórios: [name, email, password]<br>
             parâmetros opcionais:</p>
         </li>
         <li>
-            <span>Atualizar usuário [PUT] [NECESSÁRIO ESTAR LOGADO]</span><br>
-            /backend/user <br>
-            <p>parâmetros obrigatórios: [id]<br>
-            parâmetros opcionais: [name, email, password, gender("f","m"), height, weight, dt_birth]</p>
+            <span>Confirmar cadastro do usuário [POST]</span><br>
+            /backend/user/confirm-account <br>
+            <p>parâmetros obrigatórios: [code, email]<br>
+            parâmetros opcionais:</p>
         </li>
         <li>
-            <span>Deletar usuário [DELETE] [NECESSÁRIO ESTAR LOGADO]</span>
-            /backend/user/{id} <br>
-            <p>parâmetros obrigatórios: [id]<br>
+            <span>Atualizar usuário [PUT][NECESSÁRIO ESTAR LOGADO]</span><br>
+            /backend/user/update <br>
+            <p>parâmetros obrigatórios: [id, name]<br>
+            parâmetros opcionais: [password, gender("f","m"), height, weight, dt_birth]</p>
+        </li>
+        <li>
+            <span>Requisitar redefinição de senha [POST]</span><br>
+            /backend/user/reset-password-request <br>
+            <p>parâmetros obrigatórios: [email]<br>
+            parâmetros opcionais: <br>
+            esta função enviará um código para o email do usuário.
+            </p>
+        </li>
+        <li>
+            <span>Verificar código de redefinição de senha [POST]</span><br>
+            /backend/user/verify-reset-password-code <br>
+            <p>parâmetros obrigatórios: [email, code]<br>
+            parâmetros opcionais: <br>
+            esta função verificará o código enviado para o email do usuário.
+            </p>
+        </li>
+        <li>
+            <span>redefinir senha [PUT]</span><br>
+            /backend/user/reset-password<br>
+            <p>parâmetros obrigatórios: [email, code, password]<br>
+            parâmetros opcionais: <br>
+            esta função irá redefinir a senha do usuário
+            </p>
+        </li>
+        <li>
+            <span>Requisitar código de exclusão de conta [GET][NECESSÁRIO ESTAR LOGADO]</span><br>
+            /backend/user/delete-account-request<br>
+            <p>parâmetros obrigatórios: <br>
+            parâmetros opcionais: <br>
+            esta função irá enviar um código para o email do usuário.
+            </p>
+        </li>
+        <li>
+            <span>Deletar usuário [DELETE][NECESSÁRIO ESTAR LOGADO]</span><br>
+            /backend/user/delete-account/{code} <br>
+            <p>parâmetros obrigatórios: [code]<br>
             parâmetros opcionais: <br>
             esta função irá deletar a conta do usuário.
             </p>

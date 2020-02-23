@@ -1,5 +1,17 @@
 RewriteEngine on
+
+###############################################################
+# CASO ESTEJA NO SERVIDOR DO PROFRODOLFO.
+###############################################################
 RewriteCond %{HTTP_HOST} ^jdc.profrodolfo.com.br$ [NC,OR]
 RewriteCond %{HTTP_HOST} ^www.jdc.profrodolfo.com.br$
 RewriteCond %{REQUEST_URI} !public/
 RewriteRule (.*) /public/$1 [L]
+
+###############################################################
+# CASO ESTEJA NO LOCALHOST
+###############################################################
+RewriteCond %{HTTP_HOST} ^localhost$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^localhost$
+RewriteCond %{REQUEST_URI} !tap/public/
+RewriteRule (.*) /tap/public/$1 [L]

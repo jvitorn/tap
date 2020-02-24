@@ -16,7 +16,7 @@
         <h2>Administrador [necessário estar logado como admin para acessar estas funções]</h2>
         <li>
             <span>Listar usuários [GET]</span><br>
-            /backend/admin/user
+            /backend/admin/user/list
             <p>
             parâmetros obrigatórios:<br>
             parâmetros opcionais: [id, name, email, type("user","adm"), gender("f","m") ]<br>
@@ -26,7 +26,7 @@
         </li>
         <li>
             <span>Deletar usuário [DELETE]</span><br>
-            /backend/admin/user/{id} <br>
+            /backend/admin/user/remove/{id} <br>
             <p>parâmetros obrigatórios: [id]<br>
             parâmetros opcionais: <br>
             esta função irá deletar um usuário selecionado.

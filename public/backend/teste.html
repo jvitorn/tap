@@ -14,9 +14,14 @@
         <button>Logar</button>
     </form>
     <br>
-    <button id="btnListaUsuarios">lista usuarios</button><br>
-    <button id="btnEditarUsuario">editar usuario</button><br>
-    <button id="btnExcluirUsuario">excluir usuario usuario</button><br>
+
+    <button class="btnAction" endpoint="admin/user/list" method="get">
+        lista usuarios
+    </button>
+    <br>
+
+    <button class="btnAction">editar usuario</button><br>
+    <button class="btnAction">excluir usuario usuario</button><br>
 
     <form id="formExcluirAdmin">
         <input type="text" name="id" id="excluir_id"><br>
@@ -26,7 +31,8 @@
     <button id="btnDeslogar">Deslogar</button>
     
     <script>
-    token = '';
+        token = '';
+
     $(document).on('submit','#formLogin',function(e){
         e.preventDefault();
 
@@ -50,11 +56,17 @@
         
     });
 
-    $(document).on('click','#btnListaUsuarios',function(){
+    $(document).on('click','.btnAction',function(){
+        var endpoint = $(this).attr('endpoint');
+        var type     = $(this).attr('method');
+        ajax(endpoint);
+    });
+
+    function ajax(endpoint, method){
         $.ajax({
-            url: '/backend/admin/user',
+            url: '/backend/'+endpoint,
             dataType: 'html',
-            type :'GET',
+            type :method,
             headers: {
                 "Authorization":"Bearer "+ token
             },
@@ -65,79 +77,7 @@
                 console.log(error);
             }
         });
-    });
-
-    $(document).on('click','#btnEditarUsuario',function(){
-        $.ajax({
-            url: '/backend/user',
-            dataType: 'html',
-            type :'PUT',
-            headers: {
-                "Authorization":"Bearer "+ token
-            },
-            success: function(data){
-                console.log(data);
-            },
-            error: function(error){
-                console.log(error);
-            }
-        });
-    });
-
-    $(document).on('click','#btnExcluirUsuario',function(){
-        $.ajax({
-            url: '/backend/user/'+51,
-            dataType: 'html',
-            type :'DELETE',
-            headers: {
-                "Authorization":"Bearer "+ token
-            },
-            success: function(data){
-                console.log(data);
-            },
-            error: function(error){
-                console.log(error);
-            }
-        });
-    });
-
-    $(document).on('submit','#formExcluirAdmin',function(e){
-        e.preventDefault();
-        var id = $('#excluir_id').val();
-
-        $.ajax({
-            url: '/backend/admin/user/'+id,
-            dataType: 'html',
-            type :'DELETE',
-            headers: {
-                "Authorization":"Bearer "+ token
-            },
-            success: function(data){
-                console.log(data);
-            },
-            error: function(error){
-                console.log(error);
-            }
-        });
-    });
-
-    $(document).on('click','#btnDeslogar',function(){
-        $.ajax({
-            url: '/backend/auth/logout',
-            dataType: 'html',
-            type :'POST',
-            headers: {
-                "Authorization":"Bearer "+ token
-            },
-            success: function(data){
-                console.log(data);
-                token = '';
-            },
-            error: function(error){
-                console.log(error);
-            }
-        });
-    });
+    }
     </script>
 </body>
 </html>

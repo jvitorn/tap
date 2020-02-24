@@ -3,6 +3,7 @@
 
     use App\Controller\Controller;
     use App\Controller\ControllerEmail;
+    use App\Controller\ControllerActionType;
 
 	use App\Model\User;
 	
@@ -275,5 +276,41 @@
 
         private function generateAuthCode(){
            return substr(md5(date('idmyhs')),0,6);
+        }
+
+        /* adicionar tipos de ações apenas para quem criou */
+        public function action_type($data = []){
+            $this->validate_access(['user','adm']);
+            
+            $data['is_public'] = 0;
+            $cAT    = new ControllerActionType();
+            $cAT->action_type($this->user, $data);
+        }
+
+        public function list_action_type($data){
+            $this->validate_access(['user','adm']);
+            
+            $data['is_public'] = 0;
+            $cAT    = new ControllerActionType();
+            $cAT->list($this->user, $data);
+        }
+
+        public function remove_action_type($id){
+            $this->validate_access(['user','adm']);
+            
+            $data['is_public'] = 0;
+            $cAT    = new ControllerActionType();
+            $res = $cAT->remove($this->user,['id' => $id]);
+
+            if($res == 'success'){
+                $json['status'] = 'success';
+                $json['msg']    = 'Tipo de ação deletada com sucesso';
+            }else{
+                $json['status'] = 'success';
+                $json['msg']    = "Erro: não foi possivel deletar o item\r\n";
+                $json['msg']   .= $res;
+            }
+
+            $this->render->json($json);
         }
 	}

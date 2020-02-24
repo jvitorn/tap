@@ -16,8 +16,8 @@
 	/**
 	 *	Rotas Admin
 	 */
-        ClassRoutes::GET('admin/user','ControllerAdmin@list');
-        ClassRoutes::DELETE('admin/user','ControllerAdmin@remove');
+        ClassRoutes::GET('admin/user/list','ControllerAdmin@list');
+        ClassRoutes::DELETE('admin/user/remove','ControllerAdmin@remove');
     /**
 	 *	Rotas Usuário
 	 */
@@ -36,8 +36,22 @@
         /*rotas para exclusão da conta (necessário estar logado)*/
 		ClassRoutes::GET('user/delete-account-request','ControllerUser@delete_account_request');
         ClassRoutes::DELETE('user/delete-account','ControllerUser@delete_account');
+
+        /* rotas para criar, editar, listar e excluir tipos de ações privadas */
+        ClassRoutes::POST('action-type','ControllerUser@action_type');
+        ClassRoutes::PUT('action-type','ControllerUser@action_type');
+        ClassRoutes::GET('action-type','ControllerUser@list_action_type');
+        ClassRoutes::DELETE('action-type','ControllerUser@remove_action_type');
+
     /**
 	 *	Rotas Auth
 	 */
         ClassRoutes::POST('auth/login','ControllerAuth@login');
         ClassRoutes::POST('auth/logout','ControllerAuth@logout');
+
+    /**
+     *  Rotas para tipos de ações
+     */ 
+        
+        ClassRoutes::POST('admin/action-type/new','ControllerActionType@public_action_type');
+        ClassRoutes::POST('admin/action-type/new','ControllerActionType@public_action_type_list');

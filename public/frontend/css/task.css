@@ -1,0 +1,42 @@
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+#content-container {
+    height: 90vh;
+    background-color: #08AEEA;
+    
+}
+
+#div-1 {
+    height: 250px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: -4px 0px 10px 2px rgba(0,0,0,0.2);
+    background-color: rgb(241, 241, 241);
+}
+
+#div-2 {
+    height: 150px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: -4px 0px 10px 2px rgba(0,0,0,0.2);
+    background-color: rgb(241, 241, 241);
+}
+
+#div-3 {
+    height: 105px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: -4px 0px 10px 2px rgba(0,0,0,0.2);
+    background-color: rgb(241, 241, 241);
+}
+
+#button-area {
+    position: fixed;
+    z-index: 1;
+    height: 10vh;
+    background-color: rgb(250, 250, 250);
+    box-shadow: 0px -8px 16px -6px rgba(0,0,0,0.3);
+    /* border: 1px solid #000; */
+}

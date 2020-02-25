@@ -1,5 +1,6 @@
 body {
     background-color: #08AEEA;
+    font-family: 'Work Sans', sans-serif;
 }
 
 #content-container {
@@ -56,6 +57,7 @@ body {
 
 .button-item {
     height: 10vh;
-    box-shadow: inset -2px 0px 5px 0px rgba(0,0,0,0.41);
+    border-left: 1px solid #08AEEA;
+    /* box-shadow: inset -2px 0px 5px 0px rgba(0,0,0,0.41); */
     /* position: relative; */
 }

@@ -13,7 +13,7 @@
 	 * @method getActive()
 	 * @method setActive()
 	 */
-	class ActionType extends Model {
+	class Category extends Model {
 
 		private $name;
 		private $user;

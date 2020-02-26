@@ -14,24 +14,52 @@
 
     <ol>
         <h2>Administrador [necessário estar logado como admin para acessar estas funções]</h2>
-        <li>
-            <span>Listar usuários [GET]</span><br>
-            /backend/admin/user/list
-            <p>
-            parâmetros obrigatórios:<br>
-            parâmetros opcionais: [id, name, email, type("user","adm"), gender("f","m") ]<br>
-            os parâmetros atuarão como filtros para selecionar os usuarios.
-            </p>
+        <li> USUÁRIOS
+            <ol>
+                <li>
+                    <span>Listar usuários [GET]</span><br>
+                    /backend/admin/user/list
+                    <p>
+                    parâmetros obrigatórios:<br>
+                    parâmetros opcionais: [id, name, email, type("user","adm"), gender("f","m") ]<br>
+                    os parâmetros atuarão como filtros para selecionar os usuarios.
+                    </p>
+                </li>
+                <li>
+                    <span>Deletar usuário [DELETE]</span><br>
+                    /backend/admin/user/remove/{id} <br>
+                    <p>parâmetros obrigatórios: [id]<br>
+                    parâmetros opcionais: <br>
+                    esta função irá deletar um usuário selecionado.
+                    </p>
+                </li>
+            </ol>
+        </li>
+        <li> TIPOS DE AÇÃO<br>
+            são categorias de ação ou movimentação<br>
+            exemplo Task: estudos, trabalhos, exercicios...<br>
+            exemplo Financial: contas de casa, compras, comida, internet...
 
+            <ol>
+                <li>
+                    <span>Adicionar tipo de movimentação PUBLICA [POST]</span><br>
+                    /backend/admin/action-type
+                    <p>
+                    parâmetros obrigatórios:[name, type, active]<br>
+                    parâmetros opcionais: [description, value, dt_initial, dt_final]<br>
+                    </p>
+                </li>
+                <li>
+                    <span>Adicionar tipo de movimentação PUBLICA [POST]</span><br>
+                    /backend/admin/action-type
+                    <p>
+                    parâmetros obrigatórios:[name, type, active]<br>
+                    parâmetros opcionais: [description, value, dt_initial, dt_final]<br>
+                    </p>
+                </li>
+            </ol>
         </li>
-        <li>
-            <span>Deletar usuário [DELETE]</span><br>
-            /backend/admin/user/remove/{id} <br>
-            <p>parâmetros obrigatórios: [id]<br>
-            parâmetros opcionais: <br>
-            esta função irá deletar um usuário selecionado.
-            </p>
-        </li>
+        
     </ol>
 
     <hr>

@@ -20,11 +20,11 @@
         ClassRoutes::GET('admin/user/list','ControllerAdmin@list');
         ClassRoutes::DELETE('admin/user/remove','ControllerAdmin@remove_user');
 
-        /* rotas para criar, editar, listar e excluir tipos de ações privadas */
-        ClassRoutes::POST('admin/action-type','ControllerAdmin@new_action_type');
-        ClassRoutes::PUT('admin/action-type','ControllerAdmin@edit_action_type');
-        ClassRoutes::GET('admin/action-type','ControllerAdmin@list_action_type');
-        ClassRoutes::DELETE('admin/action-type','ControllerAdmin@remove_action_type');
+        /* rotas para criar, editar, listar e excluir categorias publicas */
+        ClassRoutes::POST('admin/category','ControllerAdmin@new_category');
+        ClassRoutes::PUT('admin/category','ControllerAdmin@edit_category');
+        ClassRoutes::GET('admin/category','ControllerAdmin@list_categories');
+        ClassRoutes::DELETE('admin/category','ControllerAdmin@remove_category');
     /**
 	 *	Rotas Usuário
 	 */
@@ -44,21 +44,15 @@
 		ClassRoutes::GET('user/delete-account-request','ControllerUser@delete_account_request');
         ClassRoutes::DELETE('user/delete-account','ControllerUser@delete_account');
 
-        /* rotas para criar, editar, listar e excluir tipos de ações privadas */
-        ClassRoutes::POST('action-type','ControllerUser@new_action_type');
-        ClassRoutes::PUT('action-type','ControllerUser@edit_action_type');
-        ClassRoutes::GET('action-type','ControllerUser@list_action_type');
-        ClassRoutes::DELETE('action-type','ControllerUser@remove_action_type');
+        /* rotas para criar, editar, listar e excluir categorias privadas */
+        ClassRoutes::POST('category','ControllerUser@new_category');
+        ClassRoutes::PUT('category','ControllerUser@edit_category');
+        ClassRoutes::GET('category','ControllerUser@list_categories');
+        ClassRoutes::GET('category/my-categories','ControllerUser@my_categories');
+        ClassRoutes::DELETE('category','ControllerUser@remove_category');
 
     /**
 	 *	Rotas Auth
 	 */
         ClassRoutes::POST('auth/login','ControllerAuth@login');
         ClassRoutes::POST('auth/logout','ControllerAuth@logout');
-
-    /**
-     *  Rotas para tipos de ações
-     */ 
-        
-        ClassRoutes::POST('admin/action-type/new','ControllerActionType@public_action_type');
-        ClassRoutes::POST('admin/action-type/new','ControllerActionType@public_action_type_list');

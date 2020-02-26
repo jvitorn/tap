@@ -17,7 +17,7 @@
    
     class Controller {
 
-        protected $render;
+        public $render;
         protected $user;
         
         use \Src\Traits\TraitCrypt;

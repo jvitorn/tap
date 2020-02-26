@@ -182,7 +182,7 @@
         }
 
         static protected function where($where){
-            self::$where .= " AND $where ";
+            self::$where .= " $where ";
         }
 
         static protected function orderBy($order){

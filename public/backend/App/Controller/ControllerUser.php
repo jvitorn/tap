@@ -279,12 +279,21 @@
         }
 
         /* adicionar tipos de ações apenas para quem criou */
-        public function action_type($data = []){
+        public function new_action_type($data = []){
+            $this->validate_access(['user','adm']);
+            
+            $data['is_public'] = 0;
+            $data['active'] = 1;
+            $cAT    = new ControllerActionType();
+            $res = $cAT->new_action_type($this->user, $data);
+        }
+
+        public function edit_action_type($data = []){
             $this->validate_access(['user','adm']);
             
             $data['is_public'] = 0;
             $cAT    = new ControllerActionType();
-            $cAT->action_type($this->user, $data);
+            $res = $cAT->edit_action_type($this->user, $data);
         }
 
         public function list_action_type($data){
@@ -292,7 +301,7 @@
             
             $data['is_public'] = 0;
             $cAT    = new ControllerActionType();
-            $cAT->list($this->user, $data);
+            $res = $cAT->list($this->user, $data);
         }
 
         public function remove_action_type($id){
@@ -300,17 +309,6 @@
             
             $data['is_public'] = 0;
             $cAT    = new ControllerActionType();
-            $res = $cAT->remove($this->user,['id' => $id]);
-
-            if($res == 'success'){
-                $json['status'] = 'success';
-                $json['msg']    = 'Tipo de ação deletada com sucesso';
-            }else{
-                $json['status'] = 'success';
-                $json['msg']    = "Erro: não foi possivel deletar o item\r\n";
-                $json['msg']   .= $res;
-            }
-
-            $this->render->json($json);
+            $cAT->remove($this->user,['id' => $id]);  
         }
 	}

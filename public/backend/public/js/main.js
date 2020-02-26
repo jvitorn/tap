@@ -21,11 +21,3 @@ function sucesso(data){
 function erro(){
 	console.log("algo de errado nao esta certo");
 }
-
-function exemplo(){
-	var url = "Home/teste";
-	var data = {'nome':'jdc'}
-	requisicaoAjax(url,data,sucesso,erro);
-}
-
-exemplo();

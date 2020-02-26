@@ -1,0 +1,41 @@
+########################################################################################################
+# REQUISITOS DESLOGADO
+
+1. 	CADASTRO DE USUÁRIO
+		1.1. validação 		[
+			Os campos NAME, EMAIL e PASSWORD são obrigatórios.
+			O campo PASSWORD deve conter no minimo 6 digitos.
+		]
+		1.2. verificação 	[O campo EMAIL não pode já estar cadastrado]
+
+2. 	ENTRAR NO SISTEMA (LOGAR)
+		2.1. validação 		[Os campos email e password são obrigatórios]
+		2.3. verificação 	[ O usuário deve estar ativo ]
+
+3. 	PEDIDO DE RECUPERAÇÃO SENHA
+		3.1. validação 		[O campo EMAIL é obrigatório]
+		3.2. autenticação 	[Deve ser gerado um CÓDIGO de autenticação para o usuário]
+		3.3. verificação 	[Deve ser enviado um EMAIL para o usuário com o CODIGO de verificação]
+
+4. 	VERIFICAÇÃO DO CÓDIGO DE REDEFINIÇÃO DE SENHA
+		4.1. validação 		[O campo CODIGO é obrigatório]
+		4.2. verificação 	[O código enviado deve ser igual ao código gerado pelo sistema]
+
+5. 	REDEFINIÇÃO DE SENHA
+		5.1 validação 		[Os campos PASSWORD e CONFIRM_PASSWORD são obrigatórios e devem ser iguais]
+
+########################################################################################################
+# REQUISITOS LOGADO [REQUISITOS DE ADMINISTRADOR]
+
+6. 	BUSCAR USUÁRIOS
+		6.1. restrição		[É possivel filtrar os usuários pelos campos NAME e ACTIVE]
+
+7. 	EXCLUIR USUÁRIOS
+
+8. 	ADICIONAR NOVO TIPO DE AÇÃO
+		8.1. validação		[Os campos NAME, TYPE e ACTIVE são obrigatórios]
+
+9. 	BUSCAR TIPO DE AÇÃO
+		9.1. restrição		[É possivel filtrar os tipos de ação pelos campos NAME, TYPE e ACTIVE]
+
+10.	EXCLUIR TIPO DE AÇÃO 

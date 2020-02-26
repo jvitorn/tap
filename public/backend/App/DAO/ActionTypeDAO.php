@@ -19,7 +19,7 @@
 
 		static public function create(ActionType $at){
             /**
-             * Verifica se já existe no banco uma ação que seja:
+             * Verifica se já existe no banco um tipo de ação que seja:
              *  do mesmo usuário + do mesmo tipo + com o mesmo nome + do mesmo código publico
              */
             $a = new ActionType( $at->getUser(),
@@ -52,12 +52,22 @@
 
 		static public function edit(ActionType $at){
             if(is_numeric($at->getId())){
-                $res = self::find(new ActionType($at->getUser(),['id' => $at->getId()]));
+                $res = self::find(new ActionType($at->getUser(),[
+                    'id' => $at->getId(),
+                    'is_public' => $at->getIs_public()
+                ]));
 
                 if(is_array($res) && count($res) > 0){
                     parent::array_to_sql_update($at->getAttributesAsArray());
-                    parent::array_to_sql_where('action_type',['id' => $at->getId() ]);
-                    return parent::Update('action_type');
+                    parent::array_to_sql_where('action_type',[
+                        'id' => $at->getId(),
+                        'is_public' => $at->getIs_public()
+                    ]);
+                    if( parent::Update('action_type')){
+                        return 'success';
+                    }
+                }else{
+                    return 'Tipo de ação não encontrada';
                 }
             }
 		}
@@ -69,6 +79,8 @@
                 $data = self::find($at);
 
                 if(is_array($data) && count($data) > 0){
+
+                    // deletando o tipo de tarefa
                     $where = ['id' => $at->getId(), 'user' => $at->getUser()->getId() ];
                     parent::array_to_sql_where('action_type',$where);
 				    return parent::Delete('action_type');

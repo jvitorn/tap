@@ -9,7 +9,7 @@
         private $footer = "_footer.php";
 
         public function setLayout($layout){ $this->layout = $layout.$this->layout; }
-        public function setMain($main){ $this->main = $main.".html"; }
+        public function setMain($main){ $this->main = $main.".php"; }
         public function setFooter($footer){ $this->footer = $footer. $this->footer; }
 
         /**

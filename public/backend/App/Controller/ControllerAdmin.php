@@ -3,6 +3,7 @@
 
     use App\Controller\ControllerUser;
     use App\Controller\ControllerAuth;
+    use App\Controller\ControllerActionType;
 
 	use App\Model\User;
 	
@@ -13,37 +14,64 @@
 	 */
 	class ControllerAdmin extends ControllerUser{
 
-        public function list($data = []){
+        public function __construct(){
             $this->validate_access('adm');
+        }
+
+        public function list($data = []){ 
 			$user   = new User($data);
 			$users  = UserDAO::find($user);
 			$this->render->json($users);
         }
         
-        public function remove($data = []){
+        public function remove_user($id){
 
-            $this->validate_access('adm');
-
-            if($this->user->getId() != $data['id'] ){
-                $user = new User( ['id' => $data['id'] ]);
+            if($this->user->getId() != $id ){
+                $user = new User( ['id' => $id ]);
 
                 $data = UserDAO::remove($user);
                 if(is_bool($data)){
-                    $res['status'] 	= 'success';
-                    $res['msg']		= 'Usuário deletado com sucesso!';
+                    $json['status'] 	= 'success';
+                    $json['msg']		= 'Usuário deletado com sucesso!';
                 }else{
-                    $res['status'] = 'error';
+                    $json['status'] = 'error';
                     if($data != ''){
-                        $res['msg'] = $data;
+                        $json['msg'] = $data;
                     }else{
-                        $res['msg'] = 'Erro: não foi possivel deletar o usuário.';
+                        $json['msg'] = 'Erro: não foi possivel deletar o usuário.';
                     }
                 }
             }else{
-                $res['status']  = 'error';
-                $res['msg']     = "Voce não pode se excluir através desta função"; 
+                $json['status']  = 'error';
+                $json['msg']     = "Voce não pode se excluir através desta função"; 
             }
             
-            $this->render->json($res);
+            $this->render->json($json);
 		}
+
+        /* adicionar tipos de ações apenas para quem criou */
+        public function new_action_type($data = []){            
+            $data['is_public'] = 1;
+            $data['active'] = 1;
+            $cAT    = new ControllerActionType();
+            $res = $cAT->new_action_type($this->user, $data);
+        }
+
+        public function edit_action_type($data = []){        
+            $data['is_public'] = 1;
+            $cAT    = new ControllerActionType();
+            $res = $cAT->edit_action_type($this->user, $data);
+        }
+
+        public function list_action_type($data){
+            $data['is_public'] = 1;
+            $cAT    = new ControllerActionType();
+            $res = $cAT->list($this->user, $data);
+        }
+
+        public function remove_action_type($id){           
+            $data['is_public'] = 1;
+            $cAT    = new ControllerActionType();
+            $cAT->remove($this->user,['id' => $id]);  
+        }
 	}

@@ -10,11 +10,26 @@ body {
 }
 
 #div-1 {
-    height: 250px;
+    height: 280px;
     margin-top: 10px;
     border-radius: 5px;
     box-shadow: -4px 0px 10px 2px rgba(0,0,0,0.2);
     background-color: rgb(241, 241, 241);
+}
+
+#div-1 h3 {
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+#teste {
+    height: 60px;
+    border: 1px solid #000;
+}
+
+#all-tasks h6 {
+    margin-top: 10px;
+    margin-left: 5px;
 }
 
 #div-2 {
@@ -58,6 +73,14 @@ body {
 .button-item {
     height: 10vh;
     border-left: 1px solid #08AEEA;
+    align-content: center;
     /* box-shadow: inset -2px 0px 5px 0px rgba(0,0,0,0.41); */
     /* position: relative; */
+}
+
+.button-item i {
+    margin-top: 18px;
+    margin-left: 2px;
+    font-size: 26px;
+    color: #08AEEA;
 }

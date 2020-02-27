@@ -30,18 +30,15 @@
 		private $dthr_final;
 		private $value;
 
-		use \Src\Traits\TraitGetAttributesAsArray;
+		public function __construct($data = []){
 
-		public function __construct(User $user,Category $cat, $data = []){
-
-            $this->setUser($user);
-            $this->setCategory($cat);
-			
 			foreach($data as $name => $val){
 				$setter = 'set'.ucfirst($name);
 				if(method_exists($this,$setter)) $this->set($setter, $val);
 			}
 		}
+
+		use \Src\Traits\TraitGetAttributesAsArray;
 
 		public function getUser(){ return $this->user; }
 		public function setUser(User $user){ $this->user = $user; }

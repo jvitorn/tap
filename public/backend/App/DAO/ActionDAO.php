@@ -19,6 +19,15 @@
 	class ActionDAO extends DAO {
 
 		static public function create(Action $action){
+            
+            if(empty($action->getUser())){
+                return 'O usuário deve ser informado!';
+            }
+
+            if(empty($action->getCategory())){
+                return 'A categoria deve ser informada!';
+            }
+
             parent::array_to_sql_create($action->getAttributesAsArray());
 	        return parent::Insert('action');
 		}
@@ -31,13 +40,12 @@
 
 		static public function edit(Action $action){
 
-            if(is_numeric($action->getId())){
+            if(is_numeric($action->getId()) && is_object($action->getUser())){
 
                 $res = self::find(new Action(
-                    $action->getUser(),
-                    $action->getCategory(),
                     [
-                        'id'    => $action->getId(),
+                        'user'      => $action->getUser(),
+                        'id'        => $action->getId()
                     ]
                 ));
 
@@ -45,9 +53,7 @@
                     parent::array_to_sql_update($action->getAttributesAsArray());
                     parent::array_to_sql_where('action',[
                         'user'      => $action->getUser(),
-                        'category'  => $action->getCategory(),
-                        'id'        => $action->getId(),
-                        
+                        'id'        => $action->getId()
                     ]);
 
                     if( parent::Update('action')){

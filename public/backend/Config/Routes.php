@@ -51,6 +51,12 @@
         ClassRoutes::GET('category/my-categories','ControllerUser@my_categories');
         ClassRoutes::DELETE('category','ControllerUser@remove_category');
 
+        /* Rotas para criar, editar, listar e excluir ações */
+        ClassRoutes::POST('action','ControllerUser@new_action');
+        ClassRoutes::PUT('action','ControllerUser@edit_action');
+        ClassRoutes::GET('action','ControllerUser@list_actions');
+        ClassRoutes::DELETE('action','ControllerUser@remove_action');
+
     /**
 	 *	Rotas Auth
 	 */

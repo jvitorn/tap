@@ -162,6 +162,8 @@
 
                     if(is_array($val)){
                         self::$where .= $tbl.".".$col ." = '".$val['id']."' ";
+                    }else if(is_object($val)){
+                        self::$where .= $tbl.".".$col ." = '".$val->getId()."' ";
                     }else{
                         self::$where .= $tbl.".".$col ." = '".$val."' ";
                     }

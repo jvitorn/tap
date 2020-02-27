@@ -3,18 +3,19 @@
 
     use App\Controller\ControllerUser;
     use App\Controller\ControllerAuth;
-    use App\Controller\ControllerActionType;
+    use App\Controller\ControllerCategory;
 
 	use App\Model\User;
 	
 	use App\DAO\UserDAO;
 
 	/**
-	 * @method $this->transform_obj_in_array($ObjArray, "$name");
-	 */
+     * @method $this->render->json($dataArray);
+     */
 	class ControllerAdmin extends ControllerUser{
 
         public function __construct(){
+            parent::__construct();
             $this->validate_access('adm');
         }
 
@@ -50,28 +51,32 @@
 		}
 
         /* adicionar tipos de ações apenas para quem criou */
-        public function new_action_type($data = []){            
+        public function new_category($data = []){            
             $data['is_public'] = 1;
             $data['active'] = 1;
-            $cAT    = new ControllerActionType();
-            $res = $cAT->new_action_type($this->user, $data);
+            $cat    = new ControllerCategory();
+            $res = $cat->create($this->user, $data);
+            $this->render->json($res);
         }
 
-        public function edit_action_type($data = []){        
+        public function edit_category($data = []){        
             $data['is_public'] = 1;
-            $cAT    = new ControllerActionType();
-            $res = $cAT->edit_action_type($this->user, $data);
+            $cat    = new ControllerCategory();
+            $res = $cat->edit($this->user, $data);
+            $this->render->json($res);
         }
 
-        public function list_action_type($data){
+        public function list_categories($data){
             $data['is_public'] = 1;
-            $cAT    = new ControllerActionType();
-            $res = $cAT->list($this->user, $data);
+            $cat    = new ControllerCategory();
+            $res = $cat->list($this->user, $data);
+            $this->render->json($res);
         }
 
-        public function remove_action_type($id){           
+        public function remove_category($id){           
             $data['is_public'] = 1;
-            $cAT    = new ControllerActionType();
-            $cAT->remove($this->user,['id' => $id]);  
+            $cat    = new ControllerCategory();
+            $res = $cat->remove($this->user,['id' => $id]);
+            $this->render->json($res);
         }
 	}

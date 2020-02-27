@@ -3,7 +3,7 @@
 
     use App\Controller\Controller;
     use App\Controller\ControllerEmail;
-    use App\Controller\ControllerActionType;
+    use App\Controller\ControllerCategory;
 
 	use App\Model\User;
 	
@@ -13,6 +13,10 @@
 	 * @method $this->render->json($dataArray);
 	 */
 	class ControllerUser extends Controller {
+
+        public function __construct(){
+            parent::__construct();
+        }
 
         public function add($data = []){
 
@@ -279,36 +283,61 @@
         }
 
         /* adicionar tipos de ações apenas para quem criou */
-        public function new_action_type($data = []){
+        public function new_category($data = []){
             $this->validate_access(['user','adm']);
             
             $data['is_public'] = 0;
             $data['active'] = 1;
-            $cAT    = new ControllerActionType();
-            $res = $cAT->new_action_type($this->user, $data);
+            $cAT    = new ControllerCategory();
+            $res = $cAT->create($this->user, $data);
+
+            $this->render->json($res);
         }
 
-        public function edit_action_type($data = []){
+        public function edit_category($data = []){
+            $this->validate_access(['user','adm']);
+            
+            $data['is_public']  = 0;
+            $cAT    = new ControllerCategory();
+            $res = $cAT->edit($this->user, $data);
+
+            $this->render->json($res);
+        }
+
+        public function list_categories($data){
+            $this->validate_access(['user','adm']);
+            
+            $cAT    = new ControllerCategory();
+
+            // pegando as categorias do usuário
+            $data['is_public']  = 0;
+            $json   = $cAT->list($this->user, $data);
+
+            // pegando as categorias publicas
+            $data['is_public']  = 1;
+            $data['active']     = 1;
+            $res  = $cAT->list($this->user, $data);
+
+            if(is_array($res)) $json = array_merge($res, $res);
+
+            $this->render->json($json);
+        }
+
+        public function my_categories(){
             $this->validate_access(['user','adm']);
             
             $data['is_public'] = 0;
-            $cAT    = new ControllerActionType();
-            $res = $cAT->edit_action_type($this->user, $data);
+            $cAT    = new ControllerCategory();
+            $json = $cAT->list($this->user, $data);
+            $this->render->json($json);
         }
 
-        public function list_action_type($data){
+        public function remove_category($id){
             $this->validate_access(['user','adm']);
             
             $data['is_public'] = 0;
-            $cAT    = new ControllerActionType();
-            $res = $cAT->list($this->user, $data);
-        }
-
-        public function remove_action_type($id){
-            $this->validate_access(['user','adm']);
-            
-            $data['is_public'] = 0;
-            $cAT    = new ControllerActionType();
-            $cAT->remove($this->user,['id' => $id]);  
+            $cAT    = new ControllerCategory();
+            $res = $cAT->remove($this->user,['id' => $id]);
+            $this->render->json($res);
         }
 	}

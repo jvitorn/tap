@@ -13,7 +13,11 @@ body {
     text-align: center;
 }
 
-#logo-area h3 { margin-top: 30px; }
+#logo-area img {
+    height: 90px;
+    width: 130px;
+    margin-top: 6px;
+}
 
 #form-area {
     height: 84vh;
@@ -58,4 +62,18 @@ button {
 .form-checkbox input:checked + .form-icon, .form-radio input:checked + .form-icon, .form-switch input:checked + .form-icon {
     background: #08AEEA;
     border-color: #08AEEA;
+}
+
+
+@media screen and (min-width: 1024px) {
+    #form-title {
+        margin-top: 4vh;
+        font-size: 26px;
+    }
+    
+    #form-title p { font-size: 18px; }
+
+    #logo-area img {
+        margin-top: 10px;
+    }
 }

@@ -10,12 +10,14 @@
 
 2. 	ENTRAR NO SISTEMA (LOGAR)
 		2.1. validação 		[Os campos email e password são obrigatórios]
-		2.3. verificação 	[ O usuário deve estar ativo ]
+		2.3. verificação 	[O usuário deve estar ativo ]
 
 3. 	PEDIDO DE RECUPERAÇÃO SENHA
 		3.1. validação 		[O campo EMAIL é obrigatório]
-		3.2. autenticação 	[Deve ser gerado um CÓDIGO de autenticação para o usuário]
-		3.3. verificação 	[Deve ser enviado um EMAIL para o usuário com o CODIGO de verificação]
+		3.2. verificação 	[O EMAIL deve existir no Banco de Dados]
+		3.3. autenticação 	[Deve ser gerado automaticamente um CÓDIGO de autenticação]
+		3.4. verificação 	[Deve ser enviado um EMAIL para o usuário com o CODIGO de verificação]
+		3.5 autenticação 	[O usuário deve inserir o código na tela especificada]
 
 4. 	VERIFICAÇÃO DO CÓDIGO DE REDEFINIÇÃO DE SENHA
 		4.1. validação 		[O campo CODIGO é obrigatório]
@@ -28,14 +30,17 @@
 # REQUISITOS LOGADO [REQUISITOS DE ADMINISTRADOR]
 
 6. 	BUSCAR USUÁRIOS
-		6.1. restrição		[É possivel filtrar os usuários pelos campos NAME e ACTIVE]
+		6.1. restrição		[É possivel filtrar os usuários pelos campos NAME e ACTIVE entre usuários ou administraores]
+		6.2. restrição 		[Apenas administradores podem ter acesso a busca de usuário]
 
 7. 	EXCLUIR USUÁRIOS
+		7.1 				[O campo CONFIRMAR deve estar checado]
 
-8. 	ADICIONAR NOVO TIPO DE AÇÃO
+8. 	ADICIONAR NOVA CATEGORIA
 		8.1. validação		[Os campos NAME, TYPE e ACTIVE são obrigatórios]
+		8.2. restrição 		[Categorias geradas pelo usuário serão sempre privadas]
 
 9. 	BUSCAR TIPO DE AÇÃO
 		9.1. restrição		[É possivel filtrar os tipos de ação pelos campos NAME, TYPE e ACTIVE]
 
-10.	EXCLUIR TIPO DE AÇÃO 
+10.	EXCLUIR TIPO DE AÇÃO 	

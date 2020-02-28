@@ -1,46 +1,92 @@
 ########################################################################################################
-# REQUISITOS DESLOGADO
+# TABELA USUÁRIO
 
-1. 	CADASTRO DE USUÁRIO
-		1.1. validação 		[
+ 	CADASTRO DE USUÁRIO
+		validação 		[
 			Os campos NAME, EMAIL e PASSWORD são obrigatórios.
 			O campo PASSWORD deve conter no minimo 6 digitos.
 		]
-		1.2. verificação 	[O campo EMAIL não pode já estar cadastrado]
+		verificação 	[O campo EMAIL não pode já estar cadastrado]
 
-2. 	ENTRAR NO SISTEMA (LOGAR)
-		2.1. validação 		[Os campos email e password são obrigatórios]
-		2.3. verificação 	[O usuário deve estar ativo ]
+ 	ENTRAR NO SISTEMA (LOGAR)
+		validação 		[Os campos email e password são obrigatórios]
+		verificação 	[O usuário deve estar ativo ]
 
-3. 	PEDIDO DE RECUPERAÇÃO SENHA
-		3.1. validação 		[O campo EMAIL é obrigatório]
-		3.2. verificação 	[O EMAIL deve existir no Banco de Dados]
-		3.3. autenticação 	[Deve ser gerado automaticamente um CÓDIGO de autenticação]
-		3.4. verificação 	[Deve ser enviado um EMAIL para o usuário com o CODIGO de verificação]
-		3.5 autenticação 	[O usuário deve inserir o código na tela especificada]
+ 	PEDIDO DE RECUPERAÇÃO SENHA
+		validação 		[O campo EMAIL é obrigatório]
+		verificação 	[O EMAIL deve existir no Banco de Dados]
+		autenticação 	[Deve ser gerado automaticamente um CÓDIGO de autenticação]
+		verificação 	[Deve ser enviado um EMAIL para o usuário com o CODIGO de verificação]
+		autenticação 	[O usuário deve inserir o código na tela especificada]
 
-4. 	VERIFICAÇÃO DO CÓDIGO DE REDEFINIÇÃO DE SENHA
-		4.1. validação 		[O campo CODIGO é obrigatório]
-		4.2. verificação 	[O código enviado deve ser igual ao código gerado pelo sistema]
+ 	VERIFICAÇÃO DO CÓDIGO DE REDEFINIÇÃO DE SENHA
+		validação 		[O campo CODIGO é obrigatório]
+		verificação 	[O código enviado deve ser igual ao código gerado pelo sistema]
 
-5. 	REDEFINIÇÃO DE SENHA
-		5.1 validação 		[Os campos PASSWORD e CONFIRM_PASSWORD são obrigatórios e devem ser iguais]
+ 	REDEFINIÇÃO DE SENHA
+		validação 		[Os campos PASSWORD e CONFIRM_PASSWORD são obrigatórios e devem ser iguais]
+
+ 	BUSCAR USUÁRIOS
+		restrição		[É possivel filtrar os usuários pelos campos NAME e ACTIVE entre usuários ou administraores]
+		restrição 		[Apenas administradores podem ter acesso a busca de usuário]
+
+	PEDIDO DE EXCLUSÃO DE CONTA
+		restrição 		[O usuário deve estar logado para acessar esta função]
+		verificação 	[Deve ser enviado um EMAIL para o usuário com o CODIGO de verificação]
+		autenticação 	[O usuário deve inserir o código na tela especificada]
+
+ 	EXCLUIR USUÁRIO
+		validação		[O campo CONFIRMAR deve estar checado]
+		restrição		[O usuário só pode excluir a propria conta]
+		restrição 		[Apenas administradores podem excluir outras contas]
 
 ########################################################################################################
-# REQUISITOS LOGADO [REQUISITOS DE ADMINISTRADOR]
+# TABELA CATEGORIA
 
-6. 	BUSCAR USUÁRIOS
-		6.1. restrição		[É possivel filtrar os usuários pelos campos NAME e ACTIVE entre usuários ou administraores]
-		6.2. restrição 		[Apenas administradores podem ter acesso a busca de usuário]
+ 	ADICIONAR CATEGORIA
+		validação		[Os campos NAME, TYPE e ACTIVE são obrigatórios]
+		restrição 		[Categorias geradas pelo usuário serão sempre privadas]
 
-7. 	EXCLUIR USUÁRIOS
-		7.1 				[O campo CONFIRMAR deve estar checado]
+	BUSCAR CATEGORIA
+		restrição		[É possivel filtrar as categoria pelos campos NAME, TYPE e ACTIVE]
+		restrição 		[Os usuários só podem ver categorias publicas e categorias que criou]
+		restrição 		[Os Administradores só podem ver categorias publicas]
 
-8. 	ADICIONAR NOVA CATEGORIA
-		8.1. validação		[Os campos NAME, TYPE e ACTIVE são obrigatórios]
-		8.2. restrição 		[Categorias geradas pelo usuário serão sempre privadas]
+	ATUALIZAR CATEGORIA
+		validação		[Os campos NAME, TYPE e ACTIVE são obrigatórios]
+		restrição 		[O usuário só pode atualizar as proprias categorias]
+		restrição 		[Os administradores só podem atualizar categorias publicas]
 
-9. 	BUSCAR TIPO DE AÇÃO
-		9.1. restrição		[É possivel filtrar os tipos de ação pelos campos NAME, TYPE e ACTIVE]
+	EXCLUIR CATEGORIA 	
+		validação		[O campo CONFIRMAR deve estar checado]
+		restrição		[Um usuário só pode excluir suas proprias categorias]
+		restrição 		[Um administrador só pode excluir categorias publicas]
 
-10.	EXCLUIR TIPO DE AÇÃO 	
+########################################################################################################
+# TABELA AÇÃO
+
+	ADICIONAR AÇÃO
+		validação 		[Os campos NAME e CATEGORY são obrigatórios]
+		restrição 		[Apenas usuários podem adicionar ações]
+
+	BUSCAR AÇÃO
+		restrição 		[As ações devem ser agrupadas por CATEGORY e CATEGORY.TYPE]
+		restrição 		[É possivel filtrar as ações por CATEGORY]
+
+	ATUALIZAR AÇÃO
+		restrição 		[Os campos NAME e CATEGORY são obrigatórios]
+		restrição 		[Um usuário só pode atualizar as proprias ações]
+
+	EXCLUIR AÇÃO
+		validação		[O campo CONFIRMAR deve estar checado]
+		restrição		[Um usuário só pode excluir suas proprias categorias]
+
+########################################################################################################
+# TABELA EMAIL
+	
+	BUSCAR EMAIL
+		restrição 		[Apenas administradores podem acessar esta função]
+
+	EDITAR EMAIL
+		restrição 		[Os campos TITTLE, CONTENT]
+		restrição 		[Apenas administradores podem acessar esta função]

@@ -14,7 +14,7 @@
 	 */
 	class ControllerAction extends Controller {
 
-        public function create($data = []){
+        public function create(User $user, $data = []){
 
             $json['status'] = 'error';
             $json['msg']    = '';
@@ -23,7 +23,10 @@
                 $json['msg'] .= "O campo NAME deve ser informado!\r\n";
             }else{
                 $data['created_at'] = date('Y-m-d h:i:s');
-                $res = ActionDAO::create( new Action($data) );
+                
+                $cat = new Category($user, ['id' => $data['category']]);
+
+                $res = ActionDAO::create(new Action($user, $cat, $data) );
 
                 if(is_numeric($res)){
                     $json['status'] = 'success';
@@ -37,13 +40,16 @@
             return $json;
         }
 
-        public function edit($data = []){
+        public function edit(User $user, $data = []){
            
             $json = ['status' => 'error','msg' => ''];
 
             unset($data['created_at']);
             $data['updated_at'] = date('Y-m-d h:i:s');
-            $res = ActionDAO::edit(new Action($data));
+
+            $cat = new Category($user, ['id' => $data['category']]);
+            
+            $res = ActionDAO::edit(new Action($user, $cat, $data));
 
             if($res == 'success'){
                 $json['status'] = 'success';
@@ -56,23 +62,33 @@
             return $json;
         }
 
-        public function list($data){
+        public function list(User $user, $data){
             $json = ['status' => 'error','msg' => ''];
-            $json = ActionDAO::find(new Action($data));
+
+            if(isset($data['category'])){
+                $cat = new Category($user, ['id' => $data['category']]);
+            }else{
+                $cat = $cat = new Category($user);
+            }
+
+            $json = ActionDAO::find(new Action($user, $cat, $data));
+
             return $json;
         }
 
-        public function remove($data){
+        public function remove(User $user, $id){
+
             $json = ['status' => 'error','msg' => ''];
             $paramStatusOk = true;
 
-            if(!isset($data['id']) || !is_numeric($data['id'])){
+            if(!isset($id) || !is_numeric($id)){
                 $json['msg'] = 'O ID do item precisa ser informado';
                 $paramStatusOk = false;
             }
 
             if($paramStatusOk){
-                $res = ActionDAO::remove(new Action($data));
+                $cat = $cat = new Category($user);
+                $res = ActionDAO::remove(new Action($user,$cat,['id' => $id]));
 
                 if($res == 'success'){
                     $json['status'] = 'success';

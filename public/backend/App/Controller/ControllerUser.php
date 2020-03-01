@@ -349,46 +349,26 @@
         /**
          * METODOS DE MANIPULAÇÃO DE AÇÕES
          */
-        public function new_action($data = []){
+        private function action($method, $data){
             $this->validate_access(['user','adm']);
 
-            $data['user'] = $this->user;
-            $data['category'] = new Category($this->user, ['id' => $data['category']]);
-            $json   = (new ControllerAction())->create($data);
-
+            $json   = (new ControllerAction())->{$method}($this->user, $data);
             $this->render->json($json);
+        }
+
+        public function new_action($data = []){
+            $this->action('create', $data);
         }
 
         public function edit_action($data = []){
-            $this->validate_access(['user','adm']);
-            $json = ['status' => 'error', 'msg' =>''];
-            
-            $data['user'] = $this->user;
-            $data['category'] = new Category($this->user, ['id' => $data['category']]);
-            $json   = (new ControllerAction())->edit($data);
-        
-
-            $this->render->json($json);
+            $this->action('edit', $data);
         }
 
         public function list_actions($data = []){
-            $this->validate_access(['user','adm']);
-            $json   = ['status' => 'error', 'msg' =>''];
-
-            $data['user'] = $this->user;
-            if(isset($data['category'])){
-                $data['category'] = new Category($this->user, ['id' => $data['category']]);    
-            }
-            
-            $json   = (new ControllerAction())->list($data);
-            $this->render->json($json);
+            $this->action('list', $data);
         }
 
         public function remove_action($id = null){
-            $this->validate_access(['user','adm']);
-            $data['user'] = $this->user;
-            $data['id'] = $id;
-            $json   = (new ControllerAction())->remove($data);
-            $this->render->json($json);
+            $this->action('remove', $id);   
         }
 	}

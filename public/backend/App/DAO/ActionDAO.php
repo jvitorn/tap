@@ -28,14 +28,11 @@
                 return 'A categoria deve ser informada!';
             }
 
-            parent::array_to_sql_create($action->getAttributesAsArray());
-	        return parent::Insert('action');
+	        return parent::base_create('action',$action);
 		}
 
 		static public function find(Action $action){
-            parent::array_to_sql_where('action',$action->getAttributesAsArray());
-            self::columns($action->getPublicColumns());
-			return parent::Select('action');
+			return parent::base_find('action',$action);
 		}
 
 		static public function edit(Action $action){
@@ -43,23 +40,15 @@
             if(is_numeric($action->getId()) && is_object($action->getUser())){
 
                 $res = self::find(new Action(
-                    [
-                        'user'      => $action->getUser(),
-                        'id'        => $action->getId()
-                    ]
+                	$action->getUser(),
+                	$action->getCategory(),
+                	[	'user' => $action->getUser(),
+                		'id'=>$action->getId()
+                	]
                 ));
 
                 if(is_array($res) && count($res) > 0){
-                    parent::array_to_sql_update($action->getAttributesAsArray());
-                    parent::array_to_sql_where('action',[
-                        'user'      => $action->getUser(),
-                        'id'        => $action->getId()
-                    ]);
-
-                    if( parent::Update('action')){
-                        return 'success';
-                    }
-
+                    if( parent::base_edit('action',$action)) return 'success';
                 }else{
                     return 'Ação não encontrada';
                 }
@@ -73,9 +62,7 @@
                 $data = self::find($action);
 
                 if(is_array($data) && count($data) > 0){
-                    $where = ['id' => $action->getId()];
-                    parent::array_to_sql_where('action',$where);
-				    if(parent::Delete('action')) return 'success';
+				    if(parent::base_remove('action',$action)) return 'success';
                 }else{
                     return 'Esta ação não existe';
                 }

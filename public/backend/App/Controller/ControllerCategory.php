@@ -2,6 +2,7 @@
 	namespace App\Controller;
 
     use App\Controller\Controller;
+    use App\Controller\ControllerAction;
 
 	use App\Model\User;
     use App\Model\Category;
@@ -30,7 +31,7 @@
             return $json;
         }
 
-         public function edit(User $user, $data = []){
+        public function edit(User $user, $data = []){
             $json['status'] = 'error';
 
             if(isset($data['id'])){
@@ -49,12 +50,19 @@
                  $json['msg']    = "Erro:o campo ID deve ser informado!\r\n";
             }
             return $json;
-         }
+        }
 
         
         public function list(User $user, $data){
-            $cat = new Category($user, $data);
-            return CategoryDAO::find($cat);
+            $cat    = new Category($user, $data);
+            $cats   = CategoryDAO::find($cat);
+            
+            foreach($cats as $key => $cat){
+                $action = (new ControllerAction())->find(['category' => $cat['id']]);
+                $cats[$key]['actions'] = $actions;
+            }
+
+            return $cats;
         }
 
         public function remove($user, $data){

@@ -9,12 +9,12 @@
         static private $where     = 'id > 0 ';
         static private $cols      = '';
         static private $vals      = "";
-        static private $orderBy   = "";
+        static private $orderBy   = " id ASC";
         static private $limit     = "";
         static private $join      = "";
                 
         //metodo para insert, todo insert do sistema passa por este metodo
-        static protected function Insert($table){
+        static protected function insert($table){
             
             $sql = "INSERT INTO $table (".self::$cols.") VALUES (".self::$vals.")";
 
@@ -36,12 +36,12 @@
             self::$where     = 'id > 0 ';
             self::$cols      = '';
             self::$vals      = "";
-            self::$orderBy   = "";
+            self::$orderBy   = " id ASC";
             self::$limit     = "";
             self::$join      = "";
         }
 
-        static protected function Select($table){
+        static protected function select($table){
 
             /* monta a query apenas com as colunas e o nome da tabela.  */
             $sql = "SELECT ".self::$cols." FROM ". $table;
@@ -56,18 +56,18 @@
             if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
-            // echo $sql;
+            // if($table == 'action') echo $sql;
 
             return self::query($sql);
         }
         
-        static protected function Update($tabela){
+        static protected function update($tabela){
             $sql = "UPDATE $tabela SET ". self::$vals." WHERE ".self::$where." ";
             // echo $sql;
             return self::query($sql);
         }
         
-        static protected function Delete($tabela){
+        static protected function delete($tabela){
             $sql = "DELETE FROM $tabela WHERE ".self::$where;
             // echo $sql;
             return self::query($sql);
@@ -156,15 +156,17 @@
             foreach($data as $col => $val){
 
                 if(!is_null($val)){
-                    self::$where .= " AND ";
+                    $where = '';
 
-                    if(is_array($val)){
-                        self::$where .= $tbl.".".$col ." = '".$val['id']."' ";
+                    if(is_array($val) && isset($val['id']) && is_numeric($val['id'])){
+                        $where .= $tbl.".".$col ." = '".$val['id']."' ";
                     }else if(is_object($val)){
-                        self::$where .= $tbl.".".$col ." = '".$val->getId()."' ";
-                    }else{
-                        self::$where .= $tbl.".".$col ." = '".$val."' ";
+                        $where .= $tbl.".".$col ." = '".$val->getId()."' ";
+                    }else if(!is_array($val) && !is_object($val)){
+                        $where .= $tbl.".".$col ." = '".$val."' ";
                     }
+
+                    if(!empty($where)) self::$where .= " AND ".$where;
                 } 
             } 
         }
@@ -191,5 +193,37 @@
 
         static protected function limit($limit){
             self::$limit = $limit;
+        }
+
+        static public function base_create($tbl, $obj){
+            if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
+                self::array_to_sql_create($obj->getAttributesAsArray());
+                return self::insert($tbl);
+            }
+        }
+
+        static protected function base_find($tbl, $obj){
+            if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
+                self::array_to_sql_where($tbl,$obj->getAttributesAsArray());
+                self::columns($obj->getPublicColumns());
+                $res = self::select($tbl);
+                if(is_bool($res) && $res === true) return array();
+                return $res;
+            }
+        }
+
+        static public function base_edit($tbl, $obj){
+            if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
+                self::array_to_sql_update($obj->getAttributesAsArray());
+                self::array_to_sql_where($tbl,['id' => $obj->getId() ]);
+                return self::update($tbl);
+            }
+        }
+
+        static public function base_remove($tbl, $obj){
+            if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
+                self::array_to_sql_where($tbl,['id' => $obj->getId()]);
+                return self::delete($tbl);
+            }
         }
     }

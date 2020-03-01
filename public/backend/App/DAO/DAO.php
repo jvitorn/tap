@@ -32,15 +32,6 @@
             }
         }
 
-        static public function clearParams(){
-            self::$where     = 'id > 0 ';
-            self::$cols      = '';
-            self::$vals      = "";
-            self::$orderBy   = "";
-            self::$limit     = "";
-            self::$join      = "";
-        }
-
         static protected function Select($table){
 
             /* monta a query apenas com as colunas e o nome da tabela.  */
@@ -191,5 +182,14 @@
 
         static protected function limit($limit){
             self::$limit = $limit;
+        }
+
+        static public function clearParams(){
+            self::$where     = 'id > 0 ';
+            self::$cols      = '';
+            self::$vals      = "";
+            self::$orderBy   = "";
+            self::$limit     = "";
+            self::$join      = "";
         }
     }

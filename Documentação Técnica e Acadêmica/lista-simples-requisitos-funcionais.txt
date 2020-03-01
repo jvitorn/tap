@@ -20,7 +20,7 @@
 		validação 		[O campo EMAIL é obrigatório]
 		verificação 	[O EMAIL deve existir no Banco de Dados]
 		autenticação 	[Deve ser gerado automaticamente um CÓDIGO de autenticação]
-		verificação 	[Deve ser enviado um EMAIL para o usuário com o CODIGO de verificação]
+		verificação 	[O CÓDIGO gerado deve ser enviado para o E-MAIL do usuário]
 		autenticação 	[O usuário deve inserir o código no campo indicado]
 
  	VERIFICAÇÃO DO CÓDIGO DE REDEFINIÇÃO DE SENHA
@@ -38,6 +38,7 @@
 		restrição 		[O usuário deve estar logado para acessar esta função]
 		verificação 	[Deve ser enviado um EMAIL para o usuário com o CODIGO de verificação]
 		autenticação 	[O usuário deve inserir o código na tela indicada]
+		autenticação 	[O código enviado deve ser igual ao código gerado pelo sistema]
 
  	EXCLUIR USUÁRIO
 		validação		[O campo CONFIRMAR deve estar checado]
@@ -55,7 +56,6 @@
 		restrição		[É possivel filtrar as categoria pelos campos NAME, TYPE e ACTIVE]
 		restrição 		[Os usuários só podem ver categorias publicas e categorias que criou]
 		restrição 		[Os Administradores só podem ver categorias publicas]
-		restrição 		[A busca deve sempre retornar as ações da categoria]
 
 	ATUALIZAR CATEGORIA
 		validação		[Os campos NAME, TYPE e ACTIVE são obrigatórios]
@@ -75,9 +75,8 @@
 		restrição 		[Apenas usuários podem adicionar ações]
 
 	BUSCAR AÇÃO
-		restrição 		[As ações devem ser agrupadas por CATEGORY e CATEGORY.TYPE]
-		restrição 		[É possivel filtrar as ações por CATEGORY]
-		restrição 		[As ações devem ser agrupadas pelas suas CATEGORIAS]
+		restrição 		[É possivel filtrar as ações por NAME, CATEGORY e CATEGORY.TYPE]
+		restrição 		[O usuário deve estar logado para acessar esta fuñção]
 
 	ATUALIZAR AÇÃO
 		restrição 		[Os campos NAME e CATEGORY são obrigatórios]
@@ -94,14 +93,13 @@
 		restrição 		[Apenas administradores podem acessar esta função]
 
 	ATUALIZAR EMAIL
-		restrição 		[Os campos TITTLE, CONTENT e ACTIVE são obrigatórios]
+		validação 		[Os campos TITTLE, CONTENT e ACTIVE são obrigatórios]
 		restrição 		[Apenas administradores podem acessar esta função]
 
 ########################################################################################################
 # TABELA CONFIG
 	
 	BUSCAR CONFIG
-		restrição 		[Os campos NAME, VALUE, ACTIVE e TYPE são obrigatórios]
 		restrição 		[Apenas administradores podem acessar esta função]
 
 	ATULIZAR CONFIG

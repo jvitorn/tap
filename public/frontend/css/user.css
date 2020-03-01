@@ -1,0 +1,16 @@
+#basic-data {
+    height: 30vh;
+    background-color: #08AEEA;
+}
+
+#content-data {
+    height: 70vh;
+    background-color: rgb(211, 211, 211);
+}
+
+.data-box {
+    height: 65vh;
+    margin-top: 15px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}

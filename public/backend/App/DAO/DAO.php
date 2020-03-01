@@ -12,7 +12,6 @@
         static private $orderBy   = "";
         static private $limit     = "";
         static private $join      = "";
-        static private $set       = "";
                 
         //metodo para insert, todo insert do sistema passa por este metodo
         static protected function Insert($table){
@@ -40,7 +39,6 @@
             self::$orderBy   = "";
             self::$limit     = "";
             self::$join      = "";
-            self::$set       = "";
         }
 
         static protected function Select($table){
@@ -64,7 +62,7 @@
         }
         
         static protected function Update($tabela){
-            $sql = "UPDATE $tabela SET ". self::$set." WHERE ".self::$where." ";
+            $sql = "UPDATE $tabela SET ". self::$vals." WHERE ".self::$where." ";
             // echo $sql;
             return self::query($sql);
         }
@@ -150,7 +148,7 @@
                 }
             }
 
-            self::$set = $update;
+            self::$vals = $update;
         }
 
         static protected function array_to_sql_where($tbl, $data){

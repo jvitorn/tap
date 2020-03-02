@@ -215,6 +215,7 @@
             self::$limit = $limit;
         }
 
+
         static public function base_create($tbl, $obj){
             if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
                 self::array_to_sql_create($obj->getAttributesAsArray());

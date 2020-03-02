@@ -310,7 +310,7 @@
         }
 
         public function my_categories($data = []){
-            $this->category('list',$data);   
+            $this->category('list',$data);
         }
 
         public function remove_category($id){
@@ -318,22 +318,7 @@
         }
 
         public function list_categories($data){
-            
-            
-            $cAT    = new ControllerCategory();
-
-            // pegando as categorias do usuário
-            $data['is_public']  = 0;
-            $json = $cAT->list($this->user, $data);
-
-            // pegando as categorias publicas
-            $data['is_public']  = 1;
-            $data['active']     = 1;
-            $res  = $cAT->list($this->user, $data);
-
-            if(is_array($res)) $json = array_merge($res, $res);
-
-            $this->render->json($json);
+            $this->category('list_all',$data);
         }
 
         /**

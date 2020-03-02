@@ -44,7 +44,7 @@
             $data = self::find($user);
 
             if(is_array($data) && count($data) > 0){
-			    return parent::base_remove('user');
+			    return parent::base_remove('user',$user);
             }else{
                 return 'Este usuário não existe';
             }
@@ -57,20 +57,32 @@
                 $res = self::find($user);
 
 				if(is_array($res) && count($res) > 0){
-                    $user = new User($res[0]);
+                    $res = $res[0];
+                    $user->setId($res['user_id']);
+                    $user->setName($res['user_name']);
+                    $user->setWeight($res['user_weight']);
+                    $user->setHeight($res['user_height']);
+                    $user->setType($res['user_type']);
 
                     self::edit(new User(['is_logged' => 1,'id' => $user->getId()]) );
                     
                     $data = $user->getPublicColumnsAsArray();
-                    $data['jti'] = md5($res[0]['id'].date('hIymsid'));
+                    $data['jti'] = md5($res['user_id'].date('hIymsid'));
                     return $data;
 				}
 			}
         }
 
         static public function is_logged(User $user){
-            $user->setIs_logged(1);
-            $res = self::find($user);
+
+            $res = self::find(new User(
+                [
+                    'id'        => $user->getId(),
+                    'active'    => '1',
+                    'is_logged' => '1'
+                ]
+            ));
+
             if(is_array($res) && count($res) > 0) return true;
         }
         
@@ -86,7 +98,7 @@
                 
                 $user->setActive(1);
                 $user->setAuth('');
-                $user->setId($res[0]['id']);
+                $user->setId($res[0]['user_id']);
                 
                 if(self::edit($user)){
                     $return = 'success';
@@ -108,7 +120,7 @@
    
             if(is_array($res) && count($res) > 0){
                 $user->setAuth($code);
-                $user->setId($res[0]['id']);
+                $user->setId($res[0]['user_id']);
                 if(self::edit($user)){ return $res[0]; }
             }
         }
@@ -117,7 +129,7 @@
             $res = self::find($user);
 
             if(is_array($res) && count($res) > 0){
-                return $res[0]['id'];
+                return $res[0]['user_id'];
             }
         }
 
@@ -127,7 +139,7 @@
             if(is_array($res) && count($res) > 0){
                 $user->setAuth('');
                 $user->setPassword($pw);
-                $user->setId($res[0]['id']);
+                $user->setId($res[0]['user_id']);
                 return self::edit($user);
             }
         }

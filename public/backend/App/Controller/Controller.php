@@ -41,12 +41,13 @@
             $auth = new ControllerAuth();
 
             if( $auth->validate() ){
-                
+
                 if(!$this->has_permission($auth->get_token_data()->type, $permissao) ){
                     $this->no_permission_allowed();
                 }else{
                     $this->user = new User($auth->get_token_data());
                 }
+
             }else{
                 $this->no_permission_allowed();
             }
@@ -61,7 +62,6 @@
 
         private function has_permission($user_type, $permissao){
             if(is_array($permissao)){
-                
                 if(\in_array($user_type, $permissao)) return true;
             }else{
                 if($user_type == $permissao) return true;

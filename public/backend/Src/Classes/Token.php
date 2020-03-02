@@ -43,7 +43,7 @@
         public function validate($token){
             
             $exp = explode('.',$token);
-            
+
             if(count($exp) == 3){
                 
                 $gerado = hash_hmac('sha256',$exp[0].".".$exp[1],KEY,true);

@@ -57,17 +57,45 @@
             $cat    = new Category($user, $data);
             $cats   = CategoryDAO::find($cat);
             
+            $categories = [];
+            $c = 0;
+
             foreach($cats as $key => $cat){
-                $action = (new ControllerAction())->find(['category' => $cat['id']]);
-                $cats[$key]['actions'] = $actions;
+
+                $id = $cat['category_id'];
+
+                if(!isset($categories[$id])){
+                    foreach($cat as $key => $value){
+                        if(substr($key,0,8) == "category"){
+                            $categories[$id][$key] = $value;
+                        }
+                    }
+                    $c = 0;
+                }
+
+                $actions = null;
+
+                if(is_numeric($cat['action_id'])){
+
+                    foreach($cat as $key => $value){
+                        if(substr($key,0,6) == "action") $actions[$key] = $value;
+                    }    
+                }
+
+                if(is_array($actions)){
+                    $categories[$id]['actions'][$c] = $actions;
+                }else{
+                    $categories[$id]['actions'] = array();    
+                }
+                $c++;
             }
 
-            return $cats;
+            return $categories;
         }
 
-        public function remove($user, $data){
-            if(!isset($data['id'])) return 'O ID do item precisa ser informado';
-            $res = CategoryDAO::remove(new Category($user, $data));
+        public function remove($user, $id){
+            if(!isset($id)) return 'O ID do item precisa ser informado';
+            $res = CategoryDAO::remove(new Category($user,['id' => $id]));
 
             if($res == 'success'){
                 $json['status'] = 'success';

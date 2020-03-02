@@ -4,6 +4,7 @@
 	use App\DAO\DAO;
 	use App\Model\User;
     use App\Model\Category;
+    use App\Model\Action;
 
 	/**
 	 * @method Insert()
@@ -44,7 +45,10 @@
             // se for publica, desconsidera o Usuário como filtro
             if($cat->getIs_public()){ $cat->setUser(new User()); }
 
-			return parent::base_find('category',$cat);
+            parent::columns('action',(new Action($cat->getUser(),$cat))->getAttributesAsArray());
+            parent::join("LEFT JOIN action ON action.category = category.id");
+
+            return parent::base_find('category',$cat);
 		}
 
 		static public function edit(Category $cat){

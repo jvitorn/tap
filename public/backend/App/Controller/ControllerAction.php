@@ -92,10 +92,10 @@
 
                 if($res == 'success'){
                     $json['status'] = 'success';
-                    $json['msg']    = 'Categoria deletada com sucesso';
+                    $json['msg']    = 'Ação deletada com sucesso';
                 }else{
                     $json['status'] = 'success';
-                    $json['msg']    = "Erro: não foi possivel deletar a categoria\r\n";
+                    $json['msg']    = "Erro: não foi possivel deletar a ação\r\n";
                     $json['msg']   .= $res;
                 }    
             }

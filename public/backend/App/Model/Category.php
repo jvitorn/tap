@@ -28,7 +28,7 @@
 
 		public function __construct(User $user, $data = []){
 
-            $this->setUser($user);
+            $this->user = $user;
 			
 			foreach($data as $name => $val){
 				$setter = 'set'.ucfirst($name);
@@ -40,7 +40,6 @@
 		public function setName($nm){ $this->name = addslashes($nm); }
 
 		public function getUser(){ return $this->user; }
-		public function setUser(User $user){ $this->user = $user; }
 
 		public function getType(){ return $this->type; }
 		public function setType($tp){ $this->type = $tp; }
@@ -61,6 +60,6 @@
 		public function setIs_public($public){ $this->is_public = $public; }
 
 		public function getPublicColumns(){
-            return ('id, name, description, value, type,active, dt_initial, dt_final');
+            return ['id','name','description','value','type','active','dt_initial','dt_final']; 
         }
 	}

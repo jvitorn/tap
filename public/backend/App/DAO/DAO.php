@@ -36,7 +36,7 @@
             self::$where     = 'id > 0 ';
             self::$cols      = '';
             self::$vals      = "";
-            self::$orderBy   = " id ASC";
+            self::$orderBy   = "";
             self::$limit     = "";
             self::$join      = "";
         }
@@ -45,7 +45,10 @@
 
             /* monta a query apenas com as colunas e o nome da tabela.  */
             $sql = "SELECT ".self::$cols." FROM ". $table;
-            
+
+            /* se houver JOIN, adiciona a tabela.                       */
+            if(!empty(self::$join)) $sql .= " ".self::$join;
+
             /* se houver condição para o select, adiciona a condição.   */
             if(!empty(self::$where)) $sql .= " WHERE ".self::$where;
             
@@ -56,7 +59,7 @@
             if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
-            // if($table == 'action') echo $sql;
+            // if($table == 'category') echo $sql;
 
             return self::query($sql);
         }
@@ -152,6 +155,8 @@
         }
 
         static protected function array_to_sql_where($tbl, $data){
+            
+            self::$where = $tbl.".".self::$where;
 
             foreach($data as $col => $val){
 
@@ -171,8 +176,23 @@
             } 
         }
 
-        static protected function columns($cols){
-            self::$cols .= $cols;
+        static protected function columns($tbl, $cols){
+            
+            $fields = "";
+            if(!empty(self::$cols)) $fields = ",";
+            
+
+            $virgula = false;
+
+            foreach($cols as $col => $value){
+                
+                if($virgula) $fields .= ",";
+
+                $virgula = true;
+                $fields .= $tbl.".".$col." as ". $tbl."_".$col; 
+            }
+
+            self::$cols .= $fields;
         }
 
         static protected function values($vals){
@@ -205,7 +225,7 @@
         static protected function base_find($tbl, $obj){
             if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
                 self::array_to_sql_where($tbl,$obj->getAttributesAsArray());
-                self::columns($obj->getPublicColumns());
+                self::columns($tbl, $obj->getAttributesAsArray());
                 $res = self::select($tbl);
                 if(is_bool($res) && $res === true) return array();
                 return $res;

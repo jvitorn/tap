@@ -65,7 +65,6 @@
         }
 
         public function logout(){
-            
             $this->validate_access(['user','adm']);
             
             $data['status'] = 'error';
@@ -81,10 +80,10 @@
 
         public function validate(){
             $token = $this->getBearerToken();
-            
-            if(UserDAO::is_logged(new User( (new Token())->get_token_data($token)))){
+            $data = (new Token())->get_token_data($token);
+
+            if(UserDAO::is_logged(new User($data)))
                 return (new Token())->validate($token);
-            }
         }
 
         public function get_token_data(){

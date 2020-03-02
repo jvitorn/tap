@@ -27,7 +27,6 @@
 		private $weight;
 		private $gender;
 		private $dt_birth;
-		private $menu_config;
 
 		use \Src\Traits\TraitGetAttributesAsArray;
 
@@ -98,12 +97,9 @@
 
 		public function getDt_birth(){ return $this->dt_birth; }
 		public function setDt_birth($birth){ $this->dt_birth = $birth; }
-
-		public function getMenu_config(){ return $this->menu_config; }
-        public function setMenu_config($config){ $this->menu_config = $config; }
         
         public function getPublicColumns(){
-            return ('id, name, email, type,height, weight, gender, active, dt_birth');
+            return ['id','name','email','type','height','weight','gender','active','dt_birth'];
         }
 
         public function getPublicColumnsAsArray(){

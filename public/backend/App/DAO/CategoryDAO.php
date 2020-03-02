@@ -41,10 +41,7 @@
 		static public function find(Category $cat){
 
             $where = $cat->getAttributesAsArray();
-                
-            // se for publica, desconsidera o Usuário como filtro
-            if($cat->getIs_public()){ $cat->setUser(new User()); }
-
+            
             parent::columns('action',(new Action($cat->getUser(),$cat))->getAttributesAsArray());
             parent::join("LEFT JOIN action ON action.category = category.id");
 

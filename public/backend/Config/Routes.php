@@ -17,7 +17,7 @@
 	/**
 	 *	Rotas Admin
 	 */
-        ClassRoutes::GET('admin/user/list','ControllerAdmin@list');
+        ClassRoutes::GET('admin/user','ControllerAdmin@list');
         ClassRoutes::DELETE('admin/user','ControllerAdmin@remove_user');
 
         /* rotas para criar, editar, listar e excluir categorias publicas */
@@ -29,11 +29,11 @@
 	 *	Rotas Usuário
 	 */
         /* rotas para criação da conta */
-        ClassRoutes::POST('user/register','ControllerUser@add');
+        ClassRoutes::POST('user','ControllerUser@add');
         ClassRoutes::POST('user/confirm-account','ControllerUser@confirm_account');
         
         /* rota para atualizar dados da conta */
-        ClassRoutes::PUT('user/update','ControllerUser@edit');
+        ClassRoutes::PUT('user','ControllerUser@edit');
 
         /* rotas para redefinir senha*/
         ClassRoutes::POST('user/reset-password-request','ControllerUser@reset_password_request');
@@ -42,12 +42,12 @@
 
         /*rotas para exclusão da conta (necessário estar logado)*/
 		ClassRoutes::GET('user/delete-account-request','ControllerUser@delete_account_request');
-        ClassRoutes::DELETE('user/delete-account','ControllerUser@delete_account');
+        ClassRoutes::DELETE('user','ControllerUser@delete_account');
 
         /* rotas para criar, editar, listar e excluir categorias privadas */
         ClassRoutes::POST('category','ControllerUser@new_category');
         ClassRoutes::PUT('category','ControllerUser@edit_category');
-        ClassRoutes::GET('category','ControllerUser@list_categories');
+        ClassRoutes::GET('category/categories','ControllerUser@list_categories');
         ClassRoutes::GET('category/my-categories','ControllerUser@my_categories');
         ClassRoutes::DELETE('category','ControllerUser@remove_category');
 

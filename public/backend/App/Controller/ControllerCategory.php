@@ -52,11 +52,28 @@
             return $json;
         }
 
-        
+        public function list_all(User $user, $data){
+            
+            $data['is_public'] = 1;
+            $cats_public  = CategoryDAO::find(new Category($user, $data));
+
+            $data['is_public'] = 0;
+            $cats_private = CategoryDAO::find(new Category(new User(), $data));
+
+            if(is_array($cats_private));
+            $cats = array_merge($cats_public, $cats_private);
+
+            return $this->order_list($cats);
+        }
+
         public function list(User $user, $data){
             $cat    = new Category($user, $data);
             $cats   = CategoryDAO::find($cat);
-            
+            return $this->order_list($cats);
+        }
+
+        private function order_list($cats){
+
             $categories = [];
             $c = 0;
 

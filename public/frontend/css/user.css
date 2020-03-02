@@ -3,20 +3,38 @@ body {
     background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);
 }
 
+/* 
+   ======================================================================================
+        Estilização do link para voltar para a página inicial do app.
+   ======================================================================================
+*/
 
+#back-link { margin-top: 1vh; }
 
-#basic-data {
-    height: 25vh;
-    /* background-color: #2AF598; */
-}
+#back-link a { color: #FFF; }
+
+/* 
+   ======================================================================================
+        Fim da estilização do link.
+   ======================================================================================
+*/
+
+/* 
+   ======================================================================================
+        O elemento "basic-data" serve como um container para os elementos de foto
+        de perfil, nome e o link para habilitar a edição dos dados.
+        Este, pode alterar o posicionamento do formulário abaixo deste.
+   ======================================================================================
+*/
+
+#basic-data { height: 29vh; }
 
 #profile-picture {
     height: 15vh;
     width: 28vw;
     margin-left: 6vw;
-    margin-top: 3vh;
+    margin-top: 2vh;
     background-color: #FFF;
-    /* border-radius: 60px; */
 }
 
 #profile-name {
@@ -25,7 +43,6 @@ body {
     margin-left: 4vw;
     color: #FFF;
     font-size: 20px;
-    /* background-color: #FFF; */
 }
 
 #edit {
@@ -34,10 +51,15 @@ body {
     text-decoration: underline;
 }
 
-#content-data {
-    height: 71vh;
-    /* background-color: rgb(41, 174, 223); */
-}
+/* 
+   ======================================================================================
+        Fim da estilização do "basic-data".
+   ======================================================================================
+*/
+
+
+/* Este elemento, é o container do formulário do "data-box". */
+#content-data { height: 72vh; }
 
 /* 
    ======================================================================================
@@ -59,7 +81,7 @@ body {
 }
 
 #form-title {
-    font-size: 18px;
+    font-size: 1rem;
 }
 
 #form-subtitle {
@@ -67,7 +89,16 @@ body {
     margin-bottom: 10px;
 }
 
+label {
+    font-size: 0.8rem;
+}
 
 button {
     width: 100%;
 }
+
+/* 
+   ======================================================================================
+        Fim da estilização do "data-box" e formulário.
+   ======================================================================================
+*/

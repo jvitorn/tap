@@ -10,10 +10,18 @@
             $this->header = base64_encode(json_encode($this->header));
         }
 
+        private function base64_url_decode($input) {
+         return base64_decode(strtr($input, '_-', '/='));
+        }
+
+        private function base64_url_encode($input) {
+         return strtr(base64_encode($input), '/=', '_-');
+        }
+
         public function get_token_data($token){
             if(count(explode('.',$token)) == 3){
                 $exp = explode('.',$token);
-                $data = base64_decode($exp[1]);
+                $data = $this->base64_url_decode($exp[1]);
                 return json_decode($data);
             }
             return array();   
@@ -24,10 +32,10 @@
             $payload = $this->generatePayload($userData);
 
             $payload = json_encode($payload);
-            $payload = base64_encode($payload);
+            $payload = $this->base64_url_encode($payload);
 
             $signature = hash_hmac('sha256',"$this->header.$payload",KEY,true);
-            $signature = base64_encode($signature);
+            $signature = $this->base64_url_encode($signature);
             $token = "$this->header.$payload.$signature";
             return $token;
         }
@@ -35,12 +43,12 @@
         public function validate($token){
             
             $exp = explode('.',$token);
-            
+
             if(count($exp) == 3){
                 
                 $gerado = hash_hmac('sha256',$exp[0].".".$exp[1],KEY,true);
-                $gerado = base64_encode($gerado);
-                
+                $gerado = $this->base64_url_encode($gerado);
+
                 if($exp[2] == $gerado){
                     $data = $this->get_token_data($token);
                     if($data->exp > date("U")) return true;

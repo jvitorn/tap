@@ -288,35 +288,43 @@
         /**
          * METODOS DE MANIPULAÇÃO DE CATEGORIAS
          */
-        public function new_category($data = []){
+
+        private function category($method, $data){            
             $this->validate_access(['user','adm']);
+
+            if($method != 'remove') $data['is_public'] = 0;
+            if($method == 'create') $data['active'] = 1;
             
-            $data['is_public'] = 0;
-            $data['active'] = 1;
-            $cAT    = new ControllerCategory();
-            $res = $cAT->create($this->user, $data);
+            $cAT = new ControllerCategory();
+            $res = $cAT->{$method}($this->user, $data);
 
             $this->render->json($res);
+        }
+
+        public function new_category($data = []){
+            $this->category('create',$data);
         }
 
         public function edit_category($data = []){
-            $this->validate_access(['user','adm']);
-            
-            $data['is_public']  = 0;
-            $cAT    = new ControllerCategory();
-            $res = $cAT->edit($this->user, $data);
+            $this->category('edit',$data);
+        }
 
-            $this->render->json($res);
+        public function my_categories($data = []){
+            $this->category('list',$data);   
+        }
+
+        public function remove_category($id){
+            $this->category('remove',$id);
         }
 
         public function list_categories($data){
-            $this->validate_access(['user','adm']);
+            
             
             $cAT    = new ControllerCategory();
 
             // pegando as categorias do usuário
             $data['is_public']  = 0;
-            $json   = $cAT->list($this->user, $data);
+            $json = $cAT->list($this->user, $data);
 
             // pegando as categorias publicas
             $data['is_public']  = 1;
@@ -328,67 +336,29 @@
             $this->render->json($json);
         }
 
-        public function my_categories(){
-            $this->validate_access(['user','adm']);
-            
-            $data['is_public'] = 0;
-            $cAT    = new ControllerCategory();
-            $json = $cAT->list($this->user, $data);
-            $this->render->json($json);
-        }
-
-        public function remove_category($id){
-            $this->validate_access(['user','adm']);
-            
-            $data['is_public'] = 0;
-            $cAT    = new ControllerCategory();
-            $res = $cAT->remove($this->user,['id' => $id]);
-            $this->render->json($res);
-        }
-
         /**
          * METODOS DE MANIPULAÇÃO DE AÇÕES
          */
-        public function new_action($data = []){
+        private function action($method, $data){
             $this->validate_access(['user','adm']);
 
-            $data['user'] = $this->user;
-            $data['category'] = new Category($this->user, ['id' => $data['category']]);
-            $json   = (new ControllerAction())->create($data);
-
+            $json   = (new ControllerAction())->{$method}($this->user, $data);
             $this->render->json($json);
+        }
+
+        public function new_action($data = []){
+            $this->action('create', $data);
         }
 
         public function edit_action($data = []){
-            $this->validate_access(['user','adm']);
-            $json = ['status' => 'error', 'msg' =>''];
-            
-            $data['user'] = $this->user;
-            $data['category'] = new Category($this->user, ['id' => $data['category']]);
-            $json   = (new ControllerAction())->edit($data);
-        
-
-            $this->render->json($json);
+            $this->action('edit', $data);
         }
 
         public function list_actions($data = []){
-            $this->validate_access(['user','adm']);
-            $json   = ['status' => 'error', 'msg' =>''];
-
-            $data['user'] = $this->user;
-            if(isset($data['category'])){
-                $data['category'] = new Category($this->user, ['id' => $data['category']]);    
-            }
-            
-            $json   = (new ControllerAction())->list($data);
-            $this->render->json($json);
+            $this->action('list', $data);
         }
 
         public function remove_action($id = null){
-            $this->validate_access(['user','adm']);
-            $data['user'] = $this->user;
-            $data['id'] = $id;
-            $json   = (new ControllerAction())->remove($data);
-            $this->render->json($json);
+            $this->action('remove', $id);   
         }
 	}

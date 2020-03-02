@@ -39,7 +39,7 @@
 
 		private function send_email($user, $data, $email_type){
 			$mEmail =  EmailDAO::find(new Email(['type' => $email_type]))[0];
-			$email 	= new ClassEmail($user,$mEmail['title'],$mEmail['content'], $data);
+			$email 	= new ClassEmail($user,$mEmail['email_title'],$mEmail['email_content'], $data);
 			$email->create_email($data);
             return $email->send();
 		}

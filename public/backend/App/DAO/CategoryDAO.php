@@ -4,6 +4,7 @@
 	use App\DAO\DAO;
 	use App\Model\User;
     use App\Model\Category;
+    use App\Model\Action;
 
 	/**
 	 * @method Insert()
@@ -22,34 +23,32 @@
              * Verifica se já existe no banco um tipo de ação que seja:
              *  do mesmo usuário + do mesmo tipo + com o mesmo nome + do mesmo código publico
              */
-            $a = new Category( $cat->getUser(),
+            $res = self::find(new Category( $cat->getUser(),
                 [
                     'is_public' => $cat->getIs_public(),
                     'name'      => $cat->getName(),
                     'type'      => $cat->getType(),
                 ]
-            ); 
-            $res = self::find($a);
+            ));
+
             if(is_array($res) && count($res) > 0){
                 return 'Esta categoria ja existe!';
             }else{
-                parent::array_to_sql_create($cat->getAttributesAsArray());
-		        return parent::Insert('category');
+		        return parent::base_create('category', $cat);
             }
-            
 		}
 
 		static public function find(Category $cat){
 
             $where = $cat->getAttributesAsArray();
                 
-            // se for publica, pegar todas nao só as do usuario
-            if($cat->getIs_public()){ unset($where['user']); }
+            // se for publica, desconsidera o Usuário como filtro
+            if($cat->getIs_public()){ $cat->setUser(new User()); }
 
-            parent::array_to_sql_where('category',$where);
+            parent::columns('action',(new Action($cat->getUser(),$cat))->getAttributesAsArray());
+            parent::join("LEFT JOIN action ON action.category = category.id");
 
-            self::columns($cat->getPublicColumns());
-			return parent::Select('category');
+            return parent::base_find('category',$cat);
 		}
 
 		static public function edit(Category $cat){

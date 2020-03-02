@@ -30,7 +30,10 @@
 		private $dthr_final;
 		private $value;
 
-		public function __construct($data = []){
+		public function __construct(User $user, Category $cat, $data = []){
+
+			$this->user 	= $user;
+			$this->category = $cat;
 
 			foreach($data as $name => $val){
 				$setter = 'set'.ucfirst($name);
@@ -41,10 +44,8 @@
 		use \Src\Traits\TraitGetAttributesAsArray;
 
 		public function getUser(){ return $this->user; }
-		public function setUser(User $user){ $this->user = $user; }
 
 		public function getCategory(){ return $this->category; }
-		public function setCategory(Category $c){ $this->category = $c; }
 
 		public function getName(){ return $this->name; }
 		public function setName($nm){ $this->name = addslashes($nm); }

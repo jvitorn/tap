@@ -2,6 +2,7 @@
 	namespace App\Controller;
 
     use App\Controller\Controller;
+    use App\Controller\ControllerAction;
 
 	use App\Model\User;
     use App\Model\Category;
@@ -30,7 +31,7 @@
             return $json;
         }
 
-         public function edit(User $user, $data = []){
+        public function edit(User $user, $data = []){
             $json['status'] = 'error';
 
             if(isset($data['id'])){
@@ -49,17 +50,52 @@
                  $json['msg']    = "Erro:o campo ID deve ser informado!\r\n";
             }
             return $json;
-         }
+        }
 
         
         public function list(User $user, $data){
-            $cat = new Category($user, $data);
-            return CategoryDAO::find($cat);
+            $cat    = new Category($user, $data);
+            $cats   = CategoryDAO::find($cat);
+            
+            $categories = [];
+            $c = 0;
+
+            foreach($cats as $key => $cat){
+
+                $id = $cat['category_id'];
+
+                if(!isset($categories[$id])){
+                    foreach($cat as $key => $value){
+                        if(substr($key,0,8) == "category"){
+                            $categories[$id][$key] = $value;
+                        }
+                    }
+                    $c = 0;
+                }
+
+                $actions = null;
+
+                if(is_numeric($cat['action_id'])){
+
+                    foreach($cat as $key => $value){
+                        if(substr($key,0,6) == "action") $actions[$key] = $value;
+                    }    
+                }
+
+                if(is_array($actions)){
+                    $categories[$id]['actions'][$c] = $actions;
+                }else{
+                    $categories[$id]['actions'] = array();    
+                }
+                $c++;
+            }
+
+            return $categories;
         }
 
-        public function remove($user, $data){
-            if(!isset($data['id'])) return 'O ID do item precisa ser informado';
-            $res = CategoryDAO::remove(new Category($user, $data));
+        public function remove($user, $id){
+            if(!isset($id)) return 'O ID do item precisa ser informado';
+            $res = CategoryDAO::remove(new Category($user,['id' => $id]));
 
             if($res == 'success'){
                 $json['status'] = 'success';

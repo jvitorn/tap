@@ -23,73 +23,71 @@
             if(is_array($res) && count($res) > 0){
                 return 'Este Email ja está cadastrado.';
             }else{
-                parent::array_to_sql_create($user->getAttributesAsArray());
-			    return parent::Insert('user');
+			    return parent::base_create('user', $user);
             }
 		}
 
 		static public function find(User $user){
-            parent::array_to_sql_where('user',$user->getAttributesAsArray());
-            self::columns($user->getPublicColumns());
-			return parent::Select('user');
+            return parent::base_find('user',$user);
 		}
 
 		static public function edit(User $user){
             if(is_numeric($user->getId())){
-                parent::array_to_sql_update($user->getAttributesAsArray());
-                parent::array_to_sql_where('user',['id' => $user->getId() ]);
-			    return parent::Update('user');
+			    return parent::base_edit('user',$user);
             }
 		}
 
 		static public function remove(User $user){
-            
-            if(!empty($user->getId())){
-                
-                $data = self::find($user);
 
-                if(is_array($data) && count($data) > 0){
-                    parent::array_to_sql_where('user',['id' => $user->getId()]);
-				    return parent::Delete('user');
-                }else{
-                    return 'Este usuário não existe';
-                }
+            if(!is_numeric($user->getId())) return ;
                 
-			}
+            $data = self::find($user);
+
+            if(is_array($data) && count($data) > 0){
+			    return parent::base_remove('user',$user);
+            }else{
+                return 'Este usuário não existe';
+            }
         }
 
-		static public function Login(User $user){
+		static public function login(User $user){
 			if(!empty($user->getEmail()) && !empty($user->getPassword())){
                 $user->setActive(1);
 
                 $res = self::find($user);
 
 				if(is_array($res) && count($res) > 0){
-                    $user = new User($res[0]);
+                    $res = $res[0];
+                    $user->setId($res['user_id']);
+                    $user->setName($res['user_name']);
+                    $user->setWeight($res['user_weight']);
+                    $user->setHeight($res['user_height']);
+                    $user->setType($res['user_type']);
 
-                    parent::array_to_sql_update(['is_logged' => 1]);
-                    parent::array_to_sql_where('user',['id' => $user->getId() ]);
-                    parent::update('user');
+                    self::edit(new User(['is_logged' => 1,'id' => $user->getId()]) );
                     
                     $data = $user->getPublicColumnsAsArray();
-                    $data['jti'] = md5($res[0]['id'].date('hIymsid'));
+                    $data['jti'] = md5($res['user_id'].date('hIymsid'));
                     return $data;
 				}
 			}
         }
 
         static public function is_logged(User $user){
-            $where = ['id' => $user->getId(),'is_logged' => 1];
-            self::columns($user->getPublicColumns());
-            parent::array_to_sql_where('user',$where);
-            $res = parent::Select('user');
+
+            $res = self::find(new User(
+                [
+                    'id'        => $user->getId(),
+                    'active'    => '1',
+                    'is_logged' => '1'
+                ]
+            ));
+
             if(is_array($res) && count($res) > 0) return true;
         }
         
         static public function logout(User $user){
-            parent::array_to_sql_update(['is_logged' => "/0/"]);
-            parent::array_to_sql_where('user',['id' => $user->getId() ]);
-            return parent::update('user');
+            return self::edit(new User(['is_logged' => '0', 'id' => $user->getId()]));
         }
 
         static public function active(User $user){
@@ -100,7 +98,7 @@
                 
                 $user->setActive(1);
                 $user->setAuth('');
-                $user->setId($res[0]['id']);
+                $user->setId($res[0]['user_id']);
                 
                 if(self::edit($user)){
                     $return = 'success';
@@ -117,13 +115,12 @@
 
         static public function reset_password_request(User $user, $code){
             
-            $return;
             $user->setActive('1');
             $res = self::find($user);
    
             if(is_array($res) && count($res) > 0){
                 $user->setAuth($code);
-                $user->setId($res[0]['id']);
+                $user->setId($res[0]['user_id']);
                 if(self::edit($user)){ return $res[0]; }
             }
         }
@@ -132,7 +129,7 @@
             $res = self::find($user);
 
             if(is_array($res) && count($res) > 0){
-                return $res[0]['id'];
+                return $res[0]['user_id'];
             }
         }
 
@@ -142,7 +139,7 @@
             if(is_array($res) && count($res) > 0){
                 $user->setAuth('');
                 $user->setPassword($pw);
-                $user->setId($res[0]['id']);
+                $user->setId($res[0]['user_id']);
                 return self::edit($user);
             }
         }

@@ -18,7 +18,7 @@
 	 *	Rotas Admin
 	 */
         ClassRoutes::GET('admin/user/list','ControllerAdmin@list');
-        ClassRoutes::DELETE('admin/user/remove','ControllerAdmin@remove_user');
+        ClassRoutes::DELETE('admin/user','ControllerAdmin@remove_user');
 
         /* rotas para criar, editar, listar e excluir categorias publicas */
         ClassRoutes::POST('admin/category','ControllerAdmin@new_category');

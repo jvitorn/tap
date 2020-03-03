@@ -8,7 +8,7 @@ LOGIN<br>
 
 <hr>
 FUNCOES DO ADMIN<br>
-<button class="btnAction" endpoint="admin/user/list" method="get">listar usuarios</button>
+<button class="btnAction" endpoint="admin/user" method="get">listar usuarios</button>
 <input type="text" name="id" id="excluir_id"><button>Excluir usuário</button>
 
 <hr>
@@ -20,6 +20,7 @@ FUNCOES DO USUÁRIO<br>
 <script>
     token = '';
     base_url = <?= "'".DIR_PAGE."'"; ?>;
+
     $(document).on('submit','#formLogin',function(e){
         e.preventDefault();
 

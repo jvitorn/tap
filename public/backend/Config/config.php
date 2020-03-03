@@ -12,7 +12,7 @@
 
     function getDocumentRoot($dirIgnore){
         $root = getcwd();
-        return substr($root, 0, -strlen($dirIgnore) );
+        return str_replace('\\','/',substr($root, 0, -strlen($dirIgnore))); 
     }
 
     function getSubPasta($root){

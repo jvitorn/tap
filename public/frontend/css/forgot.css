@@ -1,0 +1,41 @@
+#test {
+    height: 100vh;
+    background-color: #08AEEA;
+    
+    background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);
+    font-family: 'Work Sans', sans-serif;
+}
+
+#box {
+    height: 50vh;
+    margin-top: 25vh;
+    background-color: #FFF;
+    border-radius: 10px;
+}
+
+#desc-area {
+    margin-top: 3vh;
+}
+
+#title {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+#desc {
+    font-size: 0.7rem;
+}
+
+.form-group {
+    margin-top: 3vh;
+}
+
+button {
+    width: 100%;
+    color: #FFF;
+}
+
+button span {
+    text-decoration: none;
+    color: #FFF;
+}

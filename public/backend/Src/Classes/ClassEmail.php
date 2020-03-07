@@ -65,7 +65,7 @@
             foreach($data as $key => $value){
                 foreach($value as $k => $val){
                     if(!is_array($val)){
-                        $string = '{'.$key.'.'.$k.'}';
+                        $string = '{'.$key.'}';
                         $this->mail->Body = str_replace($string,$val, $this->mail->Body);    
                     }
                 }

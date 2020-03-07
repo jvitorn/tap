@@ -61,13 +61,14 @@
             if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
-            if($table == 'user') echo $sql."<br><br>";
+            // if($table == 'user') echo $sql."<br><br>";
 
             return self::query($sql);
         }
         
         static protected function update($tabela){
             $sql = "UPDATE $tabela SET ". self::$vals." WHERE ".self::$where." ";
+            // echo $sql;
             return self::query($sql);
         }
         
@@ -137,11 +138,10 @@
 
             foreach($data as $col => $val){
 
-                if(!is_array($val) && $val != null){
+                if(!is_array($val) && !empty($val)){
                     if($virgula) $update .= ",";
                     
-                        $virgula = true;
-                    
+                    $virgula = true;
                     $update .= $col." = '".$val."' ";
                 }
             }

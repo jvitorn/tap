@@ -50,6 +50,10 @@
                 $user = UserDAO::Login(new User($data));
 
                 if(is_array($user)){
+
+                    /*adiciona a hash unica ao array. */
+                    $user['jti'] = md5($user['id'].date('hisYdm'));
+
                     $token = (new Token())->generate($user);
                     $data = ['token' => $token];
                     $this->render->json($data);

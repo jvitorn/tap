@@ -83,35 +83,27 @@
 
         public function confirm_account($data = []){
 
-            if(isset($data['code']) && isset($data['email'])){
-                if(strlen($data['code']) == 6){
+            if(isset($data['auth']) && strlen($data['auth']) == 6){
 
-                    $res = UserDAO::active(
-                        new User(['email' => $data['email'], 'auth' => $data['code']])
-                    );
-                    
-                    if($res == 'success'){
-                        $json['status'] = 'success';
-                        $json['msg']    = 'Usuário ativado com sucesso';
+                $res = UserDAO::active(new User($data));
+                
+                if($res == 'success'){
+                    $json['status'] = 'success';
+                    $json['msg']    = 'Usuário ativado com sucesso';
 
-                        $arrUser = UserDAO::find(new User(['email'=> $data['email']]) )[0];
+                    $arrUser = UserDAO::find(new User(['email'=> $data['email']]) )[0];
 
-                        $cEmail = new ControllerEmail();
-                        $arrData = [ 'user' => $arrUser ];
-                        $resEmail = $cEmail->send_confirm_account_success($arrUser, $arrData);
+                    $cEmail = new ControllerEmail();
+                    $arrData = [ 'user' => $arrUser ];
+                    $resEmail = $cEmail->send_confirm_account_success($arrUser, $arrData);
 
-                    }else{
-                        $json['status'] = 'error';
-                        $json['msg']    = $res;
-                    }    
                 }else{
                     $json['status'] = 'error';
-                    $json['msg ']   = 'codigo inválido';
-                }
-
+                    $json['msg']    = $res;
+                }    
             }else{
-                $json['status']     = 'error';
-                $json['msg']        = 'os campos CODE e ID devem ser informados';
+                $json['status'] = 'error';
+                $json['msg ']   = 'codigo inválido';
             }
 
             $this->render->json($json);
@@ -119,8 +111,12 @@
 
         public function reset_password_request($data = []){
             
-            $code = $this->generateAuthCode();
-            $arrUser = UserDAO::reset_password_request( new User(['email' => $data['email']]), $code);
+            $user = new User();
+            $user->setEmail($data['email']);
+
+            $code = $user->generateAuthCode();
+
+            $arrUser = UserDAO::reset_password_request($user);
             
             if(is_array($arrUser) && count($arrUser) > 0){
                 $cEmail = new ControllerEmail();
@@ -146,85 +142,59 @@
         }
 
         public function verify_reset_password_code($data = []){
-            
-            $json['status'] = 'error';
-            $json['msg']    = '';
-            $paramsStatusOK = true;
-            
-            if(!isset($data['code'])){
-                $paramsStatusOK  = false;    
-                $json['msg']    .= "O campo CODIGO deve ser informado!\r\n";
-            }
 
-            if(!isset($data['email'])){
-                $paramsStatusOK  = false;    
-                $json['msg']    .= "O campo EMAIL deve ser informado!\r\n";
-            }
-
-            if($paramsStatusOK){
-                $id = UserDAO::verify_reset_password_code(
-                    new User(['auth' =>$data['code'],'email' => $data['email'],'active'=> '1'])
-                );
-                
-                if(is_numeric($id)){
-                    $json['status'] = 'success';
-                }else{
-                    $json['status'] = 'error';
-                    $json['msg']    = 'Erro: código inválido';
-                }
+            $res = UserDAO::verify_reset_password_code(new User($data));
+            
+            if(is_numeric($res)){
+                $json['status'] = 'success';
+                $json['msg']    = 'Sucesso, código valido!';
+            }else{
+                $json['status'] = 'error';
+                $json['msg']    = 'Erro: código inválido';
+                $json['msg']   .= $res;
             }
 
             $this->render->json($json);
         }
 
         public function reset_password($data = []){
-            $paramsStatusOK = true;
-            $json['status'] =  'error';
-            $json['msg']    = '';
+            
+            $user = new User($data);
 
-            if(!isset($data['password'])){
-                $json['msg'] .= "O campo PASSWORD deve ser informado\r\n";
-                $paramsStatusOK = false;
-            }
+            $res = UserDAO::reset_password($user);
 
-            if(!isset($data['email'])){
-                $json['msg'] .= "O campo EMAIL deve ser informado\r\n";
-                $paramsStatusOK = false;
-            }
+            if($res == "success"){
+                $json['status'] = 'success';
+                $json['msg']    = 'Senha atualizada com sucesso!';
 
-            if(!isset($data['code'])){
-                $json['msg'] .= "O campo CODE deve ser informado\r\n";
-                $paramsStatusOK = false;
-            }
+                $cEmail = new ControllerEmail();
 
-            if($paramsStatusOK){
-                $user = new User(['email' => $data['email'],'auth' => $data['code']]);
 
-                if(UserDAO::reset_password($user, $data['password'])){
-                    $json['status'] = 'success';
-                    $json['msg']    = 'Senha atualizada com sucesso!';
+                $arrUser = UserDAO::find(new User(['id' => $user->getId()]))[0];
 
-                    $cEmail = new ControllerEmail();
-                    $arrUser = UserDAO::find( new User(['email' =>$data['email']]) )[0];
-                    $dataArray = ['user' => $arrUser ];
-                    $cEmail->send_reset_password_success($arrUser,$dataArray);
-                }else{
-                    $json['msg']    = 'Erro: não foi possivel atualizar a senha!';
-                }
+                $dataArray = ['user' => $arrUser ];
+                $cEmail->send_reset_password_success($arrUser,$dataArray);
+            }else{
+                $json['msg']  = 'Erro: não foi possivel atualizar a senha!';
+                $json['msg'] .= "\r\n".$res;
             }
 
             $this->render->json($json);
         }
 
         public function delete_account_request($data){
-            $this->validate_access(['user','adm']);
+            $this->validate_access(['user','adm']);       
             
-            $code = $this->generateAuthCode();
-            $this->user->setAuth($code);
+            $code = $this->user->generateAuthCode();
+
+            $b_user = new User(['id' => $this->user->getId()]);
 
             if( UserDAO::edit($this->user) ){
-                $cEmail = new ControllerEmail();
-                $arrUser = $this->user->getAttributesAsArray();
+
+                $cEmail  = new ControllerEmail();
+
+                $arrUser = UserDAO::find($b_user)[0];
+
                 $arrUser['auth'] = $code;
                 $dataArray = ['user' => $arrUser];
                 $res = $cEmail->send_delete_account_request($arrUser,$dataArray);
@@ -243,36 +213,31 @@
 
         public function delete_account($code = null){
             $this->validate_access(['user','adm']);
-            $paramsStatusOK = true;
+            
+            $this->user->setAuth($code);
+            $data = UserDAO::remove($this->user);
+            
+            if(is_bool($data)){
+                $json['status']     = 'success';
+                $json['msg']        = 'Usuário deletado com sucesso!';
 
-            if(!isset($code)){
-                $json['status'] = 'error';
-                $json['msg']    = 'O código de verificação deve ser informado!';
-                $paramsStatusOK = false;
-            }
-
-            if($paramsStatusOK){
-
-                $this->user->setAuth($code);
-                $data = UserDAO::remove($this->user);
+                $cEmail = new ControllerEmail();
+                $arrUser = [
+                    'user_name'  => $this->user->getName(),
+                    'user_email' => $this->user->getEmail()
+                ];
                 
-                if(is_bool($data)){
-                    $json['status']     = 'success';
-                    $json['msg']        = 'Usuário deletado com sucesso!';
-
-                    $cEmail = new ControllerEmail();
-                    $arrUser = $this->user->getAttributesAsArray();
-                    $dataArray = ['user' => $arrUser ];
-                    $cEmail->send_delete_account_success($arrUser,$dataArray);
+                $dataArray = ['user' => $arrUser ];
+                $cEmail->send_delete_account_success($arrUser,$dataArray);
+            }else{
+                $json['status'] = 'error';
+                if($data != ''){
+                    $json['msg'] = $data;
                 }else{
-                    $json['status'] = 'error';
-                    if($data != ''){
-                        $json['msg'] = $data;
-                    }else{
-                        $json['msg'] = 'Erro: não foi possivel deletar o usuário.';
-                    }   
-                }
+                    $json['msg'] = 'Erro: não foi possivel deletar o usuário.';
+                }   
             }
+            
             $this->render->json($json);
         }
 

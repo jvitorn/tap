@@ -64,8 +64,10 @@
 
             foreach($data as $key => $value){
                 foreach($value as $k => $val){
-                    $string = '{'.$key.'.'.$k.'}';
-                    $this->mail->Body = str_replace($string,$val, $this->mail->Body);
+                    if(!is_array($val)){
+                        $string = '{'.$key.'.'.$k.'}';
+                        $this->mail->Body = str_replace($string,$val, $this->mail->Body);    
+                    }
                 }
             }
 

@@ -67,8 +67,10 @@
         public function edit($data = []){
             $this->validate_access(['user','adm']);
             
-            $this->user->editPublicColumns($data);
-			if(UserDAO::edit($this->user)){
+            $user = new User($data);
+            $user->setId($this->user->getId());
+
+			if(UserDAO::edit($user)){
 				$json['status'] 	= 'success';
 				$json['msg']		= 'Usuário atualizado com sucesso!';
 			}else{

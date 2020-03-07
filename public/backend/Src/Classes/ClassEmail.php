@@ -82,7 +82,5 @@
             } catch (\Exception $e) {
                 return "Erro: não foi possivel enviar o email";
             }
-    	}
-
-        
+    	}        
     }

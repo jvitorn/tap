@@ -68,7 +68,6 @@
         
         static protected function update($tabela){
             $sql = "UPDATE $tabela SET ". self::$vals." WHERE ".self::$where." ";
-            // echo $sql;
             return self::query($sql);
         }
         

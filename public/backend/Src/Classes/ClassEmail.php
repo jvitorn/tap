@@ -28,7 +28,7 @@
                 $this->mail->isHTML(true);
 
                 $this->mail->setFrom(MAIL_ADDRESS, MAIL_OWNER);
-                $this->mail->addAddress($contact['email'], $contact['name']);
+                $this->mail->addAddress($contact['user_email'], $contact['user_name']);
 
                 $this->mail->Subject = $title;
                 $this->mail->Body    = $content;

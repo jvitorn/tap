@@ -23,6 +23,7 @@
             if(empty($user->getName())) $ret .= 'O campo name deve ser informado. ';
             if(empty($user->getEmail())) $ret .= 'O campo email deve ser informado. ';
             if(empty($user->getPassword())) $ret .= 'O campo password deve ser informado. ';
+            if(empty($user->getAuth())) $ret .= "O campo AUTH está vazio. ";
 
             if($ret != "") return $ret;
 

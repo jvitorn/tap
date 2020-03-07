@@ -61,7 +61,7 @@
             if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
-            // if($table == 'user') echo $sql."<br><br>";
+            if($table == 'user') echo $sql."<br><br>";
 
             return self::query($sql);
         }
@@ -137,16 +137,13 @@
             $virgula = false;
 
             foreach($data as $col => $val){
-                if(!is_null($val)){
-                    
 
-                    if(!is_array($val)){
-                        if($virgula) $update .= ",";
-                        
+                if(!is_array($val) && $val != null){
+                    if($virgula) $update .= ",";
+                    
                         $virgula = true;
-                        
-                        $update .= $col." = '".$val."' ";
-                    }
+                    
+                    $update .= $col." = '".$val."' ";
                 }
             }
 

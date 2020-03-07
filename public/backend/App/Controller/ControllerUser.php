@@ -24,16 +24,18 @@
         public function add($data = []){
 
             $user = new User($data);
-
-            $data = UserDAO::create($user);
             $auth = $user->generateAuthCode();
 
-            if(is_numeric($data)){
+            $id = UserDAO::create($user);
+
+            if(is_numeric($id)){
                 
                 $json['status']  = 'success';
                 $json['msg']     = 'Usuário cadastrado com sucesso!';
+                
+                $user->setId($id);
 
-                $arrUser = $user->get_public_attributes_as_array();
+                $arrUser = UserDAO::find($user)[0];
 
                 $arrUser['auth'] = $auth;
 

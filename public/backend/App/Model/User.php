@@ -104,7 +104,8 @@
 		}
 
 		public function generateAuthCode(){
-			$code = substr(md5(date('idmyhs')),0,6);
+			// $code = substr(md5(date('idmyhs')),0,6);]
+			$code = "123456";
            	$this->setAuth($code);
            	return $code;
         }

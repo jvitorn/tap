@@ -30,10 +30,10 @@
 		private $dthr_final;
 		private $value;
 
-		public function __construct(User $user, Category $cat, $data = []){
+		public function __construct($user_id, $category_id, $data = []){
 
-			$this->user 	= $user;
-			$this->category = $cat;
+			$this->user 	= $user_id;
+			$this->category = $category_id;
 
 			foreach($data as $name => $val){
 				$setter = 'set'.ucfirst($name);
@@ -80,10 +80,45 @@
 		public function getValue(){ return $this->value; }
 		public function setValue($vl){ $this->value = $vl; }
 
-		public function getPublicColumns(){
-			$cols  = 'id, user, category, name, description, active,indice';
-			$cols .= ',created_at, updated_at, repeats, active_days';
-			$cols .= ',active_hours, dthr_initial, dthr_final, value';
-            return $cols;
+		public function get_public_fields(){
+            $data = $this->getAttributesAsArray();
+
+            unset($data['password']);
+            unset($data['created_at']);
+            unset($data['updated_at']);
+            unset($data['cd_recovery_pw']);
+            unset($data['dthr_request_recovery_pw']);
+
+            return $data;
+        }
+
+        public function fill_editable_fields($array){
+
+        }
+
+        public function verify_required_fields($data = []){
+            $error = "";
+            // if(!isset($data['name'])) $error     .= 'O campo name deve ser informado';
+            // if(!isset($data['email'])) $error    .= 'O campo email deve ser informado';
+            // if(!isset($data['password'])) $error .= 'O campo password deve ser informado';
+
+            return $error;
+        }
+
+        public function fill_required_fields($data = []){
+            
+            $res = $this->verify_required_fields($data);
+            
+            if($res == ''){
+                // $this->setName($data['name']);
+                // $this->setEmail($data['email']);
+                // $this->setPassword($data['password']);
+                // $this->setType('user');
+                // $this->setActive('0');
+                // $this->setCreated_at(date('Y-m-d h:i:s'));
+                // $this->setAuth($data['auth']);
+            }
+            
+            return $res;
         }
 	}

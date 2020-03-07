@@ -3,14 +3,14 @@
 	
 	trait TraitGetAttributesAsArray {
 
-		public function getAttributesAsArray(){
+		public function get_attributes_as_array(){
 			
 			$attr = get_object_vars($this);
 			
 			foreach($attr as $name => $value){
 
 				if(is_object($value)){
-					$ret[$name] = $value->getAttributesAsArray();
+					$ret[$name] = $value->get_attributes_as_array();
 				}else{
 					$ret[$name] = $value;
 				}

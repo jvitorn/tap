@@ -46,7 +46,11 @@
 		public function getType(){ return $this->type; }
 		public function setType($type){ $this->type = $type; }
 
-        public function getPublicColumns(){
-            return ('id, title, content, type');
+        public function get_public_attributes_as_array(){
+            $data = $this->get_attributes_as_array();
+            
+            unset($data['type']);
+    		
+    		return $data;
         }
 	}

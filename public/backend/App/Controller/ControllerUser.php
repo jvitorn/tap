@@ -23,50 +23,41 @@
 
         public function add($data = []){
 
-            $user = new User();
+            $user = new User($data);
 
-            $auth = $this->generateAuthCode();
-            $data['auth'] = $auth;
-            $data = $user->fill_user_required_fields($data);
+            $data = UserDAO::create($user);
+            $auth = $user->generateAuthCode();
 
-            if($data == ''){
+            if(is_numeric($data)){
+                
+                $json['status']  = 'success';
+                $json['msg']     = 'Usuário cadastrado com sucesso!';
 
-                $data = UserDAO::create($user);
+                $arrUser = $user->get_public_attributes_as_array();
 
-                if(is_numeric($data)){
-                    
+                $arrUser['auth'] = $auth;
+
+                $cEmail = new ControllerEmail();
+                $arrData = [ 'user' => $arrUser ];
+                $resEmail = $cEmail->send_confirm_account_request($arrUser, $arrData);
+                
+                if($resEmail == "success"){
                     $json['status']  = 'success';
-                    $json['msg']     = 'Usuário cadastrado com sucesso!';
-
-                    $arrUser = $user->getAttributesAsArray();
-
-                    $arrUser['auth'] = $auth;
-
-                    $cEmail = new ControllerEmail();
-                    $arrData = [ 'user' => $arrUser ];
-                    $resEmail = $cEmail->send_confirm_account_request($arrUser, $arrData);
-                    
-                    if($resEmail == "success"){
-                        $json['status']  = 'success';
-                        $json['msg']    .= ', verifique seu email!';
-                    }else{
-                        $json['status']  = 'error';
-                        $json['msg']     = 'Não foi possivel enviar o email de confirmação';
-                        $json['msg']     = 'verifique se o email está correto!';
-                        $data = UserDAO::remove(new User(['id' => $data]));
-                    }
-
+                    $json['msg']    .= ', verifique seu email!';
                 }else{
-                    $json['status'] = 'error';
-                    if($data){
-                        $json['msg'] = $data;
-                    }else{
-                        $json['msg'] = 'Erro: não foi possivel cadastrar o usuário.';
-                    }
+                    $json['status']  = 'error';
+                    $json['msg']     = 'Não foi possivel enviar o email de confirmação';
+                    $json['msg']     = 'verifique se o email está correto!';
+                    $data = UserDAO::remove(new User(['id' => $data]));
                 }
+
             }else{
                 $json['status'] = 'error';
-                $json['msg'] = $data;
+                if($data){
+                    $json['msg'] = $data;
+                }else{
+                    $json['msg'] = 'Erro: não foi possivel cadastrar o usuário.';
+                }
             }
 			$this->render->json($json);
 		}
@@ -281,15 +272,11 @@
             $this->render->json($json);
         }
 
-        private function generateAuthCode(){
-           return substr(md5(date('idmyhs')),0,6);
-        }
-
         /**
          * METODOS DE MANIPULAÇÃO DE CATEGORIAS
          */
 
-        private function category($method, $data){            
+        private function category($method, $data){
             $this->validate_access(['user','adm']);
 
             if($method != 'remove') $data['is_public'] = 0;

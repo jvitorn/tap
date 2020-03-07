@@ -137,16 +137,12 @@
             $virgula = false;
 
             foreach($data as $col => $val){
-                if(!is_null($val)){
-                    
 
-                    if(!is_array($val)){
-                        if($virgula) $update .= ",";
-                        
-                        $virgula = true;
-                        
-                        $update .= $col." = '".$val."' ";
-                    }
+                if(!is_array($val) && !empty($val)){
+                    if($virgula) $update .= ",";
+                    
+                    $virgula = true;
+                    $update .= $col." = '".$val."' ";
                 }
             }
 
@@ -209,7 +205,6 @@
         static protected function limit($limit){
             self::$limit = $limit;
         }
-
 
         static public function base_create($tbl, $obj){
             if(is_object($obj) && method_exists($obj,'get_attributes_as_array')){

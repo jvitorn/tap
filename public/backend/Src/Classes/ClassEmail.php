@@ -28,7 +28,7 @@
                 $this->mail->isHTML(true);
 
                 $this->mail->setFrom(MAIL_ADDRESS, MAIL_OWNER);
-                $this->mail->addAddress($contact['email'], $contact['name']);
+                $this->mail->addAddress($contact['user_email'], $contact['user_name']);
 
                 $this->mail->Subject = $title;
                 $this->mail->Body    = $content;
@@ -65,7 +65,7 @@
             foreach($data as $key => $value){
                 foreach($value as $k => $val){
                     if(!is_array($val)){
-                        $string = '{'.$key.'.'.$k.'}';
+                        $string = '{'.$key.'}';
                         $this->mail->Body = str_replace($string,$val, $this->mail->Body);    
                     }
                 }
@@ -82,7 +82,5 @@
             } catch (\Exception $e) {
                 return "Erro: não foi possivel enviar o email";
             }
-    	}
-
-        
+    	}        
     }

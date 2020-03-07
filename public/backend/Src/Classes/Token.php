@@ -62,8 +62,6 @@
             $data['exp'] = (date('U') + $this->expiration_time());
             $data['iss'] = 'tap.com.br';
 
-            unset($data['auth']);
-
             return $data;
         }
 

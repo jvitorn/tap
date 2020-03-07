@@ -65,13 +65,7 @@
 		public function setType($type){ $this->type = $type; }
 
 		public function getAuth(){ return $this->auth; }
-		public function setAuth($auth){  
-			if(!empty($auth)){
-				$this->auth = md5($auth);
-			}else{
-				$this->auth = '';
-			}
-		}
+		public function setAuth($auth = ''){  $this->auth = md5($auth); }
 
 		public function getDthr_request_recovery_pw(){ return $this->dthr_request_recovery_pw; }
 		public function setDthr_request_recovery_pw($dthr){

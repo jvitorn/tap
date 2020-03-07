@@ -1,9 +1,9 @@
 <?php 
 	namespace App\Model;
 
-	use Src\Interfaces\InterfaceModels;
+	use Src\Interfaces\InterfaceModel;
 
-	abstract class Model implements InterfaceModels {
+	abstract class Model implements InterfaceModel {
 		
 		protected $id;
 		protected $active;

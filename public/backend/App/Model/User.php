@@ -2,6 +2,7 @@
 	namespace App\Model;
 
 	use App\Model\Model;
+	use App\Model\Category;
 
 	/**
 	 * @var $id : int
@@ -18,7 +19,6 @@
 		private $email;
 		private $password;
 		private $type;
-		private $is_logged;
 		private $auth;
 		private $dthr_request_recovery_pw;
 		private $created_at;
@@ -27,6 +27,8 @@
 		private $weight;
 		private $gender;
 		private $dt_birth;
+
+		private $categories = [];
 
 		use \Src\Traits\TraitGetAttributesAsArray;
 
@@ -40,7 +42,6 @@
 					$this->set($setter, $val);	
 				}
 			}
-
 		}
 
 		public function getName(){ return $this->name; }
@@ -62,9 +63,6 @@
 
 		public function getType(){ return $this->type; }
 		public function setType($type){ $this->type = $type; }
-
-		public function getIs_logged(){ return $this->is_logged; }
-		public function setIs_logged($logged){ $this->is_logged = $logged; }
 
 		public function getAuth(){ return $this->auth; }
 		public function setAuth($auth){  
@@ -97,56 +95,27 @@
 
 		public function getDt_birth(){ return $this->dt_birth; }
 		public function setDt_birth($birth){ $this->dt_birth = $birth; }
-        
-        public function getPublicColumns(){
-            return ['id','name','email','type','height','weight','gender','active','dt_birth'];
+
+		public function getCategories(){
+			return $this->categories;
+		}
+		public function addCategory(Category $cat){
+			$this->categories[] = $cat;
+		}
+
+		public function generateAuthCode(){
+			$code = substr(md5(date('idmyhs')),0,6);
+           	$this->setAuth($code);
+           	return $code;
         }
 
-        public function getPublicColumnsAsArray(){
-            $data = $this->getAttributesAsArray();
+        public function get_public_attributes_as_array(){
+        	$data = $this->get_attributes_as_array();
 
-            unset($data['password']);
-            unset($data['created_at']);
-            unset($data['updated_at']);
-            unset($data['cd_recovery_pw']);
-            unset($data['dthr_request_recovery_pw']);
+        	unset($data['password']);
+        	unset($data['auth']);
+        	unset($data['dthr_request_recovery_pw']);
 
-            return $data;
-        }
-
-        public function editPublicColumns($data){
-            if(isset($data['name'])) $this->setName($data['name']);
-            if(isset($data['password'])) $this->setPassword($data['password']);
-            if(isset($data['gender'])) $this->setGender($data['gender']);
-            if(isset($data['height'])) $this->setHeight($data['height']);
-            if(isset($data['weight'])) $this->setWeight($data['weight']);
-            
-            $this->setUpdated_at(date('Y-m-d h:i:s'));
-        }
-
-        private function verify_required_fields($data = []){
-            $error = "";
-            if(!isset($data['name'])) $error     .= 'O campo name deve ser informado';
-            if(!isset($data['email'])) $error    .= 'O campo email deve ser informado';
-            if(!isset($data['password'])) $error .= 'O campo password deve ser informado';
-
-            return $error;
-        }
-
-        public function fill_user_required_fields($data = []){
-            
-            $res = $this->verify_required_fields($data);
-            
-            if($res == ''){
-                $this->setName($data['name']);
-                $this->setEmail($data['email']);
-                $this->setPassword($data['password']);
-                $this->setType('user');
-                $this->setActive('0');
-                $this->setCreated_at(date('Y-m-d h:i:s'));
-                $this->setAuth($data['auth']);
-            }
-            
-            return $res;
+        	return $data;
         }
 	}

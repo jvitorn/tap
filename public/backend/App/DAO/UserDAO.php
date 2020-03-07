@@ -17,12 +17,26 @@
 	class UserDAO extends DAO {
 
 		static public function create(User $user){
+            
+            // verifica se os campos requeridos estão preenchidos
+            $ret = "";
+            if(empty($user->getName())) $ret .= 'O campo name deve ser informado. ';
+            if(empty($user->getEmail())) $ret .= 'O campo email deve ser informado. ';
+            if(empty($user->getPassword())) $ret .= 'O campo password deve ser informado. ';
+
+            if($ret != "") return $ret;
+
             /* verifica se o email ja está cadastrado */
             $res = self::find(new User(['email' => $user->getEmail()]));
 
             if(is_array($res) && count($res) > 0){
                 return 'Este Email ja está cadastrado.';
             }else{
+
+                $user->setType("user");
+                $user->setActive("0");
+                $user->setCreated_at(date('Y-m-d h:i:s'));
+
 			    return parent::base_create('user', $user);
             }
 		}
@@ -33,6 +47,11 @@
 
 		static public function edit(User $user){
             if(is_numeric($user->getId())){
+                
+                $user->setCreated_at(null);
+                $user->setEmail(null);
+                $user->setType(null);
+
 			    return parent::base_edit('user',$user);
             }
 		}
@@ -63,33 +82,15 @@
                     $user->setWeight($res['user_weight']);
                     $user->setHeight($res['user_height']);
                     $user->setType($res['user_type']);
-
-                    self::edit(new User(['is_logged' => 1,'id' => $user->getId()]) );
                     
-                    $data = $user->getPublicColumnsAsArray();
-                    $data['jti'] = md5($res['user_id'].date('hIymsid'));
+                    $data = $user->get_attributes_as_array();
+                    
+                    $data['jti'] = md5($res['user_id'].date('hisYdm'));
                     return $data;
 				}
 			}
         }
-
-        static public function is_logged(User $user){
-
-            $res = self::find(new User(
-                [
-                    'id'        => $user->getId(),
-                    'active'    => '1',
-                    'is_logged' => '1'
-                ]
-            ));
-
-            if(is_array($res) && count($res) > 0) return true;
-        }
         
-        static public function logout(User $user){
-            return self::edit(new User(['is_logged' => '0', 'id' => $user->getId()]));
-        }
-
         static public function active(User $user){
             $return;
             $res = self::find($user);

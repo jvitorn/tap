@@ -18,6 +18,8 @@
             
             $sql = "INSERT INTO $table (".self::$cols.") VALUES (".self::$vals.")";
 
+            // echo $sql;
+
             if(self::query($sql) ){
 
                 self::$cols     = 'id';
@@ -59,7 +61,7 @@
             if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
-            // if($table == 'category') echo $sql;
+            // if($table == 'user') echo $sql."<br><br>";
 
             return self::query($sql);
         }
@@ -109,23 +111,20 @@
 
             foreach($data as $col => $val){
                 
-                if(!empty($val)){
-                    if($virgula){
-                        $arr['cols'] .= ",";
-                        $arr['vals'] .= ",";
-                    }
+                if(!empty($val)){                    
                     
-                    $arr['cols'] .= $col;
+                    if(!is_array($val) && !is_object($val) && !empty($val)){
+                        if($virgula){
+                            $arr['cols'] .= ",";
+                            $arr['vals'] .= ",";
+                        }
 
-                    if(is_array($val)){
-                        $arr['vals'] .= "'".$val['id']."'";
-                    }else{
+                        $arr['cols'] .= $col;
                         $arr['vals'] .= "'".$val."'";
-                    }
 
-                    $virgula = true;
+                        $virgula = true;
+                    }                    
                 }
-                
             }
 
             self::$cols = $arr['cols'];
@@ -139,15 +138,15 @@
 
             foreach($data as $col => $val){
                 if(!is_null($val)){
-                    if($virgula) $update .= ",";
-
-                    if(is_array($val)){
-                        $update .= $col." = '".$val['id']."' ";
-                    }else{
-                        $update .= $col." = '".$val."' ";    
-                    }
                     
-                    $virgula = true;
+
+                    if(!is_array($val)){
+                        if($virgula) $update .= ",";
+                        
+                        $virgula = true;
+                        
+                        $update .= $col." = '".$val."' ";
+                    }
                 }
             }
 
@@ -163,16 +162,11 @@
                 if(!is_null($val)){
                     $where = '';
 
-                    if(is_array($val) && isset($val['id']) && is_numeric($val['id'])){
-                        $where .= $tbl.".".$col ." = '".$val['id']."' ";
-                    }else if(is_object($val)){
-                        $where .= $tbl.".".$col ." = '".$val->getId()."' ";
-                    }else if(!is_array($val) && !is_object($val)){
+                    if(!is_array($val)){
                         $where .= $tbl.".".$col ." = '".$val."' ";
+                        if(!empty($where)) self::$where .= " AND ".$where;
                     }
-
-                    if(!empty($where)) self::$where .= " AND ".$where;
-                } 
+                }
             } 
         }
 
@@ -181,15 +175,16 @@
             $fields = "";
             if(!empty(self::$cols)) $fields = ",";
             
-
             $virgula = false;
 
             foreach($cols as $col => $value){
-                
-                if($virgula) $fields .= ",";
+                if(!is_array($value)){
 
-                $virgula = true;
-                $fields .= $tbl.".".$col." as ". $tbl."_".$col; 
+                    if($virgula) $fields .= ",";
+
+                    $virgula = true;
+                    $fields .= $tbl.".".$col." as ". $tbl."_".$col;     
+                }
             }
 
             self::$cols .= $fields;
@@ -217,32 +212,39 @@
 
 
         static public function base_create($tbl, $obj){
-            if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
-                self::array_to_sql_create($obj->getAttributesAsArray());
-                return self::insert($tbl);
+            if(is_object($obj) && method_exists($obj,'get_attributes_as_array')){
+                self::array_to_sql_create($obj->get_attributes_as_array());
+                return self::insert($tbl);    
             }
         }
 
         static protected function base_find($tbl, $obj){
-            if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
-                self::array_to_sql_where($tbl,$obj->getAttributesAsArray());
-                self::columns($tbl, $obj->getAttributesAsArray());
+            
+            $ret = array();
+
+            if(is_object($obj) && method_exists($obj,'get_attributes_as_array')){
+                
+                self::array_to_sql_where($tbl,$obj->get_attributes_as_array());
+                self::columns($tbl, $obj->get_attributes_as_array());
+                
                 $res = self::select($tbl);
-                if(is_bool($res) && $res === true) return array();
-                return $res;
+
+                if(is_array($res)) $ret = $res;
+                
+                return $ret;
             }
         }
 
         static public function base_edit($tbl, $obj){
-            if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
-                self::array_to_sql_update($obj->getAttributesAsArray());
+            if(is_object($obj) && method_exists($obj,'get_attributes_as_array')){
+                self::array_to_sql_update($obj->get_attributes_as_array());
                 self::array_to_sql_where($tbl,['id' => $obj->getId() ]);
                 return self::update($tbl);
             }
         }
 
         static public function base_remove($tbl, $obj){
-            if(is_object($obj) && method_exists($obj,'getAttributesAsArray')){
+            if(is_object($obj) && method_exists($obj,'get_attributes_as_array')){
                 self::array_to_sql_where($tbl,['id' => $obj->getId()]);
                 return self::delete($tbl);
             }

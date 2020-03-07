@@ -82,7 +82,17 @@
             if(is_array($data) && count($data) > 0){
 
                 /* remove o usuário do DB. */
-			    return parent::base_remove('user',$user);
+			    if(parent::base_remove('user',$user)){
+
+                    /* se remover, retorna sucesso. */
+                    return "success";
+
+                }else{
+
+                    /* se nao remover, retorna uma mensagem de erro. */
+                    return "Não foi possivel excluir este usuário. ";
+
+                }
 
             }else{
 

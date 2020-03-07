@@ -187,13 +187,11 @@
             
             $code = $this->user->generateAuthCode();
 
-            $b_user = new User(['id' => $this->user->getId()]);
-
             if( UserDAO::edit($this->user) ){
 
                 $cEmail  = new ControllerEmail();
 
-                $arrUser = UserDAO::find($b_user)[0];
+                $arrUser = UserDAO::find(new User(['id' => $this->user->getId()]))[0];
 
                 $arrUser['auth'] = $code;
                 $dataArray = ['user' => $arrUser];
@@ -217,7 +215,7 @@
             $this->user->setAuth($code);
             $data = UserDAO::remove($this->user);
             
-            if(is_bool($data)){
+            if($data == "success"){
                 $json['status']     = 'success';
                 $json['msg']        = 'Usuário deletado com sucesso!';
 

@@ -52,7 +52,7 @@
             if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
-            // if($table == 'category') echo $sql."<br><br>";
+            // if($table == 'action') echo $sql."<br><br>";
 
             return self::query($sql);
         }
@@ -111,7 +111,7 @@
                         }
 
                         $arr['cols'] .= $col;
-                        $arr['vals'] .= "'".$val."'";
+                        $arr['vals'] .= "'".addslashes($val)."'";
 
                         $virgula = true;
                     }                    
@@ -133,7 +133,7 @@
                     if($virgula) $update .= ",";
                     
                     $virgula = true;
-                    $update .= $col." = '".$val."' ";
+                    $update .= $col." = '".addslashes($val)."' ";
                 }
             }
 
@@ -150,7 +150,7 @@
                     $where = '';
 
                     if(!is_array($val)){
-                        $where .= $tbl.".".$col ." = '".$val."' ";
+                        $where .= $tbl.".".$col ." = '".addslashes($val)."' ";
                         if(!empty($where)) self::$where .= " AND ".$where;
                     }
                 }

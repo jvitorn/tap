@@ -2,9 +2,7 @@
 	namespace App\Controller;
 
     use App\Controller\Controller;
-    use App\Controller\ControllerAction;
-
-	use App\Model\User;
+    
     use App\Model\Category;
 	
     use App\DAO\CategoryDAO;

@@ -39,7 +39,7 @@
 		}
 
 		public function getName(){ return $this->name; }
-		public function setName($nm){ $this->name = addslashes($nm); }
+		public function setName($nm){ $this->name = $nm; }
 
 		public function getUser(){ return $this->user; }
 

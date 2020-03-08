@@ -14,92 +14,123 @@
 	 */
 	class ControllerAction extends Controller {
 
-        public function create(User $user, $data = []){
+        public function __construct(){
+            parent::__construct();
+            $this->validate_access(['user','adm']);
+        }
 
-            $json['status'] = 'error';
-            $json['msg']    = '';
+        public function create($data = []){
 
-            if(!isset($data['name'])){
-                $json['msg'] .= "O campo NAME deve ser informado!\r\n";
-            }else{
-                $data['created_at'] = date('Y-m-d h:i:s');
-                
-                $cat = new Category($user, ['id' => $data['category']]);
+            $data['created_at'] = date('Y-m-d h:i:s');
 
-                $res = ActionDAO::create(new Action($user, $cat, $data) );
+            $json['status'] =  "error";
+            
+            if(isset($data['category'])){
 
-                if(is_numeric($res)){
+                $res = ActionDAO::create(new Action($this->user->getId(), $data['category'], $data) );
+
+                if($res == "success"){
+                    
                     $json['status'] = 'success';
                     $json['msg']    = 'Ação criada com sucesso!';
+
                 }else{
+
                     $json['msg']    = "Erro: não foi possivel criar a ação!\r\n";
                     $json['msg']   .= $res;
+
                 }
-            }
 
-            return $json;
-        }
-
-        public function edit(User $user, $data = []){
-           
-            $json = ['status' => 'error','msg' => ''];
-
-            unset($data['created_at']);
-            $data['updated_at'] = date('Y-m-d h:i:s');
-
-            $cat = new Category($user, ['id' => $data['category']]);
-            
-            $res = ActionDAO::edit(new Action($user, $cat, $data));
-
-            if($res == 'success'){
-                $json['status'] = 'success';
-                $json['msg']    = 'Ação atualizada com sucesso!';
             }else{
-                $json['msg']    = "Erro: não foi possivel atualizar a ação!\r\n";
-                $json['msg']   .= $res;
+
+                $json['msg'] = "a categoria deve ser informada. ";
+
             }
 
-            return $json;
+            $this->render->json($json);
         }
 
-        public function list(User $user, $data){
+        public function edit($data = []){
+           
+            $json['status'] = 'error';
+
+            if(isset($data['category'])){
+
+                unset($data['created_at']);
+
+                $data['updated_at'] = date('Y-m-d h:i:s');
+                
+                $res = ActionDAO::edit( new Action($this->user->getId(),$data['category'],$data) );
+
+                if($res == 'success'){
+
+                    $json['status'] = 'success';
+                    $json['msg']    = 'Ação atualizada com sucesso!';
+
+                }else{
+
+                    $json['msg']    = "Erro: não foi possivel atualizar a ação!\r\n";
+                    $json['msg']   .= $res;
+
+                }
+
+            }else{
+
+                $json['msg'] = "O campo categoria deve ser informado. ";
+
+            }
+
+            $this->render->json($json);
+        }
+
+        public function find($data = []){
+
             $json = ['status' => 'error','msg' => ''];
 
             if(isset($data['category'])){
-                $cat = new Category($user, ['id' => $data['category']]);
+
+                $action = new Action($this->user->getId(),$data['category']);
+                
+                if(isset($data['id']) && is_numeric($data['id'])) $action->setId($data['id']);
+
+                if(isset($data['name']) && !empty($data['name'])) $action->setName($data['name']);
+
+                $json = ActionDAO::find($action);
+
             }else{
-                $cat = $cat = new Category($user);
+
+                $json['msg'] = "A categoria deve ser informada. ";
+
             }
 
-            $json = ActionDAO::find(new Action($user, $cat, $data));
-
-            return $json;
+            $this->render->json($json);
         }
 
-        public function remove(User $user, $id){
+        public function remove($id){
 
             $json = ['status' => 'error','msg' => ''];
-            $paramStatusOk = true;
 
             if(!isset($id) || !is_numeric($id)){
-                $json['msg'] = 'O ID do item precisa ser informado';
-                $paramStatusOk = false;
-            }
 
-            if($paramStatusOk){
-                $cat = $cat = new Category($user);
-                $res = ActionDAO::remove(new Action($user,$cat,['id' => $id]));
+                $json['msg'] = 'O ID do item precisa ser informado';
+
+            }else{
+
+                $res = ActionDAO::remove(new Action($this->user->getId(),0,['id' => $id]));
 
                 if($res == 'success'){
+
                     $json['status'] = 'success';
                     $json['msg']    = 'Ação deletada com sucesso';
+
                 }else{
-                    $json['status'] = 'success';
+
                     $json['msg']    = "Erro: não foi possivel deletar a ação\r\n";
                     $json['msg']   .= $res;
+
                 }    
             }
 
-            return $json;
+            $this->render->json($json);
         }
 	}

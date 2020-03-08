@@ -95,7 +95,9 @@
 
                 if(isset($data['name']) && !empty($data['name'])) $action->setName($data['name']);
 
-                $json = ActionDAO::find($action);
+                $res = ActionDAO::find($action);
+
+                $json = $this->prepare_array($res);
 
             }else{
 

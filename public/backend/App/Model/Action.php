@@ -30,7 +30,7 @@
 		private $dthr_final;
 		private $value;
 
-		public function __construct($user_id, $category_id, $data = []){
+		public function __construct($user_id, $category_id = null, $data = []){
 
 			$this->user 	= $user_id;
 			$this->category = $category_id;

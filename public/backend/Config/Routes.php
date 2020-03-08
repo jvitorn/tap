@@ -48,7 +48,8 @@
         ClassRoutes::POST('category','ControllerCategory@user_new_category');
         ClassRoutes::PUT('category','ControllerCategory@user_edit_category');
         ClassRoutes::GET('category/categories','ControllerCategory@list_all_categories');
-        ClassRoutes::GET('category/my-categories','ControllerCategory@my_categories');
+        ClassRoutes::GET('category/my-categories','ControllerCategory@list_private_categories');
+        ClassRoutes::GET('category/detailed-categories','ControllerCategory@list_detailed_categories');
         ClassRoutes::DELETE('category','ControllerCategory@user_remove_category');
 
         /* Rotas para criar, editar, listar e excluir ações */

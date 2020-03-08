@@ -65,4 +65,27 @@
                 if($user_type == $permissao) return true;
             }
         }
+
+        protected function prepare_array($data){
+            if(is_array($data)){
+
+                $count = count($data);
+
+                foreach ($data as $key => $value) {
+                    
+                    if(is_array($value)){
+                        foreach($value as $k => $v){
+                            if(is_array($v)){
+                               $c = count($v);
+                                $data[$key][$k."Count"] = $c;     
+                            }
+                        }
+                    }
+                }
+
+                $data['rowCount'] = $count;
+                
+                return $data;    
+            }            
+        }
     }

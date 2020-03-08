@@ -9,7 +9,7 @@
         static private $where     = 'id > 0 ';
         static private $cols      = '';
         static private $vals      = "";
-        static private $orderBy   = " id ASC";
+        static private $orderBy   = "id ASC";
         static private $limit     = "";
         static private $join      = "";
                 
@@ -34,15 +34,6 @@
             }
         }
 
-        static public function clearParams(){
-            self::$where     = 'id > 0 ';
-            self::$cols      = '';
-            self::$vals      = "";
-            self::$orderBy   = "";
-            self::$limit     = "";
-            self::$join      = "";
-        }
-
         static protected function select($table){
 
             /* monta a query apenas com as colunas e o nome da tabela.  */
@@ -55,13 +46,13 @@
             if(!empty(self::$where)) $sql .= " WHERE ".self::$where;
             
             /* se houver uma ordenação no select, a adiciona na query.  */
-            if(!empty(self::$orderBy)) $sql .= " ORDER BY ". self::$orderBy;
+            if(!empty(self::$orderBy)) $sql .= " ORDER BY ". $table.".".self::$orderBy;
             
             /* se houver um limite, a adiciona na query.                */
             if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
-            // if($table == 'user') echo $sql."<br><br>";
+            // if($table == 'category') echo $sql."<br><br>";
 
             return self::query($sql);
         }
@@ -163,12 +154,14 @@
                         if(!empty($where)) self::$where .= " AND ".$where;
                     }
                 }
-            } 
+            }
+            return self::$where;
         }
 
         static protected function columns($tbl, $cols){
             
             $fields = "";
+            
             if(!empty(self::$cols)) $fields = ",";
             
             $virgula = false;
@@ -184,6 +177,16 @@
             }
 
             self::$cols .= $fields;
+            return $fields;
+        }
+
+        static public function clearParams(){
+            self::$where     = 'id > 0 ';
+            self::$cols      = '';
+            self::$vals      = "";
+            self::$orderBy   = "";
+            self::$limit     = "";
+            self::$join      = "";
         }
 
         static protected function values($vals){

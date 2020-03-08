@@ -21,10 +21,10 @@
         ClassRoutes::DELETE('admin/user','ControllerAdmin@remove_user');
 
         /* rotas para criar, editar, listar e excluir categorias publicas */
-        ClassRoutes::POST('admin/category','ControllerAdmin@new_category');
-        ClassRoutes::PUT('admin/category','ControllerAdmin@edit_category');
-        ClassRoutes::GET('admin/category','ControllerAdmin@list_categories');
-        ClassRoutes::DELETE('admin/category','ControllerAdmin@remove_category');
+        ClassRoutes::POST('admin/category','ControllerCategory@admin_new_category');
+        ClassRoutes::PUT('admin/category','ControllerCategory@admin_edit_category');
+        ClassRoutes::GET('admin/category','ControllerCategory@list_public_categories');
+        ClassRoutes::DELETE('admin/category','ControllerCategory@admin_remove_category');
     /**
 	 *	Rotas Usuário
 	 */
@@ -45,11 +45,11 @@
         ClassRoutes::DELETE('user','ControllerUser@delete_account');
 
         /* rotas para criar, editar, listar e excluir categorias privadas */
-        ClassRoutes::POST('category','ControllerUser@new_category');
-        ClassRoutes::PUT('category','ControllerUser@edit_category');
-        ClassRoutes::GET('category/categories','ControllerUser@list_categories');
-        ClassRoutes::GET('category/my-categories','ControllerUser@my_categories');
-        ClassRoutes::DELETE('category','ControllerUser@remove_category');
+        ClassRoutes::POST('category','ControllerCategory@user_new_category');
+        ClassRoutes::PUT('category','ControllerCategory@user_edit_category');
+        ClassRoutes::GET('category/categories','ControllerCategory@list_all_categories');
+        ClassRoutes::GET('category/my-categories','ControllerCategory@my_categories');
+        ClassRoutes::DELETE('category','ControllerCategory@user_remove_category');
 
         /* Rotas para criar, editar, listar e excluir ações */
         ClassRoutes::POST('action','ControllerUser@new_action');
@@ -61,4 +61,4 @@
 	 *	Rotas Auth
 	 */
         ClassRoutes::POST('auth/login','ControllerAuth@login');
-        ClassRoutes::POST('auth/logout','ControllerAuth@logout');
+        // ClassRoutes::POST('auth/logout','ControllerAuth@logout');

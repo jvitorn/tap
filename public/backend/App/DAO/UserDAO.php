@@ -66,13 +66,16 @@
             }
 		}
 
-		static public function remove(User $user){
+		static public function remove(User $user,$is_admin = 0){
             $ret = "";
 
             /* se o ID do usuário nao for informado, retorna uma mensagem de erro. */
             if(empty($user->getId())) $ret .= "O ID deve ser informado!";
-            if(empty($user->getAuth())) $ret .= "O Código deve ser informado!";
-
+            
+            if(!$is_admin){
+                if(empty($user->getAuth())) $ret .= "O Código deve ser informado!";    
+            }
+            
             if($ret != "") return $ret;
             
             /* busca o usuário no DB. */ 

@@ -83,7 +83,7 @@
 
             $this->render->json($res1);
         }
-
+        
         public function list_detailed_categories($data){
             $this->validate_access(['user','adm']);
 

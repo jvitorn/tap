@@ -16,8 +16,8 @@
 	 */
 	class Action extends Model {
 
-		private $user;			// obj User
-		private $category;		// obj Category
+		private $user;			// id User
+		private $category;		// id Category
 		private $name;
 		private $description;
 		private $indice;
@@ -48,7 +48,7 @@
 		public function getCategory(){ return $this->category; }
 
 		public function getName(){ return $this->name; }
-		public function setName($nm){ $this->name = addslashes($nm); }
+		public function setName($nm){ $this->name = $nm; }
 
 		public function getDescription(){ return $this->description; }
 		public function setDescription($ds){ $this->description = $ds; }

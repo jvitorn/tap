@@ -3,12 +3,8 @@
 
     use App\Controller\Controller;
     use App\Controller\ControllerEmail;
-    use App\Controller\ControllerCategory;
-    use App\Controller\ControllerAction;
 
 	use App\Model\User;
-    use App\Model\Category;
-    use App\Model\Action;
 	
     use App\DAO\UserDAO;
     

@@ -6,8 +6,6 @@
     use Src\Classes\ClassRender;
 
     use App\Model\User;
-	
-	use App\DAO\UserDAO;
 
     /**
      * Classe base para todos os Controllers

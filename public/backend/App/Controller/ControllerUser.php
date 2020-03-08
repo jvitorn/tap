@@ -238,43 +238,7 @@
             
             $this->render->json($json);
         }
-
-        /**
-         * METODOS DE MANIPULAÇÃO DE CATEGORIAS
-         */
-
-        private function category($method, $data){
-            $this->validate_access(['user','adm']);
-
-            if($method != 'remove') $data['is_public'] = 0;
-            if($method == 'create') $data['active'] = 1;
-            
-            $cAT = new ControllerCategory();
-            $res = $cAT->{$method}($this->user, $data);
-
-            $this->render->json($res);
-        }
-
-        public function new_category($data = []){
-            $this->category('create',$data);
-        }
-
-        public function edit_category($data = []){
-            $this->category('edit',$data);
-        }
-
-        public function my_categories($data = []){
-            $this->category('list',$data);
-        }
-
-        public function remove_category($id){
-            $this->category('remove',$id);
-        }
-
-        public function list_categories($data){
-            $this->category('list_all',$data);
-        }
-
+        
         /**
          * METODOS DE MANIPULAÇÃO DE AÇÕES
          */

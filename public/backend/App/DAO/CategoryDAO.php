@@ -20,7 +20,7 @@
 
 		static public function create(Category $cat){
             
-            /* verifica se ja existe uma cateogiria igual */
+            /* verifica se ja existe uma categoria igual */
             $res = self::find(new Category( $cat->getUser(),
                 [
                     'is_public' => $cat->getIs_public(),
@@ -42,68 +42,17 @@
             }
 		}
 
-		static public function find(Category $cat){
-                
-            parent::columns('action',(
-                new Action($cat->getUser(), $cat->getid() )
-            )->get_attributes_as_array());
+        static public function find(Category $cat){
 
-            parent::join("LEFT JOIN action ON action.category = category.id");
+            parent::columns('category',$cat->get_attributes_as_array());
 
-            return parent::base_find('category',$cat);
-		}
+            $arrWhere = $cat->get_attributes_as_array();
 
-        static public function find_public_categories(Category $cat){
+            if($cat->getIs_public()) unset($arrWhere['user']);
 
-            $action = new Action($cat->getUser(),$cat->getId());
+            parent::array_to_sql_where('category',$arrWhere);
 
-            $fields_category = parent::columns('category', $cat->get_attributes_as_array());
-
-            
-
-            $arrFields = $cat->get_attributes_as_array();
-            
-            unset($arrFields['user']);
-
-            $query  = "SELECT $fields_category FROM category ";
-            $query .= "WHERE ".parent::array_to_sql_where('category',$arrFields);
-            $query .= " AND is_public = '1' AND active ='1' ";          
-            
-            $categories = parent::query($query);
-            $fields_action = parent::columns('action', $action->get_attributes_as_array());
-
-            $query  = "SELECT $fields_action FROM action ";
-            $query .= "WHERE user = ".$cat->getUser();
-
-            $actions = parent::query($query);
-
-            $res = [];
-            $c = 0;
-
-            if(is_array($categories)){
-                foreach($categories as $key => $category ){
-                    $encontrou = false;
-                    
-                    if(is_array($actions)){
-                        foreach($actions as $k => $action){
-                        
-                            if($category['category_id'] == $action['action_category']){
-                                $res[] = array_merge($action,$category);
-                                unset($actions[$k]);
-                                $encontrou = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if(!$encontrou){
-                        $res[] = $categories[$key];
-                    }
-                }
-            }
-            
-            if(is_array($res)) return $res;
-            return array();
+            return parent::select('category');
         }
 
 		static public function edit(Category $cat){

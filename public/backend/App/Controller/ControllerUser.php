@@ -234,30 +234,4 @@
             
             $this->render->json($json);
         }
-        
-        /**
-         * METODOS DE MANIPULAÇÃO DE AÇÕES
-         */
-        private function action($method, $data){
-            $this->validate_access(['user','adm']);
-
-            $json   = (new ControllerAction())->{$method}($this->user, $data);
-            $this->render->json($json);
-        }
-
-        public function new_action($data = []){
-            $this->action('create', $data);
-        }
-
-        public function edit_action($data = []){
-            $this->action('edit', $data);
-        }
-
-        public function list_actions($data = []){
-            $this->action('list', $data);
-        }
-
-        public function remove_action($id = null){
-            $this->action('remove', $id);   
-        }
 	}

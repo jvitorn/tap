@@ -4,8 +4,10 @@
     use App\Controller\Controller;
     
     use App\Model\Category;
+    use App\Model\Action;
 	
     use App\DAO\CategoryDAO;
+    use App\DAO\ActionDAO;
     
 	/**
 	 * @method $this->render->json($dataArray);
@@ -48,41 +50,75 @@
         /* lista as categorias publicas. */
         public function list_public_categories($data){
             $this->validate_access('adm');
-
-            $res = CategoryDAO::find_public_categories(new Category($this->user->getId()));
-            $res = $this->order_list($res);
-
-            $this->render->json($res);
-        }
-
-        /* lista todas categorias(publicas e privadas) */
-        public function list_all_categories($data){
-            $this->validate_access(['user','adm']);
-
-            $res = CategoryDAO::find_public_categories(new Category($this->user->getId()));
-            $res = $this->order_list($res);
-
-            $data['is_public'] = 0;
-            $res2 = $this->list_categories($this->user->getId(),$data);
-
-            if(is_array($res2)) $res = array_merge($res,$res2);
+            $data['is_public'] = 1;
+            $category = new Category($this->user->getId(), $data);
+            $res = $this->get_categories($category);
 
             $this->render->json($res);
         }
 
-        /* lista todas as categorias privadas criadas pelo usuário. */
-        public function my_categories($data){
+        /* lista as categorias privadas. */
+        public function list_private_categories(){
             $this->validate_access(['user','adm']);
             $data['is_public'] = 0;
+            $category = new Category($this->user->getId(), $data);
+            $res = $this->get_categories($category);
+
+            $this->render->json($res);
+        }
+
+        /* lista as categorias privadas e publicas. */
+        public function list_all_categories(){
+            $this->validate_access(['user','adm']);
             
-            $res = $this->list_categories($this->user->getId(),$data);
-            $this->render->json($res);
+            $data['is_public'] = 0;
+            $category = new Category($this->user->getId(), $data);
+            $res1 = $this->get_categories($category);
+
+            $data['is_public'] = 1;
+            $category = new Category($this->user->getId(), $data);
+            $res2 = $this->get_categories($category);
+
+            if(is_array($res2)) $res1 = array_merge($res1,$res2);
+
+            $this->render->json($res1);
+        }
+        
+        public function list_detailed_categories($data){
+            $this->validate_access(['user','adm']);
+
+            if(isset($data['id']) && !is_numeric($data['id'])) unset($data['id']);
+
+            /* buscando ações de categorias publicas */
+            $data['is_public'] = 1;
+            $category   = new Category($this->user->getId(), $data);
+            $categories = CategoryDAO::find($category);
+
+            $action     = new Action($this->user->getId());
+            $actions    = ActionDAO::find($action);
+
+            $res1       = $this->order_table($categories, $actions);
+            $res1       = $this->order_list($res1);
+
+            /* buscando ações de categorias privadas. */
+            $data['is_public'] = 0;
+            $category   = new Category($this->user->getId(), $data);
+            $categories = CategoryDAO::find($category);
+
+            $action     = new Action($this->user->getId());
+            $actions    = ActionDAO::find($action);
+
+            $res2       = $this->order_table($categories, $actions);
+            $res2       = $this->order_list($res2);
+
+            if(is_array($res2)) $res1 = array_merge($res1,$res2);
+
+            $this->render->json($res1);
         }
 
-        /* faz a busca e retorna os resultados para outros metodos. */
-        private function list_categories($user_id, $data){
-            $res = CategoryDAO::find(new Category($user_id,$data));
-            return $this->order_list($res);
+        private function get_categories($category){
+            $res = CategoryDAO::find($category);
+            return $this->prepare_array($res);
         }
 
         /* agrupa as ações através de suas categorias. */
@@ -91,17 +127,25 @@
             $categories = [];
             $c = 0;
 
+            if(!is_array($cats)) return array();
+
             foreach($cats as $key => $cat){
 
                 $id = $cat['category_id'];
 
                 if(!isset($categories[$id])){
-                    foreach($cat as $key => $value){
-                        if(substr($key,0,8) == "category"){
-                            $categories[$id][$key] = $value;
+                    
+                    if(is_array($cat)){
+                        
+                        foreach($cat as $key => $value){
+                            if(substr($key,0,8) == "category"){
+                                $categories[$id][$key] = $value;
+                            }
                         }
+
+                        $c = 0; 
                     }
-                    $c = 0;
+
                 }
 
                 $actions = null;
@@ -122,6 +166,38 @@
             }
 
             return $categories;
+        }
+
+        /* agrupa as ações com suas categorias. */
+        private function order_table($categories, $actions){
+            
+            $res = [];
+            $c = 0;
+
+            if(is_array($categories)){
+                foreach($categories as $key => $category ){
+                    $encontrou = false;
+                    
+                   
+                        foreach($actions as $k => $action){
+
+                            if($category['category_id'] == $action['action_category']){
+                                $res[] = array_merge($action,$category);
+                                unset($actions[$k]);
+                                $encontrou = true;
+                                break;
+                            }
+                        }
+                    
+
+                    if(!$encontrou) $res[] = $categories[$key];
+                }
+            }
+
+            // echo "<pre>";
+            // print_r($res);
+
+            return $res;
         }
 
         public function user_edit_category($data = []){

@@ -6,8 +6,10 @@
     use App\Controller\ControllerCategory;
 
 	use App\Model\User;
+    use App\Model\Config;
 	
 	use App\DAO\UserDAO;
+    use App\DAO\ConfigDAO;
 
 	/**
      * @method $this->render->json($dataArray);
@@ -19,64 +21,95 @@
             $this->validate_access('adm');
         }
 
-        public function list($data = []){ 
-			$user   = new User($data);
-			$users  = UserDAO::find($user);
+        public function list_users($data = []){ 
+			$users  = UserDAO::find(new User($data));
+            $users  = $this->filter_fields_users($users);
+            $users  = $this->prepare_array($users);
 			$this->render->json($users);
         }
         
         public function remove_user($id){
 
             if($this->user->getId() != $id ){
-                $user = new User( ['id' => $id ]);
+                
+                $user = new User(['id' => $id ]);
+                $res = UserDAO::remove($user,1);
 
-                $data = UserDAO::remove($user);
-                if(is_bool($data)){
+                if($res == 'success'){
+
                     $json['status'] 	= 'success';
                     $json['msg']		= 'Usuário deletado com sucesso!';
+
                 }else{
+                    
                     $json['status'] = 'error';
-                    if($data != ''){
-                        $json['msg'] = $data;
+                   
+                    if($res != ''){
+
+                        $json['msg'] = $res;
+
                     }else{
+
                         $json['msg'] = 'Erro: não foi possivel deletar o usuário.';
+
                     }
+
                 }
+
             }else{
+
                 $json['status']  = 'error';
-                $json['msg']     = "Voce não pode se excluir através desta função"; 
+                $json['msg']     = "Voce não pode se excluir através desta função";
+
             }
             
             $this->render->json($json);
 		}
 
-        /* adicionar tipos de ações apenas para quem criou */
-        public function new_category($data = []){            
-            $data['is_public'] = 1;
-            $data['active'] = 1;
-            $cat    = new ControllerCategory();
-            $res = $cat->create($this->user, $data);
-            $this->render->json($res);
+        public function filter_fields_users($users){
+
+            if(is_array($users)){
+                
+                foreach($users as $key => $user){
+
+                    unset($users[$key]['user_auth']);
+                    unset($users[$key]['user_dthr_request_recovery_pw']);
+                    unset($users[$key]['user_password']);
+                    unset($users[$key]['user_active']);
+                    unset($users[$key]['user_dt_birth']);
+                    unset($users[$key]['user_gender']);
+                    unset($users[$key]['user_height']);
+                    unset($users[$key]['user_weight']);
+
+                } 
+
+            }
+
+            return $users;
         }
 
-        public function edit_category($data = []){        
-            $data['is_public'] = 1;
-            $cat    = new ControllerCategory();
-            $res = $cat->edit($this->user, $data);
-            $this->render->json($res);
+        public function list_configs($data){
+            $configs  = ConfigDAO::find(new Config($data));
+            $configs  = $this->prepare_array($configs);
+            $this->render->json($configs);
         }
 
-        public function list_categories($data){
-            $data['is_public'] = 1;
-            $cat    = new ControllerCategory();
-            $res = $cat->list($this->user, $data);
-            $this->render->json($res);
-        }
+        public function edit_config($data){
 
-        public function remove_category($id){           
-            $data['is_public'] = 1;
-            $cat    = new ControllerCategory();
-            $res = $cat->remove($this->user,['id' => $id]);
-            $this->render->json($res);
+            unset($data['type']);
+            $res = ConfigDAO::edit(new Config($data));
+
+            if($res == "success"){
+                
+                $json['status'] = "success";
+                $json['msg']    = "Configuração atualizada com sucesso. ";
+
+            }else{
+
+                $json['status'] = "error";
+                $json['msg']    = "Não foi possivel editar a configuração. ";
+            }
+
+            $this->render->json($json);
         }
 	}

@@ -5,7 +5,7 @@
 
     use App\Model\Config;
 
-    use App\DAO\ConfigDAO;
+    use App\DAO\ConfigDAO; 
 
 	/**
      * @method $this->render->json($dataArray);

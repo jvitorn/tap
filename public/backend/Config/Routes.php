@@ -20,8 +20,13 @@
         ClassRoutes::GET('admin/user','ControllerAdmin@list_users');
         ClassRoutes::DELETE('admin/user','ControllerAdmin@remove_user');
 
+        /* rotas para listar e editar tabela config. */
         ClassRoutes::GET('admin/config','ControllerAdmin@list_configs');
         ClassRoutes::PUT('admin/config','ControllerAdmin@edit_config');
+
+        /* rotas para listar e editar tabela email */
+        ClassRoutes::GET('admin/email','ControllerEmail@list');
+        ClassRoutes::PUT('admin/email','ControllerEmail@edit');
 
         /* rotas para criar, editar, listar e excluir categorias publicas */
         ClassRoutes::POST('admin/category','ControllerCategory@admin_new_category');

@@ -21,8 +21,15 @@
 		}
 
 		static public function edit(Email $email){
+            
             if(is_numeric($email->getId())){
-			    return parent::base_edit('email', $email);
+			   	if(parent::base_edit('email', $email)){
+			   		return 'success';
+			   	}else{
+			   		return "erro ao tentar atualizar o email";
+			   	}
+            }else{
+            	return "o ID deve ser informado";
             }
 		}
 	}

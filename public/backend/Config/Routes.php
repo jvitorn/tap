@@ -21,8 +21,8 @@
         ClassRoutes::DELETE('admin/user','ControllerAdmin@remove_user');
 
         /* rotas para listar e editar tabela config. */
-        ClassRoutes::GET('admin/config','ControllerAdmin@list_configs');
-        ClassRoutes::PUT('admin/config','ControllerAdmin@edit_config');
+        ClassRoutes::GET('admin/config','ControllerConfig@list');
+        ClassRoutes::PUT('admin/config','ControllerConfig@edit');
 
         /* rotas para listar e editar tabela email */
         ClassRoutes::GET('admin/email','ControllerEmail@list');

@@ -1,5 +1,5 @@
 <?php 
-	namespace App\Classes;
+	namespace Src\Classes;
 
 	class Authorization {
 
@@ -16,9 +16,9 @@
                 $headers = trim($_SERVER["HTTP_AUTHORIZATION"]);
 
             }else if(function_exists('apache_request_headers')){
-                
+
                 $requestHeaders = apache_request_headers();
-                $arr_map = array_map('ucwords', array_keys($requestHeaders)),array_values($requestHeaders);
+                $arr_map = array_map('ucwords', array_keys($requestHeaders),array_values($requestHeaders));
                 $requestHeaders = array_combine($arr_map);
 
                 if (isset($requestHeaders['Authorization'])){
@@ -29,7 +29,7 @@
             return $headers;
         }
 
-    	private function getBearerToken(){
+    	public function getBearerToken(){
 
 	        $headers = $this->getAuthorizationHeader();
 

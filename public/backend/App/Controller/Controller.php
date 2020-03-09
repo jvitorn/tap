@@ -1,9 +1,8 @@
 <?php
     namespace App\Controller;
     
-    use App\Controller\ControllerAuth;
-
     use Src\Classes\ClassRender;
+    use Src\Classes\Token;
 
     use App\Model\User;
 
@@ -36,7 +35,7 @@
         
         protected function validate_access($permissao){
             
-            $auth = new ControllerAuth();
+            $auth = new Token();
 
             if( $auth->validate() ){
 

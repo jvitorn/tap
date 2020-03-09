@@ -70,4 +70,4 @@
 	 *	Rotas Auth
 	 */
         ClassRoutes::POST('auth/login','ControllerAuth@login');
-        // ClassRoutes::POST('auth/logout','ControllerAuth@logout');
+        ClassRoutes::GET('auth/validate','ControllerAuth@validate');

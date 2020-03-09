@@ -5,16 +5,17 @@
     use App\Model\User;
     use App\DAO\UserDAO;
 
-    use Src\Classes\Authorization;
     use Src\Classes\Token;
 
     /**
      * This class is responsible for business rules involving access validation.
      */
     
-    class ControllerAuth extends Controller{
+    class ControllerAuth extends Controller {
         
         public function login($data){
+
+            $json['status'] = 'error';
 
             if(isset($data['email']) && isset($data['password'])){
                 
@@ -24,30 +25,41 @@
 
                     /*adiciona a hash unica ao array. */
                     $user['jti'] = md5($user['id'].date('hisYdm'));
-
                     $token = (new Token())->generate($user);
                     $data = ['token' => $token];
-                    $this->render->json($data);
+                    $json = $data;
+
                 }else{
-                    $data = [
-                        'status' => 'error',
-                        'msg' =>"Email ou senha inválidos"
-                    ];
+
+                    $json['msg'] = "Email ou senha inválidos";                   
                     
-                    $this->render->json($data);
                 }
+
+            }else{
+
+                $json['msg'] = 'Os campos EMAIL e PASSWORD devem ser informados. ';
+
             }
+
+            $this->render->json($json);
         }
 
         public function validate(){
-            $token = (new Authorization())->getBearerToken();
-            $data = (new Token())->get_token_data($token);
-            
-            return (new Token())->validate($token);
-        }
 
-        public function get_token_data(){
-            $token = (new Authorization())->getBearerToken();
-            return (new Token())->get_token_data($token);
+            $res = (new Token())->validate();
+
+            if($res){
+
+                $json['status'] = 'success';
+                $json['msg']    = 'token validado. ';
+
+            }else{
+
+                $json['status'] = 'error';
+                $json['msg']    = 'token invalido. ';
+
+            }
+
+            $this->render->json($json);
         }
     }

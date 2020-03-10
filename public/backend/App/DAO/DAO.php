@@ -52,7 +52,7 @@
             if(!empty(self::$limit)) $sql .= " ".self::$limit;
 
             /* ponto de debug */
-            // if($table == 'action') echo $sql."<br><br>";
+            // if($table == 'user') echo $sql."<br><br>";
 
             return self::query($sql);
         }

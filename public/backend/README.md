@@ -8,6 +8,7 @@ Recursos disponiveis
 * **Configurações**
 * **Emails**
 
+
 ## Usuário
 - Registrar usuário 
 	**[/backend/user] [POST]**

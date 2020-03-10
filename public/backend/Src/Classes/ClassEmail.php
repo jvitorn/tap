@@ -8,10 +8,9 @@
 
     	private $mail;
 
-    	public function __construct($contact,$title,$content){
+    	public function __construct($dataArray,$title,$content){
             
-            $this->contact  = $contact;
-            
+            $contact    = $dataArray['user'];
             $this->mail = new PHPMailer(true);
             
             try {
@@ -33,32 +32,12 @@
                 $this->mail->Subject = $title;
                 $this->mail->Body    = $content;
 
+                $this->create_email($dataArray);
+
             }catch(Exception $e) {
                 // return "Message could not be sent. Mailer Error: {$e->ErrorInfo}";
             }
     	}
-
-        /**
-         * $data deverá conter array com os dados
-         * $data[$key] deverá conter o nome da tabela (user, task,post, etc...)
-         * $data[$key][$value] deverá conter o array com os dados da tabela/entidade
-         * $data[$key][$k] deverá conter a chave do dado, usando o nome do campo como chave
-         * $data[$key][$k][$val] deverá conter o valor da chave.
-         *
-         * Exemplo:
-         *
-         * $data =[
-         *      'user' =>[
-         *          'name'      => 'jdc',
-         *          'active'    => '123'
-         *      ],
-         *      'task' =>[
-         *          'name'      => 'fazer TCC',
-         *          'prazo'     => '12/06/2020'
-         *       ]
-         *  ];
-         *
-         */
 
         public function create_email($data){
 

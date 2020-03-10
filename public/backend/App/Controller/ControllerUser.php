@@ -2,12 +2,15 @@
 	namespace App\Controller;
 
     use App\Controller\Controller;
-    use App\Controller\ControllerEmail;
 
 	use App\Model\User;
+    use App\Model\Email;
 	
     use App\DAO\UserDAO;
+    use App\DAO\EmailDAO;
     
+    use Src\Classes\ClassEmail;
+
 	/**
 	 * @method $this->render->json($dataArray);
 	 */
@@ -35,10 +38,10 @@
 
                 $arrUser['auth'] = $auth;
 
-                $cEmail = new ControllerEmail();
-                $arrData = [ 'user' => $arrUser ];
-                $resEmail = $cEmail->send_confirm_account_request($arrUser, $arrData);
-                
+                $dataArray = [ 'user' => $arrUser ];
+
+                $resEmail = $this->send_email($dataArray,'confirm_account_request');
+                               
                 if($resEmail == "success"){
                     $json['status']  = 'success';
                     $json['msg']    .= ', verifique seu email!';
@@ -52,7 +55,7 @@
             }else{
                 $json['status'] = 'error';
                 if($data){
-                    $json['msg'] = $data;
+                    $json['msg'] = $id;
                 }else{
                     $json['msg'] = 'Erro: não foi possivel cadastrar o usuário.';
                 }
@@ -87,11 +90,9 @@
                     $json['status'] = 'success';
                     $json['msg']    = 'Usuário ativado com sucesso';
 
-                    $arrUser = UserDAO::find(new User(['email'=> $data['email']]) )[0];
-
-                    $cEmail = new ControllerEmail();
-                    $arrData = [ 'user' => $arrUser ];
-                    $resEmail = $cEmail->send_confirm_account_success($arrUser, $arrData);
+                    $arrUser    = UserDAO::find(new User(['email'=> $data['email']]) )[0];
+                    $dataArray  = [ 'user' => $arrUser ];
+                    $resEmail   = $this->send_email($dataArray,'confirm_account_success');
 
                 }else{
                     $json['status'] = 'error';
@@ -115,23 +116,29 @@
             $arrUser = UserDAO::reset_password_request($user);
             
             if(is_array($arrUser) && count($arrUser) > 0){
-                $cEmail = new ControllerEmail();
-
+   
                 $arrUser['auth'] = $code;
-                $dataArray = ['user' => $arrUser ];
-                $res = $cEmail->send_reset_password_request($arrUser,$dataArray);
+                $dataArray       = ['user' => $arrUser ];
+                
+                $resEmail        = $this->send_email($dataArray,'reset_password_request');
 
-                if($res == 'success'){
+                if($resEmail == 'success'){
+
                     $json['status'] = 'success';
                     $json['msg']    = 'Pedido enviado com sucesso, verifique seu email!';
+
                 }else{
+
                     $json['status'] = 'error';
-                    $json['msg']    = 'Erro: não foi possivel enviar codigo de redefinição de senha para este email.';
+                    $json['msg']    = 'Erro: não foi possivel enviar codigo de redefinição de senha.';
+
                 }
 
             }else{
+
                 $json['status'] = 'error';
                 $json['msg']    = 'Este email não existe, ou o usuário está inativo';
+
             }
 
             $this->render->json($json);
@@ -160,19 +167,21 @@
             $res = UserDAO::reset_password($user);
 
             if($res == "success"){
+
                 $json['status'] = 'success';
                 $json['msg']    = 'Senha atualizada com sucesso!';
-
-                $cEmail = new ControllerEmail();
-
 
                 $arrUser = UserDAO::find(new User(['id' => $user->getId()]))[0];
 
                 $dataArray = ['user' => $arrUser ];
-                $cEmail->send_reset_password_success($arrUser,$dataArray);
+
+                $this->send_email($dataArray,'reset_password_success');
+
             }else{
+
                 $json['msg']  = 'Erro: não foi possivel atualizar a senha!';
                 $json['msg'] .= "\r\n".$res;
+
             }
 
             $this->render->json($json);
@@ -185,21 +194,25 @@
 
             if( UserDAO::edit($this->user) ){
 
-                $cEmail  = new ControllerEmail();
-
                 $arrUser = UserDAO::find(new User(['id' => $this->user->getId()]))[0];
 
                 $arrUser['auth'] = $code;
-                $dataArray = ['user' => $arrUser];
-                $res = $cEmail->send_delete_account_request($arrUser,$dataArray);
+                $dataArray       = ['user' => $arrUser];
 
-                if($res == 'success'){
+                $resEmail = $this->send_email($dataArray,'delete_account_request');
+
+                if($resEmail == 'success'){
+                    
                     $json['status'] = 'success';
                     $json['msg']    = 'Pedido enviado com sucesso, verifique seu email!';
+
                 }
+
             }else{
+
                 $json['status'] = 'error';
                 $json['msg']    = 'Erro: não foi possivel enviar o pedido de exclusão da conta';
+
             }
 
             $this->render->json($json);
@@ -209,29 +222,43 @@
             $this->validate_access(['user','adm']);
             
             $this->user->setAuth($code);
-            $data = UserDAO::remove($this->user);
+            $res = UserDAO::remove($this->user);
             
-            if($data == "success"){
+            if($res == "success"){
+                
                 $json['status']     = 'success';
                 $json['msg']        = 'Usuário deletado com sucesso!';
 
-                $cEmail = new ControllerEmail();
                 $arrUser = [
                     'user_name'  => $this->user->getName(),
                     'user_email' => $this->user->getEmail()
                 ];
                 
                 $dataArray = ['user' => $arrUser ];
-                $cEmail->send_delete_account_success($arrUser,$dataArray);
+                $resEmail = $this->send_email($dataArray,'delete_account_success');
+
             }else{
+
                 $json['status'] = 'error';
-                if($data != ''){
-                    $json['msg'] = $data;
+
+                if($res != ''){
+
+                    $json['msg'] = $res;
+
                 }else{
+
                     $json['msg'] = 'Erro: não foi possivel deletar o usuário.';
-                }   
+
+                }
+
             }
             
             $this->render->json($json);
+        }
+
+        private function send_email($dataArray, $email_type){
+            $tEmail =  EmailDAO::find(new Email(['type' => $email_type]))[0];
+            $cEmail = new ClassEmail($dataArray,$tEmail['email_title'],$tEmail['email_content']);
+            return $cEmail->send();
         }
 	}

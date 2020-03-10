@@ -78,11 +78,20 @@
             
             if($ret != "") return $ret;
             
-            /* busca o usuário no DB. */ 
-            $data = self::find($user);
+            /* busca o usuário no DB. */
+            $b_user = new User();
+            $b_user->setId($user->getId());
+            $b_user->setEmail($user->getEmail());
+
+            $data = self::find($b_user);
 
             /* se encontrar o usuário... */
             if(is_array($data) && count($data) > 0){
+
+                $data = $data[0];
+
+                /* se o código enviado pelo usuário não for o mesmo do DB. */
+                if($data['user_auth'] != $user->getAuth()) return "Código inválido. ";
 
                 /* remove o usuário do DB. */
 			    if(parent::base_remove('user',$user)){

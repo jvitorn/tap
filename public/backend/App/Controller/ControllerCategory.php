@@ -79,7 +79,7 @@
             $category = new Category($this->user->getId(), $data);
             $res2 = $this->get_categories($category);
 
-            if(is_array($res2)) $res1 = array_merge($res1,$res2);
+            $res1 = $this->merge_array($res1, $res2);
 
             $this->render->json($res1);
         }
@@ -111,9 +111,20 @@
             $res2       = $this->order_table($categories, $actions);
             $res2       = $this->order_list($res2);
 
-            if(is_array($res2)) $res1 = array_merge($res1,$res2);
+            $res1 = $this->merge_array($res1, $res2);
 
             $this->render->json($res1);
+        }
+
+        private function merge_array($res1, $res2){
+            
+            if(is_array($res1)){
+                if(is_array($res2)) $res1 = array_merge($res1,$res2);
+            }else{
+                if(is_array($res2)) $res1 = $res2;
+            }
+
+            return $res1;
         }
 
         private function get_categories($category){

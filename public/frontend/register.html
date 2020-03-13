@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="css/spectre-css/spectre-icons.css">
 		<link rel="stylesheet" href="css/register.css">
 		<link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet">
+		<link href='https://css.gg/eye.css' rel='stylesheet'>
 	</head>
 	<body>
 		<div class="container">
@@ -14,11 +15,20 @@
 				<div class="column col-xs-12 col-xs-12 col-lg-12 col-xl-12 col-lg-12">
 					<div class="columns">
 						<div class="col-xs-11 col-mx-auto" id="form-area">
+
+							<!-- Link para voltar à página de login. -->
 							<div class="columns">
 								<div class="col-xs-10 col-lg-10 col-lg-10 col-xl-10 col-10 col-mx-auto" id="back-link">
-									<a href="login.html"><span id="back-text"><i class="icon icon-back"></i>Voltar para a página de login</span></a>
+									<a href="login.html">
+										<span id="back-text">
+											<i class="icon icon-back"></i>
+											Voltar para a página de login
+										</span>
+									</a>
 								</div>
 							</div>
+							<!-- Fim do Link -->
+
 							<div class="columns">
 								<div class="col-xs-10 col-lg-10 col-xl-10 col-10 col-mx-auto" id="back-link">
 									<h5>Registre-se</h5>
@@ -40,14 +50,20 @@
 											<label class="form-label" for="password">Senha:</label>
 											<div class="input-group">
 												<input class="form-input" type="password" id="password" placeholder="Insira uma senha segura">
-												<span class="input-group-addon">mostrar senha</span>
+												<span class="input-group-addon"><i class="gg-eye"></i></span>
 											</div>
 										</div>
+
+										<!-- Checkbox de termos. -->
 										<div class="form-group">
 											<label class="form-checkbox form-inline">
-												<input type="checkbox"><i class="form-icon"></i> Concordo com os termos de <a href="#">uso</a> e <a href="">privacidade</a>.
+												<input type="checkbox" id="checkTerm">
+												<i class="form-icon"></i>
+												Concordo com os termos de <a href="#">uso</a> e <a href="#">privacidade</a>.
 											</label>																							  
 										</div>
+										<!-- Fim do checkbox -->
+
 										<button class="btn btn-success" id="register-button">Me registre!</button>
 									</form>
 								</div>
@@ -58,6 +74,7 @@
 				</div>
 			</div>
 		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" stype="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" type="text/javascript"></script>
+		<script src="js/register.js" type="text/javascript"></script>
 	</body>
 </html>

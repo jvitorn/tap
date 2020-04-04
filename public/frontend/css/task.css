@@ -1,3 +1,8 @@
+body {
+    font-family: 'Work Sans', sans-serif;
+    
+}
+
 #task-page-title {
     /* border: 1px solid #000; */
     margin-top: 5vh;
@@ -15,7 +20,7 @@
 }
 
 #add-task-link {
-    margin-bottom: 10px;
+    
 }
 
 #task-container {

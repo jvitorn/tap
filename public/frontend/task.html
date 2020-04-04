@@ -1,102 +1,121 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-	<head>
-		<meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="css/spectre-css/spectre.css">
-		<link rel="stylesheet" href="css/spectre-css/spectre-icons.css">
-		<link rel="stylesheet" href="css/task.css">
-		<link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/task.css"
     </head>
     <body>
-        <div class="container">
-            <div class="columns">
-                <div class="column col-xs-12 col-xs-12 col-lg-12 col-xl-12 col-lg-12">
-                    <div class="columns">
-                        <div class="column col-xs-12" id="content-container">
-                            <div class="columns">
-                                <section class="column col-xs-11 col-mx-auto" id="div-1">
-                                    <div class="columns">
-                                        <div class="column col-xs-12 col-mx-auto">
-                                            <h3><a href="login.html">Tarefas de Hoje</a></h3>
-                                        </div>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column col-xs-11 col-mx-auto" id="teste">
-                                            <span>Tarefa 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-trash"></i></span>
-                                            
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="columns">
-                                        <div class="column col-xs-12 col-mx-auto" id="all-tasks">
-                                            <a href="#"><h6>Ver todas as tarefas -></h6></a>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div>
-                            <div class="columns">
-                                <section class="column col-xs-11 col-mx-auto" id="div-2">
+        <div class="container-fluid">
+            <!-- Title of page. -->
+            <div class="row">
+                <div class="col-12"  id="task-page-title">
+                    <span>Minhas tarefas</span>
+                    <p>Aqui você pode ver a suas tarefas a fazer e adicionar mais alguma.</p>
+                </div>
+            </div>
+            <!-- End of title.. -->
 
-                                </section>
-                            </div>
-                            <div class="columns">
-                                <section class="column col-xs-11 col-mx-auto" id="div-2">
+            <!-- Box with the task items.  -->
+            <div class="row">
+                <div class="col-12" id="task-box">
+                    <div id="task-container">
+                        <div class="row">
+                            <div class="col-12">
 
-                                </section>
-                            </div>
+                                <div class="row">
+                                    <div class="col-12" id="add-task-link">
+                                        <a href="#"  data-toggle="modal" data-target="#newTaskModal">Adicionar uma nova tarefa + </a>
+                                    </div>
+                                </div>
 
-                            
-                            
-                            
-                        </div>
-                    </div>
-                    <div class="columns">
-                        <div class="column col-xs-12 col-mx-auto" id="button-area">
-                            <!-- <div class="columns">
-                                <div class="column col-xs-2 col-mx-auto">
-                                    <div id="main-button"></div>
-                                </div>
-                            </div> -->
-                            <div class="columns">
-                                <div class="column col-xs-3 button-item">
-                                    <div class="columns">
-                                        <div class="column col-xs-6 col-mx-auto">
-                                            <i class="fas fa-tasks"></i>
+                                <div class="task-item">
+                                    <div class="row">
+                                        <div class="col-8 task-value">
+                                            <span>Caçar churros</span>
+                                        </div>
+                                        <div class="col-2 offset-1 task-check">
+                                            <input type="checkbox">
                                         </div>
                                     </div>
-                                    
                                 </div>
-                                <div class="column col-xs-3 button-item">
-                                    <div class="columns">
-                                        <div class="column col-xs-6 col-mx-auto">
-                                            <a href="login.html"><i class="fas fa-dollar-sign"></i></a>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                <div class="column col-xs-3 button-item">
-                                    <div class="columns">
-                                        <div class="column col-xs-6 col-mx-auto">
-                                            <i class="fas fa-heartbeat"></i>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                <div class="column col-xs-3 button-item">
-                                    <div class="columns">
-                                        <div class="column col-xs-6 col-mx-auto">
-                                            <a href="user.html"><i class="fas fa-user-cog"></i></a>
-                                        </div>
-                                    </div>
-                                    
-                                </div>  
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- End of the box. -->
+
+            <!-- Menu fixed at bottom -->
+            <div class="row">
+                <div class="col-12" id="menu-bottom">
+                    <div class="row">
+                        <div class="col-3 menu-item">
+
+                        </div>
+                        <div class="col-3 menu-item">
+
+                        </div>
+                        <div class="col-3 menu-item">
+
+                        </div>
+                        <div class="col-3 menu-item">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of the menu. -->
         </div>
-        <script src="https://kit.fontawesome.com/c619d4621f.js" crossorigin="anonymous"></script>
+
+        <!-- Modal for new task -->
+        <div class="modal fade" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="newTaskModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newTaskModalLabel">Adicionar uma nova tarefa</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Nome da tarefa:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>Selecione uma categoria</option>
+                                    <option>Categoria 1</option>
+                                    <option>Categoria 2</option>
+                                    <option>Categoria 2</option>
+                                </select>
+                            </div>
+                            <hr></hr>
+                            <h6>Daqui para baixo é opcional, ok?</h6>
+                            <div class="form-group">
+                                <label>Escolha uma data de início</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Escolha uma data de término</label>
+                                <input type="date" class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- End of the Modal -->
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </body>
 </html>

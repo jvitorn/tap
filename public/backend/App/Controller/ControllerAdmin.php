@@ -12,7 +12,7 @@
     use App\DAO\ConfigDAO;
 
 	/**
-     * @method $this->render->json($dataArray);
+     * @method $this->json($dataArray);
      */
 	class ControllerAdmin extends ControllerUser{
 
@@ -21,39 +21,104 @@
             $this->validate_access('adm');
         }
 
-        public function list_users($data = []){ 
+        public function list_users($data = []){
+            $data['type'] = 'user';
 			$users  = UserDAO::find(new User($data));
             $users  = $this->filter_fields_users($users);
-            $users  = $this->prepare_array($users);
-			$this->render->json($users);
+            $users  = $this->prepare_array($users,'users');
+
+			$this->json($users);
+        }
+
+        public function add_admin($data = []){
+
+            $data['type'] = 'adm';
+
+            $user = new User($data);
+            $auth = $user->generateAuthCode();
+
+            $id = UserDAO::create($user);
+
+            if(is_numeric($id)){
+                
+                $json['status']  = 'success';
+                $json['msg']     = 'Administrador cadastrado com sucesso!';
+                
+                $user->setId($id);
+
+                $arrUser = UserDAO::find($user)[0];
+
+                $arrUser['auth'] = $auth;
+
+                $dataArray = [ 'user' => $arrUser ];
+
+                $resEmail = $this->send_email($dataArray,'confirm_account_request');
+                               
+                if($resEmail == "success"){
+                    $json['status']  = 'success';
+                    $json['msg']    .= ' um código de autenticação foi enviado para o email cadastrado!';
+                }else{
+                    $json['status']  = 'error';
+                    $json['msg']     = 'Não foi possivel enviar o email de confirmação';
+                    $json['msg']     = 'verifique se o email está correto!';
+                    $data = UserDAO::remove(new User(['id' => $data]));
+                }
+
+            }else{
+                $json['status'] = 'error';
+                if($data){
+                    $json['msg'] = $id;
+                }else{
+                    $json['msg'] = 'Erro: não foi possivel cadastrar o administrador.';
+                }
+            }
+
+            $this->json($json);
+        }
+
+        public function list_admins($data = []){
+            $data['type'] = 'adm';
+            $users  = UserDAO::find(new User($data));
+            $users  = $this->filter_fields_users($users);
+            $users  = $this->prepare_array($users,'admins');
+
+            $this->json($users);
         }
         
         public function remove_user($id){
 
-            if($this->user->getId() != $id ){
+            if($this->user()->getId() != $id ){
                 
-                $user = new User(['id' => $id ]);
-                $res = UserDAO::remove($user,1);
-
-                if($res == 'success'){
-
-                    $json['status'] 	= 'success';
-                    $json['msg']		= 'Usuário deletado com sucesso!';
+                if($id == 1 ||  $id == 2){
+                    
+                    $json['status'] ='error';
+                    $json['msg'] = 'ATENÇÃO: não é possivel deletar este usuario.';
 
                 }else{
-                    
-                    $json['status'] = 'error';
-                   
-                    if($res != ''){
 
-                        $json['msg'] = $res;
+                    $user = new User(['id' => $id ]);
+                    $res = UserDAO::remove($user,1);
+
+                    if($res == 'success'){
+
+                        $json['status']     = 'success';
+                        $json['msg']        = 'Usuário deletado com sucesso!';
 
                     }else{
+                        
+                        $json['status'] = 'error';
+                       
+                        if($res != ''){
 
-                        $json['msg'] = 'Erro: não foi possivel deletar o usuário.';
+                            $json['msg'] = $res;
+
+                        }else{
+
+                            $json['msg'] = 'Erro: não foi possivel deletar o usuário.';
+
+                        }
 
                     }
-
                 }
 
             }else{
@@ -63,7 +128,7 @@
 
             }
             
-            $this->render->json($json);
+            $this->json($json);
 		}
 
         public function filter_fields_users($users){

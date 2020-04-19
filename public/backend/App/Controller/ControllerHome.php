@@ -17,11 +17,11 @@
 
         public function index(){
             $data['title'] = "lista de endpoints";
-            $this->render->view('endpoints',$data);
+            $this->view('endpoints',$data);
         }
 
         public function tests(){
             $data['title'] = "testes";
-            $this->render->view('tests/test',$data);
+            $this->view('tests/test',$data);
         }
     }

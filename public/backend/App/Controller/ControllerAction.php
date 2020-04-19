@@ -10,7 +10,7 @@
     use App\DAO\ActionDAO;
     
 	/**
-	 * @method $this->render->json($dataArray);
+	 * @method $this->json($dataArray);
 	 */
 	class ControllerAction extends Controller {
 
@@ -27,7 +27,7 @@
             
             if(isset($data['category'])){
 
-                $res = ActionDAO::create(new Action($this->user->getId(), $data['category'], $data) );
+                $res = ActionDAO::create(new Action($this->user()->getId(), $data['category'], $data) );
 
                 if($res == "success"){
                     
@@ -47,7 +47,7 @@
 
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function edit($data = []){
@@ -60,7 +60,7 @@
 
                 $data['updated_at'] = date('Y-m-d h:i:s');
                 
-                $res = ActionDAO::edit( new Action($this->user->getId(),$data['category'],$data) );
+                $res = ActionDAO::edit( new Action($this->user()->getId(),$data['category'],$data) );
 
                 if($res == 'success'){
 
@@ -80,7 +80,7 @@
 
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function find($data = []){
@@ -89,7 +89,7 @@
 
             if(isset($data['category'])){
 
-                $action = new Action($this->user->getId(),$data['category']);
+                $action = new Action($this->user()->getId(),$data['category']);
                 
                 if(isset($data['id']) && is_numeric($data['id'])) $action->setId($data['id']);
 
@@ -97,7 +97,7 @@
 
                 $res = ActionDAO::find($action);
 
-                $json = $this->prepare_array($res);
+                $json = $this->prepare_array($res,'actions');
 
             }else{
 
@@ -105,7 +105,7 @@
 
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function remove($id){
@@ -118,7 +118,7 @@
 
             }else{
 
-                $res = ActionDAO::remove(new Action($this->user->getId(),0,['id' => $id]));
+                $res = ActionDAO::remove(new Action($this->user()->getId(),0,['id' => $id]));
 
                 if($res == 'success'){
 
@@ -133,6 +133,6 @@
                 }    
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 	}

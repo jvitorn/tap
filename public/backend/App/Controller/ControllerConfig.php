@@ -8,17 +8,20 @@
     use App\DAO\ConfigDAO; 
 
 	/**
-     * @method $this->render->json($dataArray);
+     * @method $this->json($dataArray);
      */
 	class ControllerConfig extends Controller{
 
         public function list($data){
+            $this->validate_access('adm');
+
             $configs  = ConfigDAO::find(new Config($data));
-            $configs  = $this->prepare_array($configs);
-            $this->render->json($configs);
+            $configs  = $this->prepare_array($configs,'configs');
+            $this->json($configs);
         }
 
         public function edit($data){
+            $this->validate_access('adm');
 
             unset($data['type']);
             $res = ConfigDAO::edit(new Config($data));
@@ -34,6 +37,6 @@
                 $json['msg']    = "Não foi possivel editar a configuração. ";
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
     }

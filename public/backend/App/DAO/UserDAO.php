@@ -38,7 +38,6 @@
             }else{
 
                 /* se nao encontrar, cadastra-o. */
-                $user->setType("user");
                 $user->setActive("0");
                 $user->setCreated_at(date('Y-m-d h:i:s'));
 
@@ -81,8 +80,11 @@
             /* busca o usuário no DB. */
             $b_user = new User();
             $b_user->setId($user->getId());
-            $b_user->setEmail($user->getEmail());
-
+            
+            if(!empty($user->getEmail())){
+                $b_user->setEmail($user->getEmail());
+            }
+            
             $data = self::find($b_user);
 
             /* se encontrar o usuário... */
@@ -91,7 +93,9 @@
                 $data = $data[0];
 
                 /* se o código enviado pelo usuário não for o mesmo do DB. */
-                if($data['user_auth'] != $user->getAuth()) return "Código inválido. ";
+                if(!$is_admin){
+                    if($data['user_auth'] != $user->getAuth()) return "Código inválido. ";    
+                }
 
                 /* remove o usuário do DB. */
 			    if(parent::base_remove('user',$user)){

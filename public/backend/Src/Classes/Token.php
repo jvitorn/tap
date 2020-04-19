@@ -3,6 +3,9 @@
 
     use Src\Classes\Authorization;
 
+    use App\Model\Config;
+    use App\DAO\ConfigDAO;
+
     class Token {
 
         private $header = ['typ' => 'JWT', 'alg' => 'HS256'];
@@ -13,7 +16,7 @@
         }
 
         private function base64_url_decode($input) {
-            return base64_decode(strtr($input, '_-', '/='));
+            return base64_decode(strtr($input, ' _-', '+/='));
         }
 
         private function base64_url_encode($input) {
@@ -38,9 +41,7 @@
         public function generate($userData = []){
 
             $payload = $this->generatePayload($userData);
-
-            $payload = json_encode($payload);
-            $payload = $this->base64_url_encode($payload);
+            $payload = $this->base64_url_encode(json_encode($payload));
 
             $signature = hash_hmac('sha256',"$this->header.$payload",KEY,true);
             $signature = $this->base64_url_encode($signature);

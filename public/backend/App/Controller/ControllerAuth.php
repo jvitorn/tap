@@ -19,7 +19,8 @@
 
             if(isset($data['email']) && isset($data['password'])){
                 
-                $user = UserDAO::Login(new User($data));
+                $user = new User($data);
+                $user = UserDAO::Login($user);
 
                 if(is_array($user)){
 
@@ -41,7 +42,7 @@
 
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function validate(){
@@ -60,6 +61,6 @@
 
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
     }

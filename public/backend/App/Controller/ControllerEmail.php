@@ -22,9 +22,9 @@
 
 			$emails = EmailDAO::find(new Email($data));
 
-			$emails  = $this->prepare_array($emails);
+			$emails  = $this->prepare_array($emails,'emails');
 
-			$this->render->json($emails);
+			$this->json($emails);
 		}
 
 		public function edit($data){
@@ -47,6 +47,6 @@
 
 			}
 
-			$this->render->json($json);
+			$this->json($json);
 		}
 	}

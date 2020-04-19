@@ -12,7 +12,7 @@
     use Src\Classes\ClassEmail;
 
 	/**
-	 * @method $this->render->json($dataArray);
+	 * @method $this->json($dataArray);
 	 */
 	class ControllerUser extends Controller {
 
@@ -22,6 +22,8 @@
 
         public function add($data = []){
 
+            $data['type'] = 'user';
+            
             $user = new User($data);
             $auth = $user->generateAuthCode();
 
@@ -60,14 +62,15 @@
                     $json['msg'] = 'Erro: não foi possivel cadastrar o usuário.';
                 }
             }
-			$this->render->json($json);
+			$this->json($json);
 		}
 
         public function edit($data = []){
             $this->validate_access(['user','adm']);
             
+            $data['type'] = 'user';
             $user = new User($data);
-            $user->setId($this->user->getId());
+            $user->setId($this->user()->getId());
 
 			if(UserDAO::edit($user)){
 				$json['status'] 	= 'success';
@@ -77,7 +80,7 @@
 				$json['msg'] = 'Erro: não foi possivel atualizar o usuário.';
 			}
 
-            $this->render->json($json);
+            $this->json($json);
 		}
 
         public function confirm_account($data = []){
@@ -103,7 +106,7 @@
                 $json['msg ']   = 'codigo inválido';
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function reset_password_request($data = []){
@@ -141,7 +144,7 @@
 
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function verify_reset_password_code($data = []){
@@ -157,7 +160,7 @@
                 $json['msg']   .= $res;
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function reset_password($data = []){
@@ -184,17 +187,17 @@
 
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function delete_account_request($data){
             $this->validate_access(['user','adm']);       
             
-            $code = $this->user->generateAuthCode();
+            $code = $this->user()->generateAuthCode();
 
-            if( UserDAO::edit($this->user) ){
+            if( UserDAO::edit($this->user()) ){
 
-                $arrUser = UserDAO::find(new User(['id' => $this->user->getId()]))[0];
+                $arrUser = UserDAO::find(new User(['id' => $this->user()->getId()]))[0];
 
                 $arrUser['auth'] = $code;
                 $dataArray       = ['user' => $arrUser];
@@ -215,14 +218,14 @@
 
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function delete_account($code = null){
             $this->validate_access(['user','adm']);
             
-            $this->user->setAuth($code);
-            $res = UserDAO::remove($this->user);
+            $this->user()->setAuth($code);
+            $res = UserDAO::remove($this->user());
             
             if($res == "success"){
                 
@@ -230,8 +233,8 @@
                 $json['msg']        = 'Usuário deletado com sucesso!';
 
                 $arrUser = [
-                    'user_name'  => $this->user->getName(),
-                    'user_email' => $this->user->getEmail()
+                    'user_name'  => $this->user()->getName(),
+                    'user_email' => $this->user()->getEmail()
                 ];
                 
                 $dataArray = ['user' => $arrUser ];
@@ -253,10 +256,10 @@
 
             }
             
-            $this->render->json($json);
+            $this->json($json);
         }
 
-        private function send_email($dataArray, $email_type){
+        protected function send_email($dataArray, $email_type){
             $tEmail =  EmailDAO::find(new Email(['type' => $email_type]))[0];
             $cEmail = new ClassEmail($dataArray,$tEmail['email_title'],$tEmail['email_content']);
             return $cEmail->send();

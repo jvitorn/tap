@@ -14,8 +14,8 @@
    
     class Controller {
 
-        public $render;
-        protected $user;
+        private $render;
+        private $user;
         
         use \Src\Traits\TraitCrypt;
 
@@ -65,7 +65,8 @@
             }
         }
 
-        protected function prepare_array($data){
+        protected function prepare_array($data,$type){
+
             if(is_array($data)){
 
                 $count = count($data);
@@ -82,9 +83,22 @@
                     }
                 }
 
-                $data['rowCount'] = $count;
-                
-                return $data;    
+                $res[$type] = $data;
+                $res['rowCount'] = $count;
+
+                return $res;
             }            
+        }
+
+        protected function json($res){
+            $this->render->json($res);
+        }
+
+        protected function view($view,$data = []){
+            $this->render->view($view,$data);
+        }
+
+        protected function user(){
+            return $this->user;
         }
     }

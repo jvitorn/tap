@@ -10,7 +10,7 @@
     use App\DAO\ActionDAO;
     
 	/**
-	 * @method $this->render->json($dataArray);
+	 * @method $this->json($dataArray);
 	 */
 	class ControllerCategory extends Controller {
 
@@ -20,7 +20,7 @@
             $data['is_public']  = 0;
             $data['active']     = 1;
 
-            $this->new_category($this->user->getId(), $data);
+            $this->new_category($this->user()->getId(), $data);
         }
 
         public function admin_new_category($data){
@@ -28,7 +28,7 @@
 
             $data['is_public']  = 1;
 
-            $this->new_category($this->user->getId(), $data);
+            $this->new_category($this->user()->getId(), $data);
         }
 
         private function new_category($user_id, $data){
@@ -44,27 +44,27 @@
                 $json['msg']   .= $res;
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         /* lista as categorias publicas. */
         public function list_public_categories($data){
             $this->validate_access('adm');
             $data['is_public'] = 1;
-            $category = new Category($this->user->getId(), $data);
-            $res = $this->get_categories($category);
+            $category = new Category($this->user()->getId(), $data);
+            $res = $this->get_categories($category,'categories');
 
-            $this->render->json($res);
+            $this->json($res);
         }
 
         /* lista as categorias privadas. */
         public function list_private_categories(){
             $this->validate_access(['user','adm']);
             $data['is_public'] = 0;
-            $category = new Category($this->user->getId(), $data);
-            $res = $this->get_categories($category);
+            $category = new Category($this->user()->getId(), $data);
+            $res = $this->get_categories($category,'categories');
 
-            $this->render->json($res);
+            $this->json($res);
         }
 
         /* lista as categorias privadas e publicas. */
@@ -72,16 +72,16 @@
             $this->validate_access(['user','adm']);
             
             $data['is_public'] = 0;
-            $category = new Category($this->user->getId(), $data);
+            $category = new Category($this->user()->getId(), $data);
             $res1 = $this->get_categories($category);
 
             $data['is_public'] = 1;
-            $category = new Category($this->user->getId(), $data);
-            $res2 = $this->get_categories($category);
+            $category = new Category($this->user()->getId(), $data);
+            $res2 = $this->get_categories($category,'categories');
 
             $res1 = $this->merge_array($res1, $res2);
 
-            $this->render->json($res1);
+            $this->json($res1);
         }
         
         public function list_detailed_categories($data){
@@ -91,10 +91,10 @@
 
             /* buscando ações de categorias publicas */
             $data['is_public'] = 1;
-            $category   = new Category($this->user->getId(), $data);
+            $category   = new Category($this->user()->getId(), $data);
             $categories = CategoryDAO::find($category);
 
-            $action     = new Action($this->user->getId());
+            $action     = new Action($this->user()->getId());
             $actions    = ActionDAO::find($action);
 
             $res1       = $this->order_table($categories, $actions);
@@ -102,18 +102,19 @@
 
             /* buscando ações de categorias privadas. */
             $data['is_public'] = 0;
-            $category   = new Category($this->user->getId(), $data);
+            $category   = new Category($this->user()->getId(), $data);
             $categories = CategoryDAO::find($category);
 
-            $action     = new Action($this->user->getId());
+            $action     = new Action($this->user()->getId());
             $actions    = ActionDAO::find($action);
 
             $res2       = $this->order_table($categories, $actions);
             $res2       = $this->order_list($res2);
 
             $res1 = $this->merge_array($res1, $res2);
+            $res1 = $this->prepare_array($res1,'categories');
 
-            $this->render->json($res1);
+            $this->json($res1);
         }
 
         private function merge_array($res1, $res2){
@@ -129,7 +130,7 @@
 
         private function get_categories($category){
             $res = CategoryDAO::find($category);
-            return $this->prepare_array($res);
+            return $this->prepare_array($res,'categories');
         }
 
         /* agrupa as ações através de suas categorias. */
@@ -204,10 +205,7 @@
                     if(!$encontrou) $res[] = $categories[$key];
                 }
             }
-
-            // echo "<pre>";
-            // print_r($res);
-
+            
             return $res;
         }
 
@@ -224,7 +222,7 @@
         }
 
         private function edit_category($data){
-            $cat = new Category($this->user->getId(), $data);
+            $cat = new Category($this->user()->getId(), $data);
             $res = CategoryDAO::edit($cat);
 
             if($res == 'success'){
@@ -235,7 +233,7 @@
                 $json['msg']   .= $res;
             }
 
-            $this->render->json($json);
+            $this->json($json);
         }
 
         public function user_remove_category($id){
@@ -250,7 +248,7 @@
 
         private function remove_category($is_public, $id){
             $data = ['id' => $id,'is_public' => $is_public];
-            $res = CategoryDAO::remove(new Category($this->user->getId(),$data));
+            $res = CategoryDAO::remove(new Category($this->user()->getId(),$data));
 
             if($res == 'success'){
                 $json['status'] = 'success';
@@ -261,6 +259,6 @@
                 $json['msg']   .= $res;
             }
             
-            $this->render->json($json);
+            $this->json($json);
         }
 	}

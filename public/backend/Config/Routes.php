@@ -17,8 +17,13 @@
 	/**
 	 *	Rotas Admin
 	 */
+        /* rotas para listar e remover usuários */
         ClassRoutes::GET('admin/user','ControllerAdmin@list_users');
         ClassRoutes::DELETE('admin/user','ControllerAdmin@remove_user');
+
+        /* rotas para listar e cadastrar administradores */
+        ClassRoutes::GET('admin/admin','ControllerAdmin@list_admins');
+        ClassRoutes::POST('admin/admin','ControllerAdmin@add_admin');
 
         /* rotas para listar e editar tabela config. */
         ClassRoutes::GET('admin/config','ControllerConfig@list');

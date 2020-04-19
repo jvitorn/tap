@@ -1,0 +1,15 @@
+Controller
+	- render: ClassRender;
+	- user: User
+	-------------------------------------------------------------------
+	+ Controller()
+	+ index(): void
+	+ Error(): void
+	# validate_access(Array<String>): void
+	- no_permission_alowed(): void
+	- has_permission(user_type: string, permissao: string): void
+	# prepare_array(data: Array<String>, type: string): Array<String>
+	# json(data: Array<String>);
+	# view(view: String, data Array<String>): void
+	# user(): User
+=======================================================================
